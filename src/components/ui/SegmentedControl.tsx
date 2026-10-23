@@ -8,6 +8,8 @@ interface SegmentedControlProps<Value extends string> {
 	options: { id: Value; label: string; icon?: ReactNode }[];
 	value: Value;
 	onChange: (value: Value) => void;
+	/** Shares the width of its container between the options. */
+	fullWidth?: boolean;
 }
 
 export function SegmentedControl<Value extends string>({
@@ -15,16 +17,19 @@ export function SegmentedControl<Value extends string>({
 	options,
 	value,
 	onChange,
+	fullWidth = false,
 }: SegmentedControlProps<Value>) {
 	const name = useId();
 
 	return (
-		<fieldset className="border-line inline-flex overflow-hidden rounded-md border-[1.5px]">
+		<fieldset
+			className={`border-line overflow-hidden rounded-md border-[1.5px] ${fullWidth ? "flex" : "inline-flex"}`}
+		>
 			<legend className="sr-only">{label}</legend>
 			{options.map((option) => (
 				<label
 					key={option.id}
-					className={`flex min-h-11 min-w-11 cursor-pointer items-center justify-center gap-1.5 px-3 font-medium has-focus-visible:outline-2 has-focus-visible:-outline-offset-2 has-[:focus-visible]:outline-(--ring) lg:min-h-9 ${
+					className={`flex min-h-11 min-w-11 ${fullWidth ? "flex-1" : ""} cursor-pointer items-center justify-center gap-1.5 px-3 font-medium has-focus-visible:outline-2 has-focus-visible:-outline-offset-2 has-[:focus-visible]:outline-(--ring) lg:min-h-9 ${
 						option.id === value ? "bg-tint text-ink" : "bg-surface text-muted"
 					}`}
 				>

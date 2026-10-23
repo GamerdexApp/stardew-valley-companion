@@ -79,6 +79,65 @@ export const collectionsText = {
       rule: "Counts follow the in-game Collections tab: artifacts and minerals count when found, recipes when cooked or crafted.",
     },
   },
+  museum: {
+    statusLabel: (name: string) => `${name} status`,
+    status: { missing: "Missing", found: "Found", donated: "Donated" },
+    donatedIncludesFound: "Donated always includes Found",
+    toast: {
+      alsoFound: (name: string) =>
+        `${name} set to Donated. It was also marked Found.`,
+      clearedBoth: (name: string) =>
+        `${name} set to Missing. Found and Donated were cleared.`,
+      undo: "Undo",
+    },
+  },
+  artifacts: {
+    noun: "artifacts",
+    subline: (found: number, total: number, donated: number, farm: string) =>
+      `${found} of ${total} found · ${donated} donated${farm ? ` · ${farm}` : ""}`,
+    search: "Search artifacts",
+    sheetTitle: "Filter artifacts",
+    apply: (count: number) => `Show ${count} artifacts`,
+    tiles: {
+      total: "Total",
+      found: "Found",
+      donated: "Donated",
+      withRewards: "With rewards",
+    },
+    filter: {
+      donation: "Donation status",
+      found: "Found status",
+      reward: "Reward",
+    },
+    options: {
+      all: "All",
+      donated: "Donated",
+      notDonated: "Not donated",
+      found: "Found",
+      notFound: "Not found",
+      hasReward: "Has reward",
+    },
+    empty: {
+      title: "No artifacts match your filters.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: {
+      reward: "Reward",
+      locations: "Locations",
+      locationsAndReward: "Locations and reward",
+      details: (name: string) => `${name}, show locations`,
+    },
+    dialog: {
+      type: "Artifact · Museum",
+      status: "Status",
+      sellPrice: "Sell price",
+      howToFind: "How to find",
+      reward: "Donation reward",
+      museumReward: "Museum reward",
+      close: "Close",
+    },
+  },
   fish: {
     noun: "fish",
     subline: (caught: number, total: number, farm: string) =>

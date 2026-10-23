@@ -1,4 +1,4 @@
-import { crafting, fish, goldenWalnuts } from "stardew-valley-data";
+import { artifacts, crafting, fish, goldenWalnuts } from "stardew-valley-data";
 import type { GameData } from "@/types";
 
 export interface ProgressCount {
@@ -29,6 +29,8 @@ export const collectionCrafting = crafting()
   .get()
   .filter((recipe) => recipe.name !== "Wedding Ring");
 
+export const collectionArtifacts = artifacts().get();
+
 export const allGoldenWalnuts = goldenWalnuts().get();
 
 const WALNUT_TOTAL = allGoldenWalnuts.reduce((sum, w) => sum + w.amount, 0);
@@ -38,6 +40,15 @@ export function countFishCaught(gameData: GameData): ProgressCount {
   return {
     current: collectionFish.filter((f) => caughtIds.has(f.id)).length,
     total: collectionFish.length,
+  };
+}
+
+export function countArtifactsFound(gameData: GameData): ProgressCount {
+  return {
+    current: collectionArtifacts.filter(
+      (artifact) => gameData.artifacts[artifact.id]?.found === true,
+    ).length,
+    total: collectionArtifacts.length,
   };
 }
 

@@ -138,13 +138,6 @@ export interface CropCardProps {
   onClick: () => void;
 }
 
-export interface ArtifactCardProps {
-  artifact: Artifact;
-  donated: boolean;
-  found: boolean;
-  onClick: () => void;
-}
-
 export interface MineralCardProps {
   mineral: MineralItem;
   donated: boolean;
@@ -346,10 +339,6 @@ export interface FishEditDraft {
   fishCaught: FishCaughtProgress[];
 }
 
-export interface ArtifactsEditDraft {
-  artifacts: Record<string, MuseumItem>;
-}
-
 export interface MineralsEditDraft {
   minerals: Record<string, MuseumItem>;
   shipped: Record<string, ShippedItem>;
@@ -383,11 +372,6 @@ export interface CraftingEditStepProps {
 export interface FishEditStepProps {
   fishCaught: FishCaughtProgress[];
   onChange: (fishCaught: FishCaughtProgress[]) => void;
-}
-
-export interface ArtifactsEditStepProps {
-  artifacts: Record<string, MuseumItem>;
-  onChange: (artifacts: Record<string, MuseumItem>) => void;
 }
 
 export interface MineralsMuseumEditStepProps {

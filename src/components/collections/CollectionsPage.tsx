@@ -14,6 +14,7 @@ import {
 import type { CollectionTabId } from "@/data/collections";
 import { PageHeader } from "@/comps/shell/PageHeader";
 import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
+import { ArtifactsTab } from "./artifacts/ArtifactsTab";
 import { CollectionTabs } from "./CollectionTabs";
 import { FishTab } from "./fish/FishTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
@@ -23,6 +24,7 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "artifacts") return <ArtifactsTab playthrough={playthrough} />;
 	if (tab === "fish") return <FishTab playthrough={playthrough} />;
 	return <NotRebuiltTab tab={tab} />;
 }
@@ -37,6 +39,12 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 	}
 	if (tab === "fish" && count) {
 		return text.fish.subline(count.current, count.total, farmLabel);
+	}
+	if (tab === "artifacts") {
+		const donated = Object.values(playthrough.data.artifacts).filter(
+			(entry) => entry.found && entry.donated
+		).length;
+		return text.artifacts.subline(count?.current ?? 0, count?.total ?? 0, donated, farmLabel);
 	}
 	return text.tabs[tab];
 };
