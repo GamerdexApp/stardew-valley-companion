@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Settings",
-	description: "Manage your Stardew Valley Companion account and preferences.",
+	description: "Manage your Stardew Valley Companion data and preferences.",
 	alternates: {
 		canonical: "/settings",
 	},

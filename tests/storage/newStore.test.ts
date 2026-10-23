@@ -163,4 +163,32 @@ describe("new store rules", () => {
 
     expect(second.settings).toEqual({ theme: "dark", ui: { lastTab: "fish" } });
   });
+
+  it("changes the platform without touching lastModified", () => {
+    const fixture = { ...progressedPlaythrough(), platform: "PC" as const };
+    const current: AppData = {
+      playthroughs: [fixture],
+      activePlaythroughId: null,
+    };
+
+    const result = appData.setPlatform(current, fixture.id, "Switch");
+
+    expect(result.playthroughs[0]).toEqual({
+      ...fixture,
+      platform: "Switch",
+    });
+    expect(result.playthroughs[0].lastModified).toBe(fixture.lastModified);
+  });
+
+  it("clears the platform when set to undefined", () => {
+    const fixture = { ...progressedPlaythrough(), platform: "PC" as const };
+    const current: AppData = {
+      playthroughs: [fixture],
+      activePlaythroughId: null,
+    };
+
+    const result = appData.setPlatform(current, fixture.id, undefined);
+
+    expect(result.playthroughs[0].platform).toBeUndefined();
+  });
 });

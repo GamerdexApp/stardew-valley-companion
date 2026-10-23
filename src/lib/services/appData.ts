@@ -1,4 +1,4 @@
-import type { AppData, Playthrough, Settings } from "@/types/app";
+import type { AppData, Platform, Playthrough, Settings } from "@/types/app";
 import { DEFAULT_GAME_DATA } from "@/data/constants";
 
 export const EMPTY_APP_DATA: AppData = {
@@ -54,6 +54,20 @@ export const updatePlaythrough = (
     playthrough.id === id
       ? { ...playthrough, ...updates, lastModified: now.toISOString() }
       : playthrough,
+  ),
+});
+
+/**
+ * The platform is a label. Changing it keeps `lastModified`, so the Last modified order stays.
+ */
+export const setPlatform = (
+  current: AppData,
+  id: string,
+  platform: Platform | undefined,
+): AppData => ({
+  ...current,
+  playthroughs: current.playthroughs.map((playthrough) =>
+    playthrough.id === id ? { ...playthrough, platform } : playthrough,
   ),
 });
 

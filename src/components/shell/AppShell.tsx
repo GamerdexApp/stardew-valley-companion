@@ -1,15 +1,29 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useUI } from "@/lib/contexts/UIContext";
 import { shellText } from "@/lib/messages/shell";
+import { ThemeChoice } from "@/comps/settings/ThemeChoice";
 import { Drawer } from "@/comps/ui/Drawer";
+import { Skeleton } from "@/comps/ui/Skeleton";
 import { AppBar } from "./AppBar";
 import { Footer } from "./Footer";
 import { SidebarContent } from "./SidebarContent";
 
+function PageSkeleton() {
+	return (
+		<div className="flex flex-col gap-4" aria-busy="true">
+			<Skeleton className="h-8 w-48" />
+			<Skeleton className="h-40 w-full" />
+			<Skeleton className="h-40 w-full" />
+		</div>
+	);
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
 	const { drawerOpen, closeDrawer } = useUI();
+	const { isLoaded } = usePlaythrough();
 
 	return (
 		<div className="flex min-h-dvh">
@@ -25,12 +39,17 @@ export function AppShell({ children }: { children: ReactNode }) {
 			<div className="flex min-w-0 flex-1 flex-col">
 				<AppBar />
 				<main id="main" className="flex flex-1 flex-col gap-4 px-4 py-4 lg:px-8 lg:py-6">
-					{children}
+					{isLoaded ? children : <PageSkeleton />}
 				</main>
 				<Footer />
 			</div>
 			<Drawer open={drawerOpen} onClose={closeDrawer} closeLabel={shellText.closeMenu}>
-				<SidebarContent onNavigate={closeDrawer} />
+				<div className="flex min-h-0 flex-1 flex-col gap-3">
+					<SidebarContent onNavigate={closeDrawer} />
+					<div className="bg-surface text-ink rounded-md p-2">
+						<ThemeChoice />
+					</div>
+				</div>
 			</Drawer>
 		</div>
 	);

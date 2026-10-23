@@ -67,6 +67,9 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 	const deletePlaythrough: PlaythroughContextType["deletePlaythrough"] = (id) =>
 		updateData((current) => appData.deletePlaythrough(current, id));
 
+	const setPlatform: PlaythroughContextType["setPlatform"] = (id, platform) =>
+		updateData((current) => appData.setPlatform(current, id, platform));
+
 	const updateSettings: PlaythroughContextType["updateSettings"] = (updates) => {
 		updateData((current) => appData.updateSettings(current, updates));
 	};
@@ -108,11 +111,6 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 		});
 	};
 
-	const clearAllData = () => {
-		storageService.clear();
-		setSaveFailed(false);
-	};
-
 	return (
 		<PlaythroughContext.Provider
 			value={{
@@ -129,10 +127,10 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 				addPlaythrough,
 				updatePlaythrough,
 				deletePlaythrough,
+				setPlatform,
 				updateSettings,
 				importData,
 				exportData,
-				clearAllData,
 				addTrackedGift,
 				removeTrackedGift,
 			}}

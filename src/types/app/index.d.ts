@@ -1,5 +1,6 @@
 export type {
   AppData,
+  Platform,
   Playthrough,
   Settings,
   Theme,

@@ -5,7 +5,6 @@ export * from "./quests";
 export * from "./collections";
 export * from "./filters";
 export * from "./playthrough";
-export * from "./settings";
 export * from "./ui";
 export * from "./villagers";
 export * from "./wizard";

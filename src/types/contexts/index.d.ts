@@ -1,4 +1,10 @@
-import type { AppData, Playthrough, Settings, TrackedGift } from "@/types/app";
+import type {
+  AppData,
+  Platform,
+  Playthrough,
+  Settings,
+  TrackedGift,
+} from "@/types/app";
 import type { NewPlaythrough } from "@/service/appData";
 import type { ImportMode } from "@/service/backup";
 
@@ -20,13 +26,13 @@ export interface PlaythroughContextType {
   addPlaythrough: (playthrough: NewPlaythrough) => void;
   updatePlaythrough: (id: string, updates: Partial<Playthrough>) => void;
   deletePlaythrough: (id: string) => AppData | null;
+  setPlatform: (id: string, platform: Platform | undefined) => AppData | null;
   updateSettings: (updates: Settings) => void;
   importData: (
     jsonString: string,
     mode?: ImportMode,
   ) => { success: boolean; error?: string };
   exportData: () => string;
-  clearAllData: () => void;
   addTrackedGift: (gift: TrackedGift) => void;
   removeTrackedGift: (itemName: string, villagerName: string) => void;
 }
