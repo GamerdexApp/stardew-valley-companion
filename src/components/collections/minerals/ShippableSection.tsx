@@ -20,10 +20,10 @@ import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { BLOCK_GRID, CollectionBlock, DetailsButton } from "../shared/CollectionBlock";
 import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
 import { QualityPrices } from "../shared/QualityPrices";
 import { ShippedControl } from "../shared/ShippedControl";
-import { BLOCK_GRID, DetailsButton, MineralsBlock } from "./MineralsBlock";
 
 const text = collectionsText.minerals;
 const options = text.options;
@@ -101,7 +101,7 @@ export function ShippableSection({
 	);
 
 	return (
-		<MineralsBlock
+		<CollectionBlock
 			id={`minerals-${block}`}
 			title={text.blocks[block]}
 			badge={text.badge.shipped(countShipped(data, items), items.length)}
@@ -208,6 +208,6 @@ export function ShippableSection({
 					</>
 				)}
 			</ItemDialog>
-		</MineralsBlock>
+		</CollectionBlock>
 	);
 }

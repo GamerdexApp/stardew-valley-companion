@@ -22,10 +22,10 @@ import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { BLOCK_GRID, CollectionBlock, DetailsButton } from "../shared/CollectionBlock";
 import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
 import { MuseumStatusControl } from "../shared/MuseumStatusControl";
 import { QualityPrices } from "../shared/QualityPrices";
-import { BLOCK_GRID, DetailsButton, MineralsBlock } from "./MineralsBlock";
 
 const text = collectionsText.minerals;
 const options = text.options;
@@ -86,7 +86,7 @@ export function MineralsSection({ data, bonusFor, onStatusChange }: MineralsSect
 	const clearFilters = () => setFilters(emptyMineralFilters);
 
 	return (
-		<MineralsBlock
+		<CollectionBlock
 			id="minerals-minerals"
 			title={text.blocks.minerals}
 			badge={text.badge.donated(donated, allMinerals.length)}
@@ -197,6 +197,6 @@ export function MineralsSection({ data, bonusFor, onStatusChange }: MineralsSect
 					</>
 				)}
 			</ItemDialog>
-		</MineralsBlock>
+		</CollectionBlock>
 	);
 }

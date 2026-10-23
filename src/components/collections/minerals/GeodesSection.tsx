@@ -9,9 +9,9 @@ import { allGeodes, filterByName, geodeContents, opensForRandomItems } from "@/s
 import { SearchBlock } from "@/comps/page/SearchBlock";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { BLOCK_GRID, CollectionBlock, DetailsButton } from "../shared/CollectionBlock";
 import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
 import { QualityPrices } from "../shared/QualityPrices";
-import { BLOCK_GRID, DetailsButton, MineralsBlock } from "./MineralsBlock";
 
 const text = collectionsText.minerals;
 
@@ -32,7 +32,7 @@ export function GeodesSection() {
 	const shown = useMemo(() => filterByName(allGeodes, query), [query]);
 
 	return (
-		<MineralsBlock
+		<CollectionBlock
 			id="minerals-geodes"
 			title={text.blocks.geodes}
 			badge={text.badge.types(allGeodes.length)}
@@ -137,6 +137,6 @@ export function GeodesSection() {
 					</>
 				)}
 			</ItemDialog>
-		</MineralsBlock>
+		</CollectionBlock>
 	);
 }

@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 
-interface MineralsBlockProps {
+interface CollectionBlockProps {
 	id: string;
 	title: string;
 	badge: string;
 	children: ReactNode;
 }
 
-/** One of the six blocks of the Minerals tab. The id is the target of the jump links. */
-export function MineralsBlock({ id, title, badge, children }: MineralsBlockProps) {
+/** One titled block of a collections tab, with a count badge. The id is the target of the jump links. */
+export function CollectionBlock({ id, title, badge, children }: CollectionBlockProps) {
 	const headingId = `${id}-heading`;
 	return (
 		<section id={id} aria-labelledby={headingId} className="flex scroll-mt-4 flex-col gap-3">

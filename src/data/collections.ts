@@ -52,4 +52,5 @@ export const REBUILT_COLLECTION_TABS: CollectionTabId[] = [
   "cooking",
   "crafting",
   "crops",
+  "forageables",
 ];

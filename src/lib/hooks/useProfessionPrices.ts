@@ -1,26 +1,35 @@
-import type { ProfessionBonus } from "stardew-valley-data";
+import type { KnowledgeBonus, ProfessionBonus } from "stardew-valley-data";
 import type { GameData } from "@/types/app";
 import {
-  applyBestProfessionBonus,
+  applyBestForageableBonus,
+  getActiveKnowledgeBonuses,
   getActiveProfessionBonuses,
 } from "@/lib/utils/professionPrices";
 import type { BonusResult } from "@/lib/utils/professionPrices";
 import { useMemoryState } from "./useMemoryState";
 
+export type PriceBonusId = ProfessionBonus | KnowledgeBonus;
+
 export interface ProfessionOption {
-  id: ProfessionBonus;
+  id: PriceBonusId;
   label: string;
 }
 
 interface ProfessionState {
   enabled: boolean;
-  /** Null means every profession the playthrough has. */
-  chosen: ProfessionBonus[] | null;
+  /** Null means every bonus the playthrough has. */
+  chosen: PriceBonusId[] | null;
 }
+
+const KNOWLEDGE_IDS: readonly string[] = [
+  "bears-knowledge",
+  "spring-onion-mastery",
+];
 
 /**
  * The page level Professions control of a collections tab. The choice is a display preference
- * kept in memory only. The control lists the candidates the playthrough has.
+ * kept in memory only. The control lists the candidates the playthrough has, and a candidate can
+ * be a profession or a knowledge bonus.
  */
 export function useProfessionPrices(
   key: string,
@@ -32,19 +41,37 @@ export function useProfessionPrices(
     chosen: null,
   });
 
-  const owned = getActiveProfessionBonuses(data);
-  const available = candidates.filter((option) => owned.has(option.id));
+  const ownedProfessions = getActiveProfessionBonuses(data);
+  const ownedKnowledge = getActiveKnowledgeBonuses(data);
+  const isOwned = (id: PriceBonusId): boolean =>
+    KNOWLEDGE_IDS.includes(id)
+      ? ownedKnowledge.has(id as KnowledgeBonus)
+      : ownedProfessions.has(id as ProfessionBonus);
+
+  const available = candidates.filter((option) => isOwned(option.id));
   const chosen = state.chosen ?? available.map((option) => option.id);
-  const active = new Set<ProfessionBonus>(
-    state.enabled ? chosen.filter((id) => owned.has(id)) : [],
+  const switchedOn = state.enabled ? chosen.filter(isOwned) : [];
+  const activeProfessions = new Set(
+    switchedOn.filter((id) => !KNOWLEDGE_IDS.includes(id)) as ProfessionBonus[],
+  );
+  const activeKnowledge = new Set(
+    switchedOn.filter((id) => KNOWLEDGE_IDS.includes(id)) as KnowledgeBonus[],
   );
 
+  /** The better of the profession price and the knowledge price. They do not stack in the game. */
   const bonusFor = (
     price: number,
     itemProfessions: ProfessionBonus[],
+    itemKnowledge: KnowledgeBonus[] = [],
   ): BonusResult | null =>
-    active.size > 0
-      ? applyBestProfessionBonus(price, itemProfessions, active)
+    switchedOn.length > 0
+      ? applyBestForageableBonus(
+          price,
+          itemProfessions,
+          itemKnowledge,
+          activeProfessions,
+          activeKnowledge,
+        )
       : null;
 
   return {
@@ -54,7 +81,7 @@ export function useProfessionPrices(
       chosen,
       onEnabledChange: (enabled: boolean) => setState({ ...state, enabled }),
       onChosenChange: (next: string[]) =>
-        setState({ ...state, chosen: next as ProfessionBonus[] }),
+        setState({ ...state, chosen: next as PriceBonusId[] }),
     },
     bonusFor,
   };

@@ -9,8 +9,8 @@ import { allNodes, filterByName, mineralNameById } from "@/service/minerals";
 import { SearchBlock } from "@/comps/page/SearchBlock";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { BLOCK_GRID, CollectionBlock, DetailsButton } from "../shared/CollectionBlock";
 import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
-import { BLOCK_GRID, DetailsButton, MineralsBlock } from "./MineralsBlock";
 
 const text = collectionsText.minerals;
 const VISIBLE_DROPS = 3;
@@ -23,7 +23,7 @@ export function NodesSection() {
 	const shown = useMemo(() => filterByName(allNodes, query), [query]);
 
 	return (
-		<MineralsBlock
+		<CollectionBlock
 			id="minerals-nodes"
 			title={text.blocks.nodes}
 			badge={text.badge.nodes(allNodes.length)}
@@ -123,6 +123,6 @@ export function NodesSection() {
 					</>
 				)}
 			</ItemDialog>
-		</MineralsBlock>
+		</CollectionBlock>
 	);
 }

@@ -40,7 +40,7 @@ export const collectionCrafting = crafting()
 
 export const collectionArtifacts = artifacts().get();
 
-const shippedItemIds = new Set(
+export const shippingCollectionIds = new Set(
   collections()
     .itemsShipped()
     .get()
@@ -50,7 +50,7 @@ const shippedItemIds = new Set(
 /** The crops the shipping collection lists. Qi Fruit is a crop that cannot be shipped for it. */
 export const shippableCrops = crops()
   .get()
-  .filter((crop) => shippedItemIds.has(crop.id));
+  .filter((crop) => shippingCollectionIds.has(crop.id));
 
 export const collectionDishes = cooking().get();
 

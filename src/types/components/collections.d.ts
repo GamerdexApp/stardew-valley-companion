@@ -82,42 +82,6 @@ export interface DifficultyBarProps {
   behavior: string;
 }
 
-export interface ArtisanUsesRowProps {
-  artisanUses: Record<string, boolean>;
-}
-
-export interface ForageableCardProps {
-  item: Forageable;
-  shippable: boolean;
-  shipped: boolean;
-  shippedCount: number;
-  professionBonus?: BonusResult | null;
-}
-
-export interface FruitTreeProduceCardProps {
-  tree: FruitTree;
-  shipped: boolean;
-  shippedCount: number;
-  professionBonus?: BonusResult | null;
-}
-
-export interface WildTreeTapperCardProps {
-  tree: WildTree;
-  shipped: boolean;
-  shippedCount: number;
-  professionBonus?: BonusResult | null;
-}
-
-export interface FruitTreeCardProps {
-  tree: FruitTree;
-  onClick: () => void;
-}
-
-export interface WildTreeCardProps {
-  tree: WildTree;
-  onClick: () => void;
-}
-
 export interface ItemTileProps {
   item: CollectionItem;
   complete: boolean;
@@ -249,11 +213,6 @@ export interface ShipEditItem {
 
 export interface ShippedItemsEditStepProps {
   items: ShipEditItem[];
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}
-
-export interface ForageablesShippedEditStepProps {
   shipped: Record<string, ShippedItem>;
   onChange: (shipped: Record<string, ShippedItem>) => void;
 }
