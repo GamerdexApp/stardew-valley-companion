@@ -1,102 +1,71 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState, useSyncExternalStore } from "react";
 import type { TrackedGift } from "@/types";
-import type { AppData, Playthrough } from "@/types/app";
+import type { AppData } from "@/types/app";
 import type { PlaythroughContextType } from "@/types/contexts";
+import { useIsHydrated } from "@/lib/hooks/useIsHydrated";
+import * as appData from "@/service/appData";
+import { applyImport, parseBackup } from "@/service/backup";
+import type { ImportMode } from "@/service/backup";
 import { storageService } from "@/service/storage";
-import { DEFAULT_GAME_DATA } from "@/data/constants";
 
 const PlaythroughContext = createContext<PlaythroughContextType | undefined>(undefined);
 
-const EMPTY_APP_DATA: AppData = { playthroughs: [], activePlaythroughId: null };
-
 export function PlaythroughProvider({ children }: { children: React.ReactNode }) {
-	const [appData, setAppData] = useState<AppData>(EMPTY_APP_DATA);
-	const [isHydrated, setIsHydrated] = useState(false);
+	const data = useSyncExternalStore(
+		storageService.subscribe,
+		storageService.load,
+		storageService.loadOnServer
+	);
+	const isLoaded = useIsHydrated();
+	const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+	const [saveFailed, setSaveFailed] = useState(false);
 
-	useEffect(() => {
-		const loaded = storageService.load();
-		const migrated: AppData = {
-			...loaded,
-			playthroughs: loaded.playthroughs.map((p) => ({
-				...p,
-				data: { ...DEFAULT_GAME_DATA, ...p.data },
-			})),
-		};
-		// eslint-disable-next-line react-hooks/set-state-in-effect -- Intentional: hydrate from localStorage after SSR to prevent hydration mismatch
-		setAppData(migrated);
-		setIsHydrated(true);
-	}, []);
+	const updateData: PlaythroughContextType["updateData"] = (update) => {
+		const previous = storageService.load();
+		const saved = storageService.save(update(previous));
 
-	useEffect(() => {
-		if (isHydrated) {
-			storageService.save(appData);
-		}
-	}, [appData, isHydrated]);
+		setSaveFailed(!saved);
+		if (saved) setLastSavedAt(new Date());
+		return saved ? previous : null;
+	};
 
 	const activePlaythrough =
-		appData.playthroughs.find((p) => p.id === appData.activePlaythroughId) || null;
+		data.playthroughs.find((p) => p.id === data.activePlaythroughId) ?? null;
 
 	const isManualPlaythrough = activePlaythrough?.platform !== "PC";
 
-	const setActivePlaythrough = (id: string | null) => {
-		setAppData((prev) => ({ ...prev, activePlaythroughId: id }));
+	const setActivePlaythrough: PlaythroughContextType["setActivePlaythrough"] = (id) => {
+		updateData((current) => appData.setActivePlaythrough(current, id));
 	};
 
-	const addPlaythrough = (
-		playthrough: Omit<Playthrough, "id" | "createdAt" | "lastModified" | "data"> &
-			Partial<Pick<Playthrough, "data">>
-	) => {
-		const now = new Date().toISOString();
-		const newPlaythrough: Playthrough = {
-			...playthrough,
-			id: crypto.randomUUID(),
-			createdAt: now,
-			lastModified: now,
-			data: playthrough.data ?? { ...DEFAULT_GAME_DATA },
-		};
-
-		setAppData((prev) => {
-			const newPlaythroughs = [...prev.playthroughs, newPlaythrough];
-			const newActiveId =
-				prev.playthroughs.length === 0 ? newPlaythrough.id : prev.activePlaythroughId;
-
-			return { playthroughs: newPlaythroughs, activePlaythroughId: newActiveId };
-		});
+	const addPlaythrough: PlaythroughContextType["addPlaythrough"] = (input) => {
+		updateData((current) => appData.addPlaythrough(current, input));
 	};
 
-	const updatePlaythrough = (id: string, updates: Partial<Playthrough>) => {
-		setAppData((prev) => ({
-			...prev,
-			playthroughs: prev.playthroughs.map((p) =>
-				p.id === id ? { ...p, ...updates, lastModified: new Date().toISOString() } : p
-			),
-		}));
+	const updatePlaythrough: PlaythroughContextType["updatePlaythrough"] = (id, updates) => {
+		updateData((current) => appData.updatePlaythrough(current, id, updates));
 	};
 
-	const deletePlaythrough = (id: string) => {
-		setAppData((prev) => {
-			const newPlaythroughs = prev.playthroughs.filter((p) => p.id !== id);
-			const newActiveId =
-				prev.activePlaythroughId === id
-					? newPlaythroughs[0]?.id || null
-					: prev.activePlaythroughId;
+	const deletePlaythrough: PlaythroughContextType["deletePlaythrough"] = (id) =>
+		updateData((current) => appData.deletePlaythrough(current, id));
 
-			return { playthroughs: newPlaythroughs, activePlaythroughId: newActiveId };
-		});
+	const updateSettings: PlaythroughContextType["updateSettings"] = (updates) => {
+		updateData((current) => appData.updateSettings(current, updates));
 	};
 
-	const importData = (jsonString: string) => {
-		const result = storageService.importData(jsonString);
-		if (result.success) {
-			const data = storageService.load();
-			setAppData(data);
-		}
-		return result;
+	const importData = (jsonString: string, mode: ImportMode = "replace") => {
+		const parsed = parseBackup(jsonString);
+		if (!parsed.ok) return { success: false, error: parsed.error };
+
+		const saved = updateData((current) => applyImport(current, parsed.data, mode));
+		return saved
+			? { success: true }
+			: { success: false, error: "The browser could not save the data." };
 	};
 
-	const exportData = () => storageService.exportData();
+	const exportData = () => JSON.stringify(storageService.load(), null, 2);
 
 	const addTrackedGift = (gift: TrackedGift) => {
 		if (!activePlaythrough) return;
@@ -124,20 +93,27 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 	};
 
 	const clearAllData = () => {
-		setAppData({ playthroughs: [], activePlaythroughId: null });
 		storageService.clear();
+		setSaveFailed(false);
 	};
 
 	return (
 		<PlaythroughContext.Provider
 			value={{
-				playthroughs: appData.playthroughs,
-				isManualPlaythrough,
+				appData: data as AppData,
+				playthroughs: data.playthroughs,
 				activePlaythrough,
+				isManualPlaythrough,
+				settings: data.settings ?? {},
+				isLoaded,
+				lastSavedAt,
+				saveFailed,
+				updateData,
 				setActivePlaythrough,
 				addPlaythrough,
 				updatePlaythrough,
 				deletePlaythrough,
+				updateSettings,
 				importData,
 				exportData,
 				clearAllData,

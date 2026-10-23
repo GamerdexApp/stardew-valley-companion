@@ -1,134 +1,70 @@
-import type { AppData, Playthrough } from "@/types/app";
+import type { AppData } from "@/types/app";
+import { EMPTY_APP_DATA, withDefaults } from "./appData";
 
-const STORAGE_KEY = "stardew-valley-companion";
+export const STORAGE_KEY = "stardew-valley-companion";
 
-const defaultData: AppData = {
-  playthroughs: [],
-  activePlaythroughId: null,
+const listeners = new Set<() => void>();
+let cachedRaw: string | null = null;
+let cachedData: AppData = EMPTY_APP_DATA;
+
+const notifyListeners = () => listeners.forEach((listener) => listener());
+
+const parseStored = (raw: string | null): AppData => {
+  if (raw === null) return EMPTY_APP_DATA;
+  const parsed = JSON.parse(raw) as AppData;
+  return Array.isArray(parsed?.playthroughs)
+    ? withDefaults(parsed)
+    : EMPTY_APP_DATA;
 };
 
 export const storageService = {
   /**
-   * Load data from localStorage
+   * Returns the same object until the stored text changes, as `useSyncExternalStore` requires.
+   * Fields missing from an old save are filled with defaults in memory. Nothing is written back
+   * until the player changes something.
    */
   load(): AppData {
-    if (typeof window === "undefined") return defaultData;
+    if (typeof window === "undefined") return EMPTY_APP_DATA;
 
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) return defaultData;
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw === cachedRaw) return cachedData;
 
-      return JSON.parse(stored) as AppData;
+      cachedData = parseStored(raw);
+      cachedRaw = raw;
+      return cachedData;
     } catch (error) {
       console.error("Error loading data from localStorage:", error);
-      return defaultData;
+      return EMPTY_APP_DATA;
     }
   },
 
-  /**
-   * Save data to localStorage
-   */
-  save(data: AppData): void {
-    if (typeof window === "undefined") return;
+  loadOnServer(): AppData {
+    return EMPTY_APP_DATA;
+  },
 
+  save(data: AppData): boolean {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      notifyListeners();
+      return true;
     } catch (error) {
       console.error("Error saving data to localStorage:", error);
+      return false;
     }
   },
 
-  /**
-   * Export data as a formatted JSON string
-   */
-  exportData(): string {
-    const data = this.load();
-    return JSON.stringify(data, null, 2);
-  },
-
-  /**
-   * Import data from a JSON string, replacing all existing data
-   */
-  importData(jsonString: string): { success: boolean; error?: string } {
-    try {
-      const data = JSON.parse(jsonString) as AppData;
-
-      if (!data.playthroughs || !Array.isArray(data.playthroughs)) {
-        return {
-          success: false,
-          error: "Invalid data format: missing playthroughs array",
-        };
-      }
-
-      this.save(data);
-      return { success: true };
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      };
-    }
-  },
-
-  /**
-   * Remove all data from localStorage
-   */
   clear(): void {
-    if (typeof window === "undefined") return;
     localStorage.removeItem(STORAGE_KEY);
+    notifyListeners();
   },
 
-  /**
-   * Add a new playthrough (direct localStorage write, bypasses Context)
-   */
-  addPlaythrough(playthrough: Playthrough): void {
-    const data = this.load();
-    data.playthroughs.push(playthrough);
-
-    if (data.playthroughs.length === 1) {
-      data.activePlaythroughId = playthrough.id;
-    }
-
-    this.save(data);
-  },
-
-  /**
-   * Update an existing playthrough (direct localStorage write, bypasses Context)
-   */
-  updatePlaythrough(id: string, updates: Partial<Playthrough>): void {
-    const data = this.load();
-    const index = data.playthroughs.findIndex((p) => p.id === id);
-
-    if (index !== -1) {
-      data.playthroughs[index] = {
-        ...data.playthroughs[index],
-        ...updates,
-        lastModified: new Date().toISOString(),
-      };
-      this.save(data);
-    }
-  },
-
-  /**
-   * Delete a playthrough (direct localStorage write, bypasses Context)
-   */
-  deletePlaythrough(id: string): void {
-    const data = this.load();
-    data.playthroughs = data.playthroughs.filter((p) => p.id !== id);
-
-    if (data.activePlaythroughId === id) {
-      data.activePlaythroughId = data.playthroughs[0]?.id || null;
-    }
-
-    this.save(data);
-  },
-
-  /**
-   * Set the active playthrough (direct localStorage write, bypasses Context)
-   */
-  setActivePlaythrough(id: string | null): void {
-    const data = this.load();
-    data.activePlaythroughId = id;
-    this.save(data);
+  subscribe(listener: () => void): () => void {
+    listeners.add(listener);
+    window.addEventListener("storage", listener);
+    return () => {
+      listeners.delete(listener);
+      window.removeEventListener("storage", listener);
+    };
   },
 };

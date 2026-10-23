@@ -13,7 +13,17 @@ export interface Playthrough {
   data: GameData;
 }
 
+export type Theme = "light" | "dark" | "system";
+
+export type UiSettings = Record<string, unknown>;
+
+export interface Settings {
+  theme?: Theme;
+  ui?: UiSettings;
+}
+
 export interface AppData {
   playthroughs: Playthrough[];
   activePlaythroughId: string | null;
+  settings?: Settings;
 }
