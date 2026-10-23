@@ -5,7 +5,7 @@ import { LuMenu } from "react-icons/lu";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useUI } from "@/lib/contexts/UIContext";
 import { shellText } from "@/lib/messages/shell";
-import { APP_NAME, getNavItem } from "@/data/nav";
+import { getPageTitle } from "@/data/nav";
 import { IconButton } from "@/comps/ui/IconButton";
 import { useSavedLabel } from "@/comps/ui/SavedChip";
 
@@ -15,7 +15,7 @@ export function AppBar() {
 	const { activePlaythrough } = usePlaythrough();
 	const savedLabel = useSavedLabel();
 
-	const title = getNavItem(pathname)?.label ?? APP_NAME;
+	const title = getPageTitle(pathname);
 	const subline = [activePlaythrough?.name, savedLabel].filter(Boolean).join(" · ");
 
 	return (

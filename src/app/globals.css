@@ -153,6 +153,11 @@
     cursor: not-allowed;
   }
 
+  /* A header cell centers unless its parent sets text-align. The value start does not count, so the cell must repeat it. */
+  .text-start th {
+    text-align: start;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,

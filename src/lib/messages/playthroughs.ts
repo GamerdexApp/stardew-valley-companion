@@ -73,6 +73,35 @@ export const playthroughsText = {
     save: "Save",
     saved: "Playthrough saved",
     savedMessage: (name: string) => `${name} was updated.`,
+    update: {
+      title: "Update from a newer save",
+      intro:
+        "Read a newer save file for this playthrough. The save wins for what it reports. Tracked gifts and lost books are never in a save, so they are always kept. Platform stays as it is.",
+      parsed: (player: string, farm: string) =>
+        `Ready to update - ${player} from ${farm} Farm`,
+      farmMismatch: (saveFarm: string, ownFarm: string) =>
+        `This save is from ${saveFarm} Farm, but this playthrough is ${ownFarm} Farm.`,
+      howLabel: "How should the save be applied?",
+      modes: {
+        fill: "Fill gaps only (recommended)",
+        replace: "Replace with the save",
+      },
+      modeNotes: {
+        fill: "Keeps every value you changed. Adds what the save has and your playthrough is missing.",
+        replace:
+          "The save wins wherever it differs from your playthrough. Entries the save does not report are removed.",
+      },
+      willChange: (count: number) =>
+        count === 0
+          ? "Nothing would change"
+          : `${count} ${count === 1 ? "value" : "values"} would change`,
+      mostChanges: "Most changes:",
+      button: "Update from save",
+      done: "Playthrough updated",
+      doneMessage: (name: string, count: number) =>
+        `${name} was updated from a save. ${count} ${count === 1 ? "value" : "values"} changed.`,
+      undo: "Undo",
+    },
   },
   delete: {
     title: (name: string) => `Delete ${name}?`,

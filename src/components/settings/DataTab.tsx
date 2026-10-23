@@ -8,7 +8,7 @@ import { settingsText } from "@/lib/messages/settings";
 import { EMPTY_APP_DATA } from "@/service/appData";
 import type { ImportMode } from "@/service/backup";
 import { backupFileName, downloadBackup } from "@/service/backup";
-import { NEW_PLAYTHROUGH_HREF, PLAYTHROUGHS_HREF } from "@/data/nav";
+import { PLAYTHROUGHS_HREF } from "@/data/nav";
 import { Badge } from "@/comps/ui/Badge";
 import { Button, ButtonLink } from "@/comps/ui/Button";
 import { Note } from "@/comps/ui/Note";
@@ -91,8 +91,10 @@ export function DataTab() {
 					<section className="border-line flex flex-col gap-2 border-t-[1.5px] pt-3">
 						<h3 className="font-medium">{text.export.title}</h3>
 						<p className="text-muted">
-							{text.export.description} {text.export.fileName}{" "}
-							<code className="font-mono text-xs break-all">{backupFileName()}</code>
+							{text.export.description} {text.export.fileName}
+							<code className="mt-1 block font-mono text-xs break-all">
+								{backupFileName()}
+							</code>
 						</p>
 						<div>
 							<Button onClick={exportBackup}>
@@ -150,11 +152,8 @@ export function DataTab() {
 				description={text.playthroughs.description}
 				aside={<Badge tone="added">{count}</Badge>}
 			>
-				<div className="flex flex-wrap gap-3">
+				<div>
 					<ButtonLink href={PLAYTHROUGHS_HREF}>{text.playthroughs.manage}</ButtonLink>
-					<ButtonLink href={NEW_PLAYTHROUGH_HREF} variant="ghost">
-						{settingsText.preferences.playthroughSettings.create}
-					</ButtonLink>
 				</div>
 			</SettingsCard>
 			<ImportDialog

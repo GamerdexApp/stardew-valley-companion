@@ -26,10 +26,10 @@ export function Note({
 			}`}
 		>
 			<Icon size={18} aria-hidden="true" className="mt-0.5 shrink-0" />
-			<p className={tone === "warning" ? "" : "text-ink"}>
+			<div className={tone === "warning" ? "" : "text-ink"}>
 				{title && <span className="font-semibold">{title} </span>}
 				{children}
-			</p>
+			</div>
 		</div>
 	);
 }

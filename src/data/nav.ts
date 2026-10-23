@@ -154,5 +154,13 @@ const isPathWithin = (pathname: string, href: string) =>
 export const isNavItemActive = (item: NavItem, pathname: string) =>
   isPathWithin(pathname, item.href);
 
+const routeTitles: Record<string, string> = {
+  [PLAYTHROUGHS_HREF]: "My playthroughs",
+  [NEW_PLAYTHROUGH_HREF]: "New playthrough",
+};
+
 export const getNavItem = (pathname: string) =>
   navItems.find((item) => isNavItemActive(item, pathname)) ?? null;
+
+export const getPageTitle = (pathname: string): string =>
+  routeTitles[pathname] ?? getNavItem(pathname)?.label ?? APP_NAME;

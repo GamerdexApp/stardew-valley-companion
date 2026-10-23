@@ -6,9 +6,24 @@ import type { AppData, Playthrough } from "@/types/app";
 import { PlaythroughProvider } from "@/lib/contexts/PlaythroughContext";
 import { UIProvider } from "@/lib/contexts/UIContext";
 import { STORAGE_KEY } from "@/service/storage";
+import { DEFAULT_GAME_DATA } from "@/data/constants";
 import { PlaythroughsPage } from "@/comps/playthroughs/PlaythroughsPage";
 import { ToastProvider } from "@/comps/ui/Toast";
 import { emptyPlaythrough, progressedPlaythrough } from "../storage/fixtures";
+
+const mocks = vi.hoisted(() => ({
+	parseSaveFile: vi.fn(),
+	mapped: null as unknown,
+}));
+
+vi.mock("stardew-valley-data", async (importOriginal) => ({
+	...(await importOriginal<typeof import("stardew-valley-data")>()),
+	parseSaveFile: mocks.parseSaveFile,
+}));
+
+vi.mock("@/lib/utils/saveFileMapper", () => ({
+	mapSaveDataToGameData: () => mocks.mapped,
+}));
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -62,10 +77,11 @@ const cardButton = (name: string, label: string) =>
 			.find((card) => card.querySelector("h2")?.textContent === name)!
 			.querySelectorAll("button"),
 	].find((b) => b.textContent === label);
-const radio = (label: string) =>
-	[...document.body.querySelectorAll('input[type="radio"]')].find(
-		(input) => input.closest("label")?.textContent?.trim() === label
-	);
+const radio = (label: string, partial = false) =>
+	[...document.body.querySelectorAll('input[type="radio"]')].find((input) => {
+		const content = input.closest("label")?.textContent?.trim() ?? "";
+		return partial ? content.startsWith(label) : content === label;
+	});
 
 const make = (
 	id: string,
@@ -243,7 +259,11 @@ describe("Playthroughs page", () => {
 			const dialog = document.body.querySelector("dialog")!;
 			await type(dialog.querySelector("input")!, "  Old Farm ");
 			await type(dialog.querySelector("textarea")!, "Mine now");
-			await click(radio("Xbox"));
+			await act(async () => {
+				const select = dialog.querySelector("select")!;
+				select.value = "Xbox";
+				select.dispatchEvent(new Event("change", { bubbles: true }));
+			});
 			await click(button("Save"));
 
 			const result = stored().playthroughs.find((p) => p.id === "leg")!;
@@ -271,7 +291,11 @@ describe("Playthroughs page", () => {
 			await mount();
 
 			await click(cardButton("Riverland", "Edit"));
-			await click(radio("Not set"));
+			await act(async () => {
+				const select = document.body.querySelector("dialog select") as HTMLSelectElement;
+				select.value = "";
+				select.dispatchEvent(new Event("change", { bubbles: true }));
+			});
 			await click(button("Save"));
 
 			expect(
@@ -366,5 +390,157 @@ describe("Playthroughs page", () => {
 		expect(
 			container.querySelector('header a[href="/playthroughs/new"]')?.textContent
 		).toContain("New playthrough");
+	});
+
+	describe("update from a newer save", () => {
+		const fakeSave = (farmName: string) => ({
+			player: { name: "Sam", farmName },
+		});
+
+		const chooseSave = async () => {
+			const input = document.body.querySelector(
+				'dialog input[type="file"]'
+			) as HTMLInputElement;
+			const file = new File(["<xml/>"], "Riverland_123", { type: "text/xml" });
+			Object.defineProperty(input, "files", { value: [file], configurable: true });
+			await act(async () => {
+				input.dispatchEvent(new Event("change", { bubbles: true }));
+			});
+		};
+
+		const openEdit = async () => {
+			seed(saved);
+			await mount();
+			await click(cardButton("Riverland", "Edit"));
+		};
+
+		const stored2 = () => stored().playthroughs.find((p) => p.id === riverland.id)!;
+
+		beforeEach(() => {
+			mocks.parseSaveFile.mockReset();
+			mocks.parseSaveFile.mockReturnValue(fakeSave("Riverland"));
+			mocks.mapped = {
+				...DEFAULT_GAME_DATA,
+				character: {
+					...DEFAULT_GAME_DATA.character,
+					name: "Sam",
+					farmName: "Riverland",
+					money: 99999,
+				},
+				shipped: { "999": { shipped: true, count: 1 } },
+			};
+		});
+
+		it("explains the update and asks for a file with no extension filter", async () => {
+			await openEdit();
+
+			expect(document.body.textContent).toContain("Update from a newer save");
+			expect(document.body.textContent).toContain("always kept");
+			expect(
+				document.body.querySelector('dialog input[type="file"]')!.getAttribute("accept")
+			).toBeNull();
+			expect(button("Save")).toBeDefined();
+		});
+
+		it("reads the save, offers both modes with their counts and switches the button", async () => {
+			await openEdit();
+
+			await chooseSave();
+
+			expect(document.body.textContent).toContain(
+				"Ready to update - Sam from Riverland Farm"
+			);
+			expect(document.body.textContent).toMatch(
+				/Fill gaps only \(recommended\) · \d+ values? would change/
+			);
+			expect(document.body.textContent).toMatch(
+				/Replace with the save · \d+ values? would change/
+			);
+			expect(button("Update from save")).toBeDefined();
+			expect(button("Save")).toBeUndefined();
+		});
+
+		it("warns when the save is from a different farm", async () => {
+			mocks.parseSaveFile.mockReturnValue(fakeSave("Sunrise"));
+			await openEdit();
+
+			await chooseSave();
+
+			expect(document.body.textContent).toContain(
+				"This save is from Sunrise Farm, but this playthrough is Riverland Farm."
+			);
+		});
+
+		it("does not warn when the farm matches", async () => {
+			await openEdit();
+
+			await chooseSave();
+
+			expect(document.body.textContent).not.toContain("This save is from");
+		});
+
+		it("shows a bad file and keeps the plain Save", async () => {
+			mocks.parseSaveFile.mockImplementation(() => {
+				throw new Error("bad");
+			});
+			await openEdit();
+
+			await chooseSave();
+
+			expect(document.body.textContent).toContain("Failed to parse save file.");
+			expect(document.body.textContent).not.toContain("How should the save be applied?");
+			expect(button("Save")).toBeDefined();
+		});
+
+		it("fills gaps only by default, keeping edits, tracked gifts and the platform", async () => {
+			await openEdit();
+
+			await chooseSave();
+			await click(button("Update from save"));
+
+			const result = stored2();
+			expect(result.data.character.money).toBe(48210);
+			expect(result.data.shipped["999"]).toEqual({ shipped: true, count: 1 });
+			expect(result.data.shipped["16"]).toEqual({ shipped: true, count: 12 });
+			expect(result.data.trackedGifts).toEqual(riverland.data.trackedGifts);
+			expect(result.platform).toBe("PC");
+			expect(document.body.textContent).toContain("Playthrough updated");
+		});
+
+		it("replaces with the save when asked, still keeping tracked gifts", async () => {
+			await openEdit();
+
+			await chooseSave();
+			await click(radio("Replace with the save", true));
+			await click(button("Update from save"));
+
+			const result = stored2();
+			expect(result.data.character.money).toBe(99999);
+			expect(Object.keys(result.data.shipped)).toEqual(["999"]);
+			expect(result.data.trackedGifts).toEqual(riverland.data.trackedGifts);
+		});
+
+		it("undoes an update", async () => {
+			await openEdit();
+
+			await chooseSave();
+			await click(radio("Replace with the save", true));
+			await click(button("Update from save"));
+			await click(button("Undo"));
+
+			expect(stored2().data.character.money).toBe(48210);
+			expect(Object.keys(stored2().data.shipped).sort()).toEqual(["16", "174"]);
+		});
+
+		it("changes nothing when cancelled after a file was read, and the next open is clean", async () => {
+			await openEdit();
+
+			await chooseSave();
+			await click(button("Cancel"));
+			await click(cardButton("Riverland", "Edit"));
+
+			expect(stored()).toEqual(saved);
+			expect(document.body.textContent).not.toContain("Ready to update");
+		});
 	});
 });

@@ -6,7 +6,7 @@ import { LuChevronDown, LuPlus } from "react-icons/lu";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useIsDesktop } from "@/lib/hooks/useMediaQuery";
 import { shellText } from "@/lib/messages/shell";
-import { describePlaythrough } from "@/service/playthroughs";
+import { formatGameDate } from "@/service/playthroughList";
 import { NEW_PLAYTHROUGH_HREF, PLAYTHROUGHS_HREF } from "@/data/nav";
 import { Dialog } from "@/comps/ui/Dialog";
 import { Menu, MenuItem, MenuLabel, MenuSeparator } from "@/comps/ui/Menu";
@@ -49,7 +49,7 @@ function PlaythroughChoices({ inMenu, close, onNavigate }: ChoicesProps) {
 								<span className="flex min-w-0 flex-col">
 									<span className="truncate font-medium">{playthrough.name}</span>
 									<span className="text-muted truncate text-xs">
-										{describePlaythrough(playthrough)}
+										{formatGameDate(playthrough)}
 									</span>
 								</span>
 								{isActive && (
@@ -90,7 +90,7 @@ export function PlaythroughSwitcher({ onNavigate }: { onNavigate?: () => void })
 	const [sheetOpen, setSheetOpen] = useState(false);
 
 	const triggerName = !isLoaded ? text.loading : (activePlaythrough?.name ?? text.none);
-	const triggerDetail = activePlaythrough ? describePlaythrough(activePlaythrough) : "";
+	const triggerDetail = activePlaythrough ? formatGameDate(activePlaythrough) : "";
 
 	const renderTrigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
 		<button

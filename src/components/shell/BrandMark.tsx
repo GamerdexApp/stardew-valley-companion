@@ -5,7 +5,7 @@ import { APP_NAME } from "@/data/nav";
 
 export function BrandMark({ onNavigate }: { onNavigate?: () => void }) {
 	return (
-		<Link href="/" onClick={onNavigate} className="flex items-center gap-2.5">
+		<Link href="/" onClick={onNavigate} className="flex min-h-11 items-center gap-2.5">
 			<Image
 				src="/stardew-valley-icon.png"
 				alt=""
