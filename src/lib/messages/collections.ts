@@ -229,6 +229,70 @@ export const collectionsText = {
       undo: "Undo",
     },
   },
+  artisanGoods: {
+    noun: "artisan goods",
+    subline: (shipped: number, total: number, farm: string) =>
+      `${shipped} of ${total} shipped${farm ? ` · ${farm}` : ""}`,
+    search: "Search by name, equipment or ingredient",
+    sheetTitle: "Filter artisan goods",
+    apply: (count: number) => `Show ${count} goods`,
+    tiles: {
+      equipment: "Equipment types",
+      goods: "Artisan goods",
+      shipped: "Shipped",
+    },
+    professions: [
+      { id: "artisan", label: "Artisan" },
+      { id: "tapper", label: "Tapper" },
+      { id: "fisher", label: "Fisher" },
+      { id: "angler", label: "Angler" },
+    ],
+    filter: { shipped: "Shipped status" },
+    shippedHint:
+      "Not shippable means goods the game does not count as shipped, such as Coffee, Vinegar and Oil.",
+    options: {
+      all: "All",
+      shipped: "Shipped",
+      notShipped: "Not shipped",
+      notShippable: "Not shippable",
+    },
+    empty: {
+      title: "No artisan goods match your search.",
+      description:
+        "Try a different name, equipment or ingredient, or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: {
+      notShippable: "Cannot be shipped",
+      equipment: (name: string) => `Made in the ${name}`,
+      calculate: "Calculate price",
+      calculateLabel: (name: string) => `Calculate the price of ${name}`,
+      energyHealth: "Energy and health",
+      poison: "Poison",
+      buff: (stat: string, value: number) =>
+        `${stat} ${value > 0 ? "+" : ""}${value}`,
+      buffDuration: (seconds: number) => `${seconds}s`,
+    },
+    calculator: {
+      title: (name: string) => `${name} price calculator`,
+      pick: "Step 1 · Pick an ingredient",
+      search: (name: string) => `Search ${name}`,
+      noMatch: "No items match your search.",
+      shown: (shown: number, total: number) => `${shown} of ${total} shown.`,
+      result: "Step 2 · Result",
+      becomes: (ingredient: string, good: string) =>
+        `${ingredient} becomes ${good}`,
+      sellPrice: "Sell price",
+      energyHealth: "Energy and health",
+      noResult: "Pick an ingredient to see the price.",
+      professionsOn:
+        "Your profession prices are on. The rows under the price use them.",
+      professionsOff:
+        "Profession prices are off. Turn them on in the Professions panel on the page.",
+      ingredientPrice: (price: number) => `${price.toLocaleString()}g`,
+      close: "Close",
+    },
+  },
   animalProducts: {
     noun: "produce items",
     subline: (shipped: number, total: number, farm: string) =>

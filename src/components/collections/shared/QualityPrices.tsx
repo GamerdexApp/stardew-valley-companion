@@ -41,14 +41,17 @@ interface QualityPricesProps {
 	price: number;
 	maxQuality: MaxQuality;
 	bonus?: PriceBonus | null;
+	/** Several bonus rows, for an item where professions stack. It replaces `bonus`. */
+	bonuses?: PriceBonus[];
 }
 
 /**
  * The sell price at every quality the item can reach. An item that cannot have quality shows one
  * price. A profession bonus adds a second row with the bonus price at each quality.
  */
-export function QualityPrices({ price, maxQuality, bonus = null }: QualityPricesProps) {
+export function QualityPrices({ price, maxQuality, bonus = null, bonuses }: QualityPricesProps) {
 	const reachable = TIERS_BY_MAX[maxQuality];
+	const rows = bonuses ?? (bonus ? [bonus] : []);
 
 	if (reachable === 0) {
 		return (
@@ -57,16 +60,19 @@ export function QualityPrices({ price, maxQuality, bonus = null }: QualityPrices
 					<span className="text-muted font-mono text-[11px] uppercase">{text.price}</span>
 					<span className="font-mono text-xs font-medium">{price.toLocaleString()}g</span>
 				</div>
-				{bonus && (
-					<div className="border-primary flex items-center justify-between rounded-md border-[1.5px] px-2.5 py-1.5">
+				{rows.map((row) => (
+					<div
+						key={row.label}
+						className="border-primary flex items-center justify-between rounded-md border-[1.5px] px-2.5 py-1.5"
+					>
 						<span className="text-primary font-mono text-[11px] uppercase">
-							{bonus.label}
+							{row.label}
 						</span>
 						<span className="text-primary font-mono text-xs font-medium">
-							{bonus.price.toLocaleString()}g
+							{row.price.toLocaleString()}g
 						</span>
 					</div>
-				)}
+				))}
 			</div>
 		);
 	}
@@ -74,7 +80,9 @@ export function QualityPrices({ price, maxQuality, bonus = null }: QualityPrices
 	return (
 		<div className="flex flex-col gap-1">
 			<Row price={price} label={text.basic} reachable={reachable} />
-			{bonus && <Row price={bonus.price} label={bonus.label} reachable={reachable} />}
+			{rows.map((row) => (
+				<Row key={row.label} price={row.price} label={row.label} reachable={reachable} />
+			))}
 		</div>
 	);
 }

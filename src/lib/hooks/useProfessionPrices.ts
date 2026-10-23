@@ -4,6 +4,7 @@ import {
   applyBestForageableBonus,
   getActiveKnowledgeBonuses,
   getActiveProfessionBonuses,
+  getStackedBonuses,
 } from "@/lib/utils/professionPrices";
 import type { BonusResult } from "@/lib/utils/professionPrices";
 import { useMemoryState } from "./useMemoryState";
@@ -74,6 +75,22 @@ export function useProfessionPrices(
         )
       : null;
 
+  /**
+   * The rows for an item where professions stack, such as Smoked Fish (Fisher, then Fisher and
+   * Artisan). An item with one profession gets its single best row.
+   */
+  const rowsFor = (
+    price: number,
+    itemProfessions: ProfessionBonus[],
+  ): BonusResult[] => {
+    if (switchedOn.length === 0) return [];
+    if (itemProfessions.length > 1 && itemProfessions.includes("artisan")) {
+      return getStackedBonuses(price, itemProfessions, activeProfessions);
+    }
+    const single = bonusFor(price, itemProfessions);
+    return single ? [single] : [];
+  };
+
   return {
     control: {
       available,
@@ -84,5 +101,6 @@ export function useProfessionPrices(
         setState({ ...state, chosen: next as PriceBonusId[] }),
     },
     bonusFor,
+    rowsFor,
   };
 }

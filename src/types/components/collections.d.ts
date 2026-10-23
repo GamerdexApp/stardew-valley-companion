@@ -39,30 +39,6 @@ export interface CollectionProps {
   gameData: GameData;
 }
 
-export interface IngredientOption {
-  name: string;
-  basePrice: number;
-  image: string;
-  energy?: number;
-  health?: number;
-  sublabel?: string;
-}
-
-export interface ArtisanResult {
-  sellPrice: number;
-  energy?: number;
-  health?: number;
-}
-
-export interface ArtisanGoodCardProps {
-  good: ArtisanGood;
-  shipped: boolean;
-  shippable: boolean;
-  professionBonus?: BonusResult | null;
-  onCalculate: () => void;
-  ingredientImageMap: Record<string, string>;
-}
-
 export interface DifficultyBarProps {
   difficulty: string;
   behavior: string;
@@ -109,12 +85,6 @@ export interface TreeDetailModalProps extends CollectionProps {
   tree: Tree | null;
   shippableIds: Set<string>;
   onClose: () => void;
-}
-
-export interface PriceFormulaModalProps {
-  good: ArtisanGood | null;
-  onClose: () => void;
-  activeProfessionBonuses?: Set<ProfessionBonus> | null;
 }
 
 export interface SlayerGoalCardProps {
@@ -189,7 +159,3 @@ export interface ShippedItemsEditStepProps {
   onChange: (shipped: Record<string, ShippedItem>) => void;
 }
 
-export interface ArtisanGoodsShippedEditStepProps {
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}

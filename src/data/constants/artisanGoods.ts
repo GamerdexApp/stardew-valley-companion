@@ -35,13 +35,6 @@ export const ARTISAN_CALC_METHOD: Record<string, string> = {
 
 export const FRUIT_TREE_KEYS = new Set(["wine", "jelly", "driedFruit"]);
 
-export const ARTISAN_USE_META: Record<string, { name: string; image: string }> =
-  Object.fromEntries(
-    artisanGoods()
-      .get()
-      .map((g) => [g.id, { name: g.name, image: g.image }]),
-  );
-
 export const INGREDIENT_IMAGE_MAP: Record<string, string> = (() => {
   const map: Record<string, string> = {};
   for (const good of artisanGoods().get()) {

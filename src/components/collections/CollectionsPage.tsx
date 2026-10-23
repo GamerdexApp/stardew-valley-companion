@@ -18,6 +18,7 @@ import { PageHeader } from "@/comps/shell/PageHeader";
 import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
 import { AnimalProductsTab } from "./animal-products/AnimalProductsTab";
 import { ArtifactsTab } from "./artifacts/ArtifactsTab";
+import { ArtisanGoodsTab } from "./artisan-goods/ArtisanGoodsTab";
 import { CollectionTabs } from "./CollectionTabs";
 import { CookingTab } from "./cooking/CookingTab";
 import { CraftingTab } from "./crafting/CraftingTab";
@@ -33,6 +34,7 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "artisan-goods") return <ArtisanGoodsTab playthrough={playthrough} />;
 	if (tab === "animal-products") return <AnimalProductsTab playthrough={playthrough} />;
 	if (tab === "monster-loot") return <MonsterLootTab playthrough={playthrough} />;
 	if (tab === "forageables") return <ForageablesTab playthrough={playthrough} />;
@@ -91,6 +93,9 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 	}
 	if (tab === "animal-products" && count) {
 		return text.animalProducts.subline(count.current, count.total, farmLabel);
+	}
+	if (tab === "artisan-goods" && count) {
+		return text.artisanGoods.subline(count.current, count.total, farmLabel);
 	}
 	if (tab === "monster-loot" && count) {
 		return text.monsterLoot.subline(count.current, count.total, farmLabel);

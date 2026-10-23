@@ -10,6 +10,7 @@ import {
 import type { ProgressCount } from "@/lib/utils/collectionCounts";
 import type { CollectionTabId } from "@/data/collections";
 import { countAnimalProductsShipped } from "./animalProducts";
+import { countArtisanGoodsShipped } from "./artisanGoods";
 import { countForageablesShipped } from "./forageables";
 import { countMonsterLootShipped } from "./monsterLoot";
 
@@ -27,5 +28,6 @@ export const tabCount = (
   if (tab === "forageables") return countForageablesShipped(data);
   if (tab === "animal-products") return countAnimalProductsShipped(data);
   if (tab === "monster-loot") return countMonsterLootShipped(data);
+  if (tab === "artisan-goods") return countArtisanGoodsShipped(data);
   return null;
 };
