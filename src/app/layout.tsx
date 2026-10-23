@@ -1,20 +1,24 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { PlaythroughProvider } from "@/lib/contexts/PlaythroughContext";
 import { UIProvider } from "@/lib/contexts/UIContext";
+import { STORAGE_KEY } from "@/service/storage";
 import { LayoutWrapper } from "@/comps/layout/LayoutWrapper";
+import { ThemeSync } from "@/comps/layout/ThemeSync";
 import "./globals.css";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const plexSans = IBM_Plex_Sans({
+	variable: "--font-plex-sans",
 	subsets: ["latin"],
+	weight: ["400", "500", "600"],
 });
 
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+	variable: "--font-plex-mono",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const stardewValley = localFont({
@@ -25,6 +29,9 @@ const stardewValley = localFont({
 	variable: "--font-stardew-valley",
 	display: "swap",
 });
+
+// Runs before the first paint so a dark theme never flashes light.
+const applyThemeBeforePaint = `try{var s=JSON.parse(localStorage.getItem("${STORAGE_KEY}")||"{}").settings;var t=s&&s.theme||"system";var d=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d)}catch(e){}`;
 
 const siteUrl = "https://stardew-valley.gamerdex.app";
 
@@ -99,12 +106,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="h-full">
+		<html lang="en" className="h-full" suppressHydrationWarning>
+			<head>
+				<script dangerouslySetInnerHTML={{ __html: applyThemeBeforePaint }} />
+			</head>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${stardewValley.variable} bg-surface dark:bg-surface-dark h-full overflow-hidden antialiased`}
+				className={`${plexSans.variable} ${plexMono.variable} ${stardewValley.variable} bg-bg h-full overflow-hidden antialiased`}
 			>
 				<UIProvider>
 					<PlaythroughProvider>
+						<ThemeSync />
 						<LayoutWrapper>{children}</LayoutWrapper>
 					</PlaythroughProvider>
 				</UIProvider>

@@ -29,7 +29,7 @@ export default function Settings() {
 	} = useSettingsActions();
 
 	return (
-		<section className="bg-surface dark:bg-surface-dark min-h-screen p-8">
+		<section className="bg-bg min-h-screen p-8">
 			<div className="mx-auto">
 				<PageHeader
 					title="Settings"

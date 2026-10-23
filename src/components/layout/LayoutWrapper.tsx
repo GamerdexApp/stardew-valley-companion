@@ -15,7 +15,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 				<div className="flex flex-1 overflow-hidden">
 					<AppSidebar />
 					<div className="flex flex-1 flex-col overflow-hidden">
-						<main className="bg-surface dark:bg-surface-dark flex flex-1 flex-col overflow-y-auto">
+						<main className="bg-bg flex flex-1 flex-col overflow-y-auto">
 							<div className="flex-1">{children}</div>
 							<Footer />
 						</main>
