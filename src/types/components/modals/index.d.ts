@@ -6,21 +6,6 @@ export interface CreatePlaythroughModalProps {
   onClose: () => void;
 }
 
-export interface EditPlaythroughModalProps {
-  isOpen: boolean;
-  currentPlaythrough: Playthrough;
-  onClose: () => void;
-}
-
-export interface DeleteConfirmModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  title?: string;
-  message?: string;
-  itemName?: string;
-}
-
 export interface EditStepProgressProps {
   steps: string[];
   currentStep: number;
