@@ -1,4 +1,10 @@
-import type { AppData, Platform, Playthrough, Settings } from "@/types/app";
+import type {
+  AppData,
+  GameData,
+  Platform,
+  Playthrough,
+  Settings,
+} from "@/types/app";
 import { DEFAULT_GAME_DATA } from "@/data/constants";
 
 export const EMPTY_APP_DATA: AppData = {
@@ -80,6 +86,25 @@ const mostRecentlyModified = (playthroughs: Playthrough[]) =>
         : latest,
     null,
   );
+
+/** Applies `change` to the game data of one playthrough, read from `current` so it is never stale. */
+export const changeGameData = (
+  current: AppData,
+  id: string,
+  change: (data: GameData) => GameData,
+  now = new Date(),
+): AppData => ({
+  ...current,
+  playthroughs: current.playthroughs.map((playthrough) =>
+    playthrough.id === id
+      ? {
+          ...playthrough,
+          data: change(playthrough.data),
+          lastModified: now.toISOString(),
+        }
+      : playthrough,
+  ),
+});
 
 export const deletePlaythrough = (current: AppData, id: string): AppData => {
   const playthroughs = current.playthroughs.filter(

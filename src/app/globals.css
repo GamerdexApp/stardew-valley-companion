@@ -171,3 +171,7 @@
 .Toastify__toast {
   padding: 0 !important;
 }
+
+html:has(dialog[open]) {
+	overflow: hidden;
+}

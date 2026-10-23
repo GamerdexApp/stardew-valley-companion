@@ -18,6 +18,13 @@ export const uiText = {
     },
     missingProvider: "useToast must be used within a ToastProvider",
   },
+  filters: {
+    filters: "Filters",
+    activeCount: (count: number) => `${count} active`,
+    clearFilters: "Clear filters",
+    reset: "Reset",
+    description: "Changes apply as you go. Filters are not saved.",
+  },
   savedChip: {
     automatic: "Saves automatically",
     justNow: "Saved just now",

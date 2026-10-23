@@ -60,7 +60,7 @@ export function Dialog({
 			onClick={(event) => {
 				if (event.target === event.currentTarget) onClose();
 			}}
-			className={`border-line bg-surface text-ink backdrop:bg-scrim ${panelClasses[variant]}`}
+			className={`border-line bg-surface text-ink backdrop:bg-scrim overflow-hidden ${panelClasses[variant]}`}
 		>
 			{open && (
 				<>
@@ -84,7 +84,7 @@ export function Dialog({
 						</IconButton>
 					</header>
 					<div
-						className={`flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 py-3 ${variant === "flyout" ? "bg-bg" : ""}`}
+						className={`flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-4 py-3 ${variant === "flyout" ? "bg-bg" : ""}`}
 					>
 						{children}
 					</div>

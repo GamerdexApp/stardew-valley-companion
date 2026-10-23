@@ -20,6 +20,11 @@ export const collectionFish = fish()
   .filter((f) => !FISH_NOT_IN_COLLECTION.has(f.name));
 
 // The Wedding Ring is a special item and does not count towards the crafting total.
+const collectionFishIds = new Set(collectionFish.map((f) => f.id));
+
+export const isInFishCollection = (fishId: string): boolean =>
+  collectionFishIds.has(fishId);
+
 export const collectionCrafting = crafting()
   .get()
   .filter((recipe) => recipe.name !== "Wedding Ring");

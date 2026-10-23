@@ -14,6 +14,8 @@ const text = overviewText.empty;
 interface PlaythroughGateProps {
 	title: string;
 	subline?: string;
+	/** What the empty card says about this page. */
+	emptyDescription?: string;
 	children: (playthrough: Playthrough) => ReactNode;
 }
 
@@ -21,7 +23,12 @@ interface PlaythroughGateProps {
  * Shows the empty card when there is no active playthrough. The shell already holds the page until
  * storage is read, so the empty card only shows when there is truly none.
  */
-export function PlaythroughGate({ title, subline, children }: PlaythroughGateProps) {
+export function PlaythroughGate({
+	title,
+	subline,
+	emptyDescription = text.description,
+	children,
+}: PlaythroughGateProps) {
 	const { activePlaythrough } = usePlaythrough();
 
 	if (!activePlaythrough) {
@@ -30,7 +37,7 @@ export function PlaythroughGate({ title, subline, children }: PlaythroughGatePro
 				<PageHeader title={title} subline={subline} />
 				<EmptyState
 					title={text.title}
-					description={text.description}
+					description={emptyDescription}
 					actions={
 						<>
 							<ButtonLink href={NEW_PLAYTHROUGH_HREF} variant="primary">

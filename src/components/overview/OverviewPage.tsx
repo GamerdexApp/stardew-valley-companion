@@ -44,7 +44,11 @@ function OverviewContent({ playthrough }: { playthrough: Playthrough }) {
 
 export function OverviewPage() {
 	return (
-		<PlaythroughGate title={text.title} subline={text.subline}>
+		<PlaythroughGate
+			title={text.title}
+			subline={text.subline}
+			emptyDescription={text.emptyDescription}
+		>
 			{(playthrough) => <OverviewContent playthrough={playthrough} />}
 		</PlaythroughGate>
 	);

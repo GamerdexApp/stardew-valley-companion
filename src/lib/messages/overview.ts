@@ -3,11 +3,12 @@ export const overviewText = {
   subline: "Overview of your playthrough progress",
   empty: {
     title: "No active playthrough",
-    description:
-      "Select or create a playthrough to see your progress here. Overview only shows numbers worked out from your data, so there is nothing to edit on it.",
+    description: "Select or create a playthrough to see this page.",
     create: "New playthrough",
     all: "All playthroughs",
   },
+  emptyDescription:
+    "Select or create a playthrough to see your progress here. Overview only shows numbers worked out from your data, so there is nothing to edit on it.",
   open: {
     farm: "Open farm",
     collections: "Open collections",
