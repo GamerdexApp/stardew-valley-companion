@@ -41,6 +41,44 @@ export const collectionsText = {
   summary: {
     caughtIn: "In the in-game collection",
   },
+  overview: {
+    subline: (complete: number, total: number, farm: string) =>
+      `Overview · ${complete} of ${total} collections complete${farm ? ` · ${farm}` : ""}`,
+    summaryLabel: "Summary",
+    tiles: {
+      collections: "Collections",
+      shipped: "Shipped",
+      fish: "Fish",
+      artifacts: "Artifacts",
+      minerals: "Minerals",
+      cooking: "Cooking",
+      crafting: "Crafting",
+    },
+    sections: {
+      shipped: "Items Shipped",
+      fish: "Fish Caught",
+      artifacts: "Artifacts Found",
+      minerals: "Minerals Found",
+      cooking: "Cooking Recipes",
+      crafting: "Crafting Recipes",
+    },
+    open: {
+      shipped: "Open crops and goods",
+      fish: "Open fish",
+      artifacts: "Open artifacts",
+      minerals: "Open minerals",
+      cooking: "Open cooking",
+      crafting: "Open crafting",
+    },
+    complete: (done: number, total: number) => `${done} of ${total} complete`,
+    tile: (name: string, complete: boolean) =>
+      `${name}, ${complete ? "complete" : "not complete"}`,
+    legend: {
+      complete: "Complete (shown with a check)",
+      notYet: "Not yet",
+      rule: "Counts follow the in-game Collections tab: artifacts and minerals count when found, recipes when cooked or crafted.",
+    },
+  },
   fish: {
     noun: "fish",
     subline: (caught: number, total: number, farm: string) =>

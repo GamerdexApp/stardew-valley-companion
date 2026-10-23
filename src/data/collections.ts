@@ -41,8 +41,7 @@ export const COLLECTION_TAB_IDS: CollectionTabId[] = COLLECTION_GROUPS.flatMap(
   (group) => group.tabs,
 );
 
-/** The tab the page opens on. It moves to the Overview tab when that tab is rebuilt. */
-export const DEFAULT_COLLECTION_TAB: CollectionTabId = "fish";
+export const DEFAULT_COLLECTION_TAB: CollectionTabId = "overview";
 
 /** Tabs that are rebuilt. The others show a note and a link to their old page. */
-export const REBUILT_COLLECTION_TABS: CollectionTabId[] = ["fish"];
+export const REBUILT_COLLECTION_TABS: CollectionTabId[] = ["overview", "fish"];

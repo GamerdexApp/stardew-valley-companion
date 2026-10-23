@@ -5,6 +5,7 @@ import type { Playthrough } from "@/types/app";
 import { useUrlTab } from "@/lib/hooks/useUrlTab";
 import { collectionsText } from "@/lib/messages/collections";
 import { tabCount } from "@/service/collections";
+import { countCompleteSections, overviewSections } from "@/service/collectionsOverview";
 import {
 	COLLECTION_TAB_IDS,
 	DEFAULT_COLLECTION_TAB,
@@ -16,10 +17,12 @@ import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
 import { CollectionTabs } from "./CollectionTabs";
 import { FishTab } from "./fish/FishTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
+import { OverviewTab } from "./overview/OverviewTab";
 
 const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
+	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
 	if (tab === "fish") return <FishTab playthrough={playthrough} />;
 	return <NotRebuiltTab tab={tab} />;
 }
@@ -27,12 +30,13 @@ function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playth
 const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 	const count = tabCount(tab, playthrough.data);
 	const farm = playthrough.data.character.farmName;
+	const farmLabel = farm ? `${farm} Farm` : playthrough.name;
+	if (tab === "overview") {
+		const sections = overviewSections(playthrough.data);
+		return text.overview.subline(countCompleteSections(sections), sections.length, farmLabel);
+	}
 	if (tab === "fish" && count) {
-		return text.fish.subline(
-			count.current,
-			count.total,
-			farm ? `${farm} Farm` : playthrough.name
-		);
+		return text.fish.subline(count.current, count.total, farmLabel);
 	}
 	return text.tabs[tab];
 };

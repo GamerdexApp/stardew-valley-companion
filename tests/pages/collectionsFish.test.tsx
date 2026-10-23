@@ -106,7 +106,7 @@ const searchBox = () => container.querySelector('input[type="search"]') as HTMLI
 beforeEach(() => {
 	forgetMemoryState();
 	localStorage.clear();
-	navigation.search = "";
+	navigation.search = "tab=fish";
 	navigation.replace.mockReset();
 	container = document.createElement("div");
 	document.body.appendChild(container);
@@ -164,12 +164,12 @@ describe("Collections page", () => {
 		expect(container.querySelector('a[href="/collections/artifacts"]')).not.toBeNull();
 	});
 
-	it("falls back to Fish for an unknown tab", async () => {
+	it("falls back to Overview for an unknown tab", async () => {
 		navigation.search = "tab=nothing";
 		seed(withData(() => {}));
 		await mount();
 
-		expect(text()).toContain("Total fish");
+		expect(text()).toContain("Items Shipped");
 	});
 });
 
