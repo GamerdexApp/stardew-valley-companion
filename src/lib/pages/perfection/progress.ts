@@ -2,9 +2,6 @@ import {
   buildings,
   collections,
   cooking,
-  crafting,
-  fish,
-  goldenWalnuts,
   monsters,
   monsterSlayerGoals,
   perfection,
@@ -14,6 +11,12 @@ import {
 import type { GameData } from "@/types";
 import { getGoalKillCount } from "@/lib/pages/mines";
 import { assetPath } from "@/lib/utils/assetPath";
+import {
+  allGoldenWalnuts,
+  collectionCrafting,
+  collectionFish,
+  countWalnutsFound,
+} from "@/lib/utils/collectionCounts";
 import { effectiveMaxHearts } from "@/lib/utils/villagerHearts";
 
 export interface MissingItem {
@@ -35,13 +38,10 @@ export interface CategoryProgress {
 
 const allCategories = perfection().get();
 const shippableItems = collections().itemsShipped().get();
-const allFish = fish().get();
 const allCooking = cooking().get();
-const allCrafting = crafting().get();
 const allStardrops = starDrops().get();
 const allVillagers = villagers().get();
 const allGoals = monsterSlayerGoals().get();
-const allWalnuts = goldenWalnuts().get();
 const allBuildings = buildings().get();
 const allMonsters = monsters().get();
 const monstersByName = new Map(allMonsters.map((m) => [m.name, m]));
@@ -70,18 +70,10 @@ function getCategoryProgress(
     }
 
     case "fish-caught": {
-      const excludedFish = new Set([
-        "Son of Crimsonfish",
-        "Ms. Angler",
-        "Legend II",
-        "Radioactive Carp",
-        "Glacierfish Jr.",
-      ]);
       const caughtIds = new Set(gameData.fishCaught.map((f) => f.id));
       const missing: MissingItem[] = [];
       let current = 0;
-      for (const f of allFish) {
-        if (excludedFish.has(f.name)) continue;
+      for (const f of collectionFish) {
         if (caughtIds.has(f.id)) {
           current++;
         } else {
@@ -115,7 +107,7 @@ function getCategoryProgress(
     case "crafting-recipes-made": {
       const missing: MissingItem[] = [];
       let current = 0;
-      for (const recipe of allCrafting) {
+      for (const recipe of collectionCrafting) {
         if (gameData.craftingRecipes[recipe.name]?.crafted) {
           current++;
         } else {
@@ -250,12 +242,9 @@ function getCategoryProgress(
     }
 
     case "golden-walnuts-found": {
-      const found =
-        gameData.goldenWalnutsFound > 0
-          ? gameData.goldenWalnutsFound
-          : Object.keys(gameData.goldenWalnuts).length;
+      const { current: found } = countWalnutsFound(gameData);
       const missing: MissingItem[] = [];
-      for (const w of allWalnuts) {
+      for (const w of allGoldenWalnuts) {
         if (!gameData.goldenWalnuts[w.id]) {
           missing.push({
             id: w.id,

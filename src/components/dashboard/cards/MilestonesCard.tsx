@@ -1,6 +1,7 @@
 "use client";
 
 import type { DashboardProps } from "@/types";
+import { countWalnutsFound } from "@/lib/utils/collectionCounts";
 import { DASHBOARD_DATA } from "@/data/constants/dashboard";
 import { NavySection } from "@/comps/ui/NavySection";
 
@@ -24,10 +25,7 @@ interface MilestoneTile {
 
 export function MilestonesCard({ gameData }: DashboardProps) {
 	const stardropsFound = allStardrops.filter((s) => gameData.stardrops[s.id]).length;
-	const walnuts =
-		gameData.goldenWalnutsFound > 0
-			? gameData.goldenWalnutsFound
-			: Object.keys(gameData.goldenWalnuts).length;
+	const walnuts = countWalnutsFound(gameData);
 	const notesFound = secretNotes.filter((n) => gameData.secretNotes[n.id]).length;
 	const scrapsFound = journalScraps.filter((n) => gameData.journalScraps[n.id]).length;
 	const townDone = townOrders.filter((o) => gameData.specialOrdersCompleted[o.id]).length;
@@ -35,7 +33,7 @@ export function MilestonesCard({ gameData }: DashboardProps) {
 
 	const tiles: MilestoneTile[] = [
 		{ label: "Stardrops", current: stardropsFound, total: allStardrops.length },
-		{ label: "Golden Walnuts", current: walnuts, total: 130 },
+		{ label: "Golden Walnuts", ...walnuts },
 		{ label: "Achievements", current: gameData.achievements.length, total: totalAchievements },
 		{ label: "Secret Notes", current: notesFound, total: secretNotes.length },
 		{ label: "Journal Scraps", current: scrapsFound, total: journalScraps.length },

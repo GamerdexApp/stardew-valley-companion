@@ -1,11 +1,11 @@
 "use client";
 
 import type { DashboardProps } from "@/types";
+import { countCraftingMade, countFishCaught } from "@/lib/utils/collectionCounts";
 import { DASHBOARD_DATA } from "@/data/constants/dashboard";
 import { NavySection } from "@/comps/ui/NavySection";
 
-const { shippableItems, allFish, allCooking, allCrafting, allMineralItems, allArtifacts } =
-	DASHBOARD_DATA;
+const { shippableItems, allCooking, allMineralItems, allArtifacts } = DASHBOARD_DATA;
 
 interface CollectionRow {
 	label: string;
@@ -22,8 +22,7 @@ export function CollectionsCard({ gameData }: DashboardProps) {
 		},
 		{
 			label: "Fish Caught",
-			current: gameData.fishCaught.length,
-			total: allFish.length,
+			...countFishCaught(gameData),
 		},
 		{
 			label: "Recipes Cooked",
@@ -32,8 +31,7 @@ export function CollectionsCard({ gameData }: DashboardProps) {
 		},
 		{
 			label: "Recipes Crafted",
-			current: Object.values(gameData.craftingRecipes).filter((r) => r.crafted).length,
-			total: allCrafting.length,
+			...countCraftingMade(gameData),
 		},
 		{
 			label: "Minerals Donated",
