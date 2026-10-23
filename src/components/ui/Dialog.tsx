@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { LuX } from "react-icons/lu";
 import { uiText } from "@/lib/messages/ui";
 import { IconButton } from "./IconButton";
+import { useToastHost } from "./Toast";
 
 type DialogVariant = "modal" | "wide" | "flyout";
 
@@ -40,6 +41,7 @@ export function Dialog({
 }: DialogProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const titleId = useId();
+	const setToastHost = useToastHost();
 
 	useEffect(() => {
 		const dialog = dialogRef.current;
@@ -51,6 +53,12 @@ export function Dialog({
 		}
 		if (!open && dialog.open) dialog.close();
 	}, [open]);
+
+	useEffect(() => {
+		if (!open) return;
+		setToastHost(dialogRef.current);
+		return () => setToastHost(null);
+	}, [open, setToastHost]);
 
 	return (
 		<dialog

@@ -1,58 +1,61 @@
-"use client";
-
 import { starDrops } from "stardew-valley-data";
-import { HiCheck, HiLockClosed } from "react-icons/hi";
-import { type CharacterProps as Props } from "@/types";
+import type { GameData } from "@/types/app";
+import { farmText } from "@/lib/messages/farm";
 import { assetPath } from "@/lib/utils/assetPath";
-import { NavySection } from "@/comps/ui/NavySection";
+import { setStardrop } from "@/service/character";
+import { Card } from "@/comps/ui/Card";
+import { Switch } from "@/comps/ui/Switch";
+import { Section } from "../Section";
 
-export function StardropsSection({ gameData }: Props) {
-	const allDrops = starDrops().get();
-	const collectedCount = allDrops.filter((d) => gameData.stardrops[d.id]).length;
+const text = farmText.character.stardrops;
+const allStardrops = starDrops().get();
+
+interface StardropsSectionProps {
+	data: GameData;
+	edit: (change: (current: GameData) => GameData) => void;
+}
+
+export function StardropsSection({ data, edit }: StardropsSectionProps) {
+	const collected = allStardrops.filter((drop) => data.stardrops[drop.id] === true).length;
 
 	return (
-		<NavySection title="Stardrops" badge={`${collectedCount} / ${allDrops.length} collected`}>
-			<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-				{allDrops.map((drop) => {
-					const collected = Boolean(gameData.stardrops[drop.id]);
+		<Section title={text.title} badge={text.collected(collected, allStardrops.length)}>
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+				{allStardrops.map((drop) => {
+					const has = data.stardrops[drop.id] === true;
 					return (
-						<div
+						<Card
 							key={drop.id}
-							className={`flex items-start gap-3 rounded-xl border p-3 transition-all ${
-								collected
-									? "border-accent/40 bg-accent/10"
-									: "border-white/10 bg-white/5"
-							}`}
+							highlighted={has}
+							className={`flex items-start gap-3 p-3 ${has ? "bg-tint" : ""}`}
 						>
 							<img
 								src={assetPath(drop.image)}
-								alt={drop.name}
-								className="mt-0.5 h-8 w-8 shrink-0 object-contain"
+								alt=""
+								className={`size-10 shrink-0 object-contain [image-rendering:pixelated] ${has ? "" : "opacity-50 grayscale"}`}
 							/>
-							<div className="min-w-0 flex-1">
-								<div
-									className={`mb-1 text-xs font-bold ${collected ? "text-accent" : "text-white/80"}`}
-								>
-									{drop.name}
-								</div>
-								<div className="mb-1.5 text-[0.625rem] leading-snug text-white/70">
-									{drop.description}
-								</div>
-								{collected ? (
-									<span className="bg-accent/20 text-accent inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.625rem] font-bold">
-										<HiCheck className="h-3 w-3" /> Collected
-									</span>
-								) : (
-									<span className="inline-flex items-center gap-1 rounded-full bg-white/[0.07] px-2 py-0.5 text-[0.625rem] font-bold text-white/60">
-										<HiLockClosed className="h-3 w-3 text-red-500" /> Not
-										Collected
-									</span>
-								)}
+							<div className="flex min-w-0 flex-1 flex-col gap-0.5">
+								<span className="font-semibold">{drop.name}</span>
+								<span className="text-muted text-xs">{drop.description}</span>
 							</div>
-						</div>
+							<div className="flex shrink-0 flex-col items-end gap-1">
+								<Switch
+									checked={has}
+									onChange={(value) =>
+										edit((d) => setStardrop(d, drop.id, value))
+									}
+									label={text.switchLabel(drop.name)}
+								/>
+								<span
+									className={`text-xs font-medium ${has ? "text-kept" : "text-muted"}`}
+								>
+									{has ? text.collectedLabel : text.notCollected}
+								</span>
+							</div>
+						</Card>
 					);
 				})}
 			</div>
-		</NavySection>
+		</Section>
 	);
 }

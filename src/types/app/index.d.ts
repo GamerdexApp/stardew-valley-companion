@@ -10,6 +10,7 @@ export type { SeasonMeta } from "./seasons";
 export type { LevelMeta } from "./tools";
 export type {
   CharacterInfo,
+  ChildProgress,
   CookingRecipe,
   CraftingRecipe,
   BuildingProgress,

@@ -264,6 +264,29 @@ describe("Collections artifacts tab", () => {
 		expect(saved("96")).toEqual({ found: true, donated: true });
 	});
 
+	it("keeps the Undo toast reachable while the dialog is open, and moves it back when it closes", async () => {
+		seed(withData(() => {}));
+		await mount();
+
+		await click(
+			container.querySelector('button[aria-label="Dwarf Scroll II, show locations"]')
+		);
+		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
+			d.textContent?.includes("How to find")
+		)!;
+		await click(statusRadio(dialog, "Dwarf Scroll II", "donated"));
+
+		const undo = toastButton("Undo")!;
+		expect(dialog.contains(undo)).toBe(true);
+		await click([...dialog.querySelectorAll("button")].find((b) => b.textContent === "Close"));
+		expect(toastButton("Undo")).toBeTruthy();
+		expect(document.querySelector("dialog")?.contains(toastButton("Undo")!) ?? false).toBe(
+			false
+		);
+		await click(toastButton("Undo"));
+		expect(saved("97")).toBeUndefined();
+	});
+
 	it("shows a no match state with a clear button", async () => {
 		seed(withData(() => {}));
 		await mount();
