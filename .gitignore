@@ -45,3 +45,5 @@ next-env.d.ts
 /public/images/
 design/
 test-file.ts
+# local docs
+docs/
