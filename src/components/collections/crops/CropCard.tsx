@@ -10,7 +10,7 @@ import { ExpandableDetails } from "../shared/ExpandableDetails";
 import { QualityPrices } from "../shared/QualityPrices";
 import { SeasonChips } from "../shared/SeasonChips";
 import { SeedRow } from "../shared/SeedRow";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedCorner } from "../shared/ShippedControl";
 
 const text = collectionsText.crops.card;
 
@@ -70,18 +70,17 @@ export function CropCard({
 						)}
 					</div>
 				</div>
+				{isShippableCrop(crop) && (
+					<ShippedCorner
+						name={crop.name}
+						shipped={shipped}
+						count={count}
+						onShippedChange={onShippedChange}
+						onCountChange={onCountChange}
+					/>
+				)}
 			</div>
-			{isShippableCrop(crop) ? (
-				<ShippedControl
-					name={crop.name}
-					shipped={shipped}
-					count={count}
-					onShippedChange={onShippedChange}
-					onCountChange={onCountChange}
-				/>
-			) : (
-				<p className="text-muted text-xs">{text.notShippable}</p>
-			)}
+			{!isShippableCrop(crop) && <p className="text-muted text-xs">{text.notShippable}</p>}
 			<SeedRow image={crop.seedImage} name={crop.seedName} prices={crop.seedBuyPrices} />
 			<div className="border-line flex flex-wrap items-center gap-x-4 gap-y-1 rounded-md border-[1.5px] px-2.5 py-1.5">
 				<Stat label={text.grow} value={text.days(crop.growDays)} />

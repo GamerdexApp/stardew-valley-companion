@@ -17,11 +17,6 @@ export const collectionsText = {
     rarecrows: "Rarecrows",
     "special-items": "Special items",
   },
-  notRebuilt: {
-    title: "This tab is not rebuilt yet",
-    body: "It still works on its old page.",
-    open: "Open the old page",
-  },
   prices: {
     price: "Price",
     basic: "Basic",
@@ -227,6 +222,76 @@ export const collectionsText = {
       clearedBoth: (name: string, done: string) =>
         `${name} set to Not learned. Learned and ${done} were cleared.`,
       undo: "Undo",
+    },
+  },
+  rarecrows: {
+    noun: "rarecrows",
+    subline: (obtained: number, total: number, farm: string) =>
+      `${obtained} of ${total} obtained${farm ? ` · ${farm}` : ""}`,
+    search: "Search rarecrows",
+    sheetTitle: "Filter rarecrows",
+    apply: (count: number) => `Show ${count} rarecrows`,
+    tiles: { obtained: "Obtained", remaining: "Remaining" },
+    filter: { status: "Status" },
+    options: { all: "All", obtained: "Obtained", missing: "Missing" },
+    empty: {
+      title: "No rarecrows match your search.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: {
+      obtained: "Obtained",
+      missing: "Missing",
+      switchLabel: (name: string) => `${name} obtained`,
+    },
+  },
+  specialItems: {
+    noun: "items",
+    subline: (acquired: number, total: number, farm: string) =>
+      `${acquired} of ${total} collected${farm ? ` · ${farm}` : ""}`,
+    search: "Search items",
+    sheetTitle: "Filter special items",
+    apply: (count: number) => `Show ${count} items`,
+    tiles: {
+      specialItems: "Special items",
+      books: "Books",
+      mastery: "Mastery",
+      total: "Total",
+    },
+    filter: { type: "Type", status: "Status" },
+    statusHint:
+      "Skill books are info only and always show. Mastery is set on Farm, Character. Special items and books save when you switch them.",
+    options: {
+      all: "All",
+      specialItems: "Special items",
+      books: "Books",
+      skillBooks: "Skill books",
+      mastery: "Mastery",
+      acquired: "Acquired",
+      notAcquired: "Not acquired",
+    },
+    empty: {
+      title: "No items match your search.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    kind: {
+      "special-item": "Special item",
+      book: "Book",
+      "skill-book": "Skill book",
+      mastery: "Mastery",
+    },
+    card: {
+      acquired: "Acquired",
+      notAcquired: "Not acquired",
+      info: "Info",
+      switchLabel: (name: string) => `${name} acquired`,
+      masteryNote: "Set on the Character page",
+      character: "Open Character",
+      showDetails: "Show details",
+      hideDetails: "Hide details",
+      effect: "Effect",
+      howToObtain: "How to obtain",
     },
   },
   artisanGoods: {

@@ -8,7 +8,7 @@ import { ArtisanUsesChips } from "../shared/ArtisanUsesChips";
 import { EnergyHealthGrid } from "../shared/EnergyHealthGrid";
 import { QualityPrices } from "../shared/QualityPrices";
 import { SeasonChips } from "../shared/SeasonChips";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedCorner } from "../shared/ShippedControl";
 
 const text = collectionsText.forageables;
 
@@ -51,17 +51,18 @@ export function ForageItemCard({
 						<span className="text-muted text-xs">{text.kind[item.kind]}</span>
 					</div>
 				</div>
+				{isShippableItem(item.id) && (
+					<ShippedCorner
+						name={item.name}
+						shipped={shipped}
+						count={count}
+						onShippedChange={onShippedChange}
+						onCountChange={onCountChange}
+					/>
+				)}
 			</div>
 			<p className="text-muted text-xs italic">{text.card.place(item.kind, item.place)}</p>
-			{isShippableItem(item.id) ? (
-				<ShippedControl
-					name={item.name}
-					shipped={shipped}
-					count={count}
-					onShippedChange={onShippedChange}
-					onCountChange={onCountChange}
-				/>
-			) : (
+			{!isShippableItem(item.id) && (
 				<p className="text-muted text-xs">{text.card.notShippable}</p>
 			)}
 			<QualityPrices price={item.sellPrice} maxQuality={item.maxQuality} bonus={bonus} />

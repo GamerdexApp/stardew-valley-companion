@@ -141,11 +141,11 @@ describe("Collections page", () => {
 		).toEqual(["Fish0 / 72"]);
 	});
 
-	it("shows no count on a tab that is not rebuilt, and writes the chosen tab into the address", async () => {
+	it("writes the chosen tab into the address", async () => {
 		seed(withData(() => {}));
 		await mount();
-		const rarecrows = [...container.querySelectorAll('[role="tab"]')].find(
-			(t) => t.textContent === "Rarecrows"
+		const rarecrows = [...container.querySelectorAll('[role="tab"]')].find((t) =>
+			t.textContent?.startsWith("Rarecrows")
 		)!;
 
 		await click(rarecrows);
@@ -155,13 +155,15 @@ describe("Collections page", () => {
 		});
 	});
 
-	it("points a tab that is not rebuilt to its old page", async () => {
-		navigation.search = "tab=rarecrows";
+	it("shows a count on every tab pill except Overview", async () => {
 		seed(withData(() => {}));
 		await mount();
+		const pills = [...container.querySelectorAll('[role="tab"]')].map(
+			(tab) => tab.textContent!
+		);
 
-		expect(text()).toContain("This tab is not rebuilt yet");
-		expect(container.querySelector('a[href="/collections/rarecrows"]')).not.toBeNull();
+		expect(pills.filter((pill) => /\d+ \/ \d+$/.test(pill))).toHaveLength(12);
+		expect(pills.find((pill) => pill.startsWith("Overview"))).toBe("Overview");
 	});
 
 	it("falls back to Overview for an unknown tab", async () => {

@@ -104,24 +104,10 @@ export interface MonsterDetailModalProps {
   onClose: () => void;
 }
 
-export interface RarecrowCardProps {
-  rarecrow: Rarecrow;
-  obtained: boolean;
-}
-
 // ---- Edit drafts ----
 
 export interface FishEditDraft {
   fishCaught: FishCaughtProgress[];
-}
-
-export interface SpecialItemsEditDraft {
-  specialItems: string[];
-  books: string[];
-}
-
-export interface RarecrowsEditDraft {
-  rarecrows: string[];
 }
 
 export interface ShippedEditDraft {
@@ -133,18 +119,6 @@ export interface ShippedEditDraft {
 export interface FishEditStepProps {
   fishCaught: FishCaughtProgress[];
   onChange: (fishCaught: FishCaughtProgress[]) => void;
-}
-
-export interface SpecialItemsEditStepProps {
-  specialItems: string[];
-  books: string[];
-  onSpecialItemsChange: (specialItems: string[]) => void;
-  onBooksChange: (books: string[]) => void;
-}
-
-export interface RarecrowsEditStepProps {
-  rarecrows: string[];
-  onChange: (rarecrows: string[]) => void;
 }
 
 export interface ShipEditItem {

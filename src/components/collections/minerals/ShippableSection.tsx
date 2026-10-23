@@ -23,7 +23,7 @@ import { EmptyState } from "@/comps/ui/EmptyState";
 import { BLOCK_GRID, CollectionBlock, DetailsButton } from "../shared/CollectionBlock";
 import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
 import { QualityPrices } from "../shared/QualityPrices";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedControl, ShippedCorner } from "../shared/ShippedControl";
 
 const text = collectionsText.minerals;
 const options = text.options;
@@ -100,6 +100,16 @@ export function ShippableSection({
 		/>
 	);
 
+	const corner = (item: ShippableItem) => (
+		<ShippedCorner
+			name={item.name}
+			shipped={isShipped(data, item.id)}
+			count={shippedCount(data, item.id)}
+			onShippedChange={(shipped) => onShippedChange(item, shipped)}
+			onCountChange={(count) => onCountChange(item, count)}
+		/>
+	);
+
 	return (
 		<CollectionBlock
 			id={`minerals-${block}`}
@@ -154,8 +164,8 @@ export function ShippableSection({
 										</span>
 									)}
 								</div>
+								{corner(item)}
 							</div>
-							{control(item)}
 							<QualityPrices
 								price={item.sellPrice}
 								maxQuality="base"

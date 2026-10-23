@@ -13,8 +13,10 @@ import { countAnimalProductsShipped } from "./animalProducts";
 import { countArtisanGoodsShipped } from "./artisanGoods";
 import { countForageablesShipped } from "./forageables";
 import { countMonsterLootShipped } from "./monsterLoot";
+import { countRarecrowsObtained } from "./rarecrows";
+import { countSpecialItemsAcquired } from "./specialItems";
 
-/** The done and total on a tab pill. A tab that is not rebuilt yet has none. */
+/** The done and total on a tab pill. The Overview tab has none. */
 export const tabCount = (
   tab: CollectionTabId,
   data: GameData,
@@ -29,5 +31,7 @@ export const tabCount = (
   if (tab === "animal-products") return countAnimalProductsShipped(data);
   if (tab === "monster-loot") return countMonsterLootShipped(data);
   if (tab === "artisan-goods") return countArtisanGoodsShipped(data);
+  if (tab === "rarecrows") return countRarecrowsObtained(data);
+  if (tab === "special-items") return countSpecialItemsAcquired(data);
   return null;
 };

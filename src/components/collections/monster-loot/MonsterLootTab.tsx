@@ -22,7 +22,7 @@ import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
 import { BLOCK_GRID } from "../shared/CollectionBlock";
 import { QualityPrices } from "../shared/QualityPrices";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedCorner } from "../shared/ShippedControl";
 import { SummaryTile } from "../shared/SummaryTile";
 import { useShippedChange } from "../shared/useCollectionChanges";
 
@@ -111,20 +111,26 @@ export function MonsterLootTab({ playthrough }: { playthrough: Playthrough }) {
 									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
 								/>
 								<span className="min-w-0 flex-1 font-semibold">{loot.name}</span>
+								{isShippableLoot(loot) && (
+									<ShippedCorner
+										name={loot.name}
+										shipped={isShipped(data, loot.id)}
+										count={shippedCount(data, loot.id)}
+										onShippedChange={(value) =>
+											shippedChange.setShipped(
+												data,
+												loot.name,
+												loot.id,
+												value
+											)
+										}
+										onCountChange={(count) =>
+											shippedChange.setCount(loot.id, count)
+										}
+									/>
+								)}
 							</div>
-							{isShippableLoot(loot) ? (
-								<ShippedControl
-									name={loot.name}
-									shipped={isShipped(data, loot.id)}
-									count={shippedCount(data, loot.id)}
-									onShippedChange={(value) =>
-										shippedChange.setShipped(data, loot.name, loot.id, value)
-									}
-									onCountChange={(count) =>
-										shippedChange.setCount(loot.id, count)
-									}
-								/>
-							) : (
+							{!isShippableLoot(loot) && (
 								<p className="text-muted text-xs">{text.card.notShippable}</p>
 							)}
 							<div className="flex flex-col gap-1">

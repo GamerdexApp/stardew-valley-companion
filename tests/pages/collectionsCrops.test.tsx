@@ -188,6 +188,30 @@ describe("Collections crops tab", () => {
 		expect(saved("24")).toEqual({ shipped: true, count: 2 });
 	});
 
+	it("puts the switch in the top right corner of the card with the count below it", async () => {
+		seed(
+			withData((data) => {
+				data.shipped["24"] = { shipped: true, count: 5 };
+			})
+		);
+		await mount();
+		const card = cardOf("Parsnip");
+		const header = card.firstElementChild as HTMLElement;
+		const corner = shippedSwitch("Parsnip").parentElement as HTMLElement;
+
+		expect(header.lastElementChild).toBe(corner);
+		const order = [...corner.children].map((el) =>
+			el.getAttribute("role") === "switch"
+				? "switch"
+				: el.querySelector("button")
+					? "stepper"
+					: "state"
+		);
+		expect(order).toEqual(["switch", "state", "stepper"]);
+		expect(corner.textContent).toContain("Shipped");
+		expect(corner.textContent).toContain("5");
+	});
+
 	it("deletes the count when switched off and Undo brings it back", async () => {
 		seed(
 			withData((data) => {

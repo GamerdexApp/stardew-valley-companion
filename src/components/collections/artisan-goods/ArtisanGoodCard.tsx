@@ -7,7 +7,7 @@ import { EQUIPMENT_IMAGES, INGREDIENT_IMAGE_MAP } from "@/data/constants/artisan
 import { Card } from "@/comps/ui/Card";
 import { EnergyHealthGrid } from "../shared/EnergyHealthGrid";
 import { QualityPrices } from "../shared/QualityPrices";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedCorner } from "../shared/ShippedControl";
 
 const text = collectionsText.artisanGoods.card;
 
@@ -83,18 +83,17 @@ export function ArtisanGoodCard({
 						</ul>
 					)}
 				</div>
+				{isShippableGood(good) && (
+					<ShippedCorner
+						name={good.name}
+						shipped={shipped}
+						count={count}
+						onShippedChange={onShippedChange}
+						onCountChange={onCountChange}
+					/>
+				)}
 			</div>
-			{isShippableGood(good) ? (
-				<ShippedControl
-					name={good.name}
-					shipped={shipped}
-					count={count}
-					onShippedChange={onShippedChange}
-					onCountChange={onCountChange}
-				/>
-			) : (
-				<p className="text-muted text-xs">{text.notShippable}</p>
-			)}
+			{!isShippableGood(good) && <p className="text-muted text-xs">{text.notShippable}</p>}
 			{hasFixedPrice(good) ? (
 				<QualityPrices
 					price={good.sellPrice!}

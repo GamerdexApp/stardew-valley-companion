@@ -5,7 +5,7 @@ import { isTrackedProduce } from "@/service/animalProducts";
 import type { Produce } from "@/service/animalProducts";
 import { Card } from "@/comps/ui/Card";
 import { QualityPrices } from "../shared/QualityPrices";
-import { ShippedControl } from "../shared/ShippedControl";
+import { ShippedCorner } from "../shared/ShippedControl";
 
 const text = collectionsText.animalProducts.card;
 
@@ -48,18 +48,17 @@ export function ProduceCard({
 					</span>
 					<span className="text-muted text-xs">{text.from(produce.sources)}</span>
 				</div>
+				{isTrackedProduce(produce) && (
+					<ShippedCorner
+						name={produce.name}
+						shipped={shipped}
+						count={count}
+						onShippedChange={onShippedChange}
+						onCountChange={onCountChange}
+					/>
+				)}
 			</div>
-			{isTrackedProduce(produce) ? (
-				<ShippedControl
-					name={produce.name}
-					shipped={shipped}
-					count={count}
-					onShippedChange={onShippedChange}
-					onCountChange={onCountChange}
-				/>
-			) : (
-				<p className="text-muted text-xs">{text.notTracked}</p>
-			)}
+			{!isTrackedProduce(produce) && <p className="text-muted text-xs">{text.notTracked}</p>}
 			<QualityPrices
 				price={produce.sellPrice}
 				maxQuality={produce.maxQuality}
