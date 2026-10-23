@@ -7,7 +7,6 @@ export * from "./filters";
 export * from "./playthrough";
 export * from "./ui";
 export * from "./villagers";
-export * from "./wizard";
 export * from "./toast";
 export * from "./modals";
 export * from "./grandpa";

@@ -23,7 +23,8 @@ export interface PlaythroughContextType {
    */
   updateData: (update: (current: AppData) => AppData) => AppData | null;
   setActivePlaythrough: (id: string | null) => void;
-  addPlaythrough: (playthrough: NewPlaythrough) => void;
+  /** Returns the id of the new playthrough, or null when the browser refused the write. */
+  addPlaythrough: (playthrough: NewPlaythrough) => string | null;
   updatePlaythrough: (id: string, updates: Partial<Playthrough>) => void;
   deletePlaythrough: (id: string) => AppData | null;
   setPlatform: (id: string, platform: Platform | undefined) => AppData | null;

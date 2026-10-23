@@ -1,13 +1,13 @@
 import { Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { LuChevronsUpDown, LuPlus } from "react-icons/lu";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { getFarmIcon } from "@/lib/utils/farmIcon";
-import { CreatePlaythroughModal } from "@/comps/modals/CreatePlaythroughModal";
+import { NEW_PLAYTHROUGH_HREF } from "@/data/nav";
 
 export function PlaythroughSwitcher() {
 	const { playthroughs, activePlaythrough, setActivePlaythrough } = usePlaythrough();
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const router = useRouter();
 
 	const handlePlaythroughSelect = (playthroughId: string) => {
 		if (activePlaythrough?.id === playthroughId) return;
@@ -70,7 +70,7 @@ export function PlaythroughSwitcher() {
 						))
 					)}
 					<DropdownDivider />
-					<DropdownItem onClick={() => setIsModalOpen(true)}>
+					<DropdownItem onClick={() => router.push(NEW_PLAYTHROUGH_HREF)}>
 						<div className="flex items-center gap-2">
 							<div className="flex size-6 items-center justify-center rounded-md border border-gray-300 bg-transparent dark:border-gray-600">
 								<LuPlus className="size-4" />
@@ -82,8 +82,6 @@ export function PlaythroughSwitcher() {
 					</DropdownItem>
 				</Dropdown>
 			</div>
-
-			<CreatePlaythroughModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</>
 	);
 }

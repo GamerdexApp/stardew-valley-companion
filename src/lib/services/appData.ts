@@ -24,11 +24,12 @@ export const addPlaythrough = (
   current: AppData,
   input: NewPlaythrough,
   now = new Date(),
+  id = crypto.randomUUID(),
 ): AppData => {
   const timestamp = now.toISOString();
   const created: Playthrough = {
     ...input,
-    id: crypto.randomUUID(),
+    id,
     createdAt: timestamp,
     lastModified: timestamp,
     data: input.data ?? { ...DEFAULT_GAME_DATA },

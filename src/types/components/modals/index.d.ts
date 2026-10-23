@@ -1,11 +1,6 @@
 import type { ReactNode } from "react";
 import { Playthrough } from "@/types/app";
 
-export interface CreatePlaythroughModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
 export interface EditStepProgressProps {
   steps: string[];
   currentStep: number;

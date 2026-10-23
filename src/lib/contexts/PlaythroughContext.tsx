@@ -57,7 +57,11 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 	};
 
 	const addPlaythrough: PlaythroughContextType["addPlaythrough"] = (input) => {
-		updateData((current) => appData.addPlaythrough(current, input));
+		const id = crypto.randomUUID();
+		const saved = updateData((current) =>
+			appData.addPlaythrough(current, input, new Date(), id)
+		);
+		return saved ? id : null;
 	};
 
 	const updatePlaythrough: PlaythroughContextType["updatePlaythrough"] = (id, updates) => {
