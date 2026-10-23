@@ -16,6 +16,7 @@ import {
 import type { CollectionTabId } from "@/data/collections";
 import { PageHeader } from "@/comps/shell/PageHeader";
 import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
+import { AnimalProductsTab } from "./animal-products/AnimalProductsTab";
 import { ArtifactsTab } from "./artifacts/ArtifactsTab";
 import { CollectionTabs } from "./CollectionTabs";
 import { CookingTab } from "./cooking/CookingTab";
@@ -24,6 +25,7 @@ import { CropsTab } from "./crops/CropsTab";
 import { FishTab } from "./fish/FishTab";
 import { ForageablesTab } from "./forageables/ForageablesTab";
 import { MineralsTab } from "./minerals/MineralsTab";
+import { MonsterLootTab } from "./monster-loot/MonsterLootTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
 import { OverviewTab } from "./overview/OverviewTab";
 
@@ -31,6 +33,8 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "animal-products") return <AnimalProductsTab playthrough={playthrough} />;
+	if (tab === "monster-loot") return <MonsterLootTab playthrough={playthrough} />;
 	if (tab === "forageables") return <ForageablesTab playthrough={playthrough} />;
 	if (tab === "crops") return <CropsTab playthrough={playthrough} />;
 	if (tab === "crafting") return <CraftingTab playthrough={playthrough} />;
@@ -84,6 +88,12 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 	}
 	if ((tab === "crops" || tab === "forageables") && count) {
 		return text[tab].subline(count.current, count.total, farmLabel);
+	}
+	if (tab === "animal-products" && count) {
+		return text.animalProducts.subline(count.current, count.total, farmLabel);
+	}
+	if (tab === "monster-loot" && count) {
+		return text.monsterLoot.subline(count.current, count.total, farmLabel);
 	}
 	return text.tabs[tab];
 };

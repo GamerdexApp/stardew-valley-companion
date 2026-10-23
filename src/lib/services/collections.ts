@@ -9,7 +9,9 @@ import {
 } from "@/lib/utils/collectionCounts";
 import type { ProgressCount } from "@/lib/utils/collectionCounts";
 import type { CollectionTabId } from "@/data/collections";
+import { countAnimalProductsShipped } from "./animalProducts";
 import { countForageablesShipped } from "./forageables";
+import { countMonsterLootShipped } from "./monsterLoot";
 
 /** The done and total on a tab pill. A tab that is not rebuilt yet has none. */
 export const tabCount = (
@@ -23,5 +25,7 @@ export const tabCount = (
   if (tab === "crafting") return countCraftingMade(data);
   if (tab === "crops") return countCropsShipped(data);
   if (tab === "forageables") return countForageablesShipped(data);
+  if (tab === "animal-products") return countAnimalProductsShipped(data);
+  if (tab === "monster-loot") return countMonsterLootShipped(data);
   return null;
 };

@@ -229,6 +229,66 @@ export const collectionsText = {
       undo: "Undo",
     },
   },
+  animalProducts: {
+    noun: "produce items",
+    subline: (shipped: number, total: number, farm: string) =>
+      `${shipped} of ${total} shipped${farm ? ` · ${farm}` : ""}`,
+    search: "Search produce or animal",
+    sheetTitle: "Filter animal products",
+    apply: (count: number) => `Show ${count} items`,
+    tiles: { animals: "Animals", items: "Produce items", shipped: "Shipped" },
+    professions: [{ id: "rancher", label: "Rancher" }],
+    filter: { shipped: "Shipped status" },
+    shippedHint:
+      "Not tracked means Golden Egg and Dinosaur Egg, which the game does not count as shipped. Milk and other produce shared by several animals appear once.",
+    options: {
+      all: "All",
+      shipped: "Shipped",
+      notShipped: "Not shipped",
+      notTracked: "Not tracked",
+    },
+    empty: {
+      title: "No produce matches your search.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: {
+      deluxe: "Deluxe",
+      from: (sources: { animal: string; building: string }[]) => {
+        const buildings = new Set(sources.map((source) => source.building));
+        return buildings.size === 1
+          ? `${sources.map((source) => source.animal).join(", ")} · ${sources[0].building}`
+          : sources
+              .map((source) => `${source.animal} · ${source.building}`)
+              .join(", ");
+      },
+      notTracked: "Not tracked by the game",
+    },
+  },
+  monsterLoot: {
+    noun: "items",
+    subline: (shipped: number, total: number, farm: string) =>
+      `${shipped} of ${total} shipped${farm ? ` · ${farm}` : ""}`,
+    search: "Search loot",
+    sheetTitle: "Filter monster loot",
+    apply: (count: number) => `Show ${count} items`,
+    tiles: { total: "Total loot items", shipped: "Items shipped" },
+    filter: { shipped: "Shipped status" },
+    shippedHint:
+      "Not shipped lists only items you can still ship. Items the game does not count (Dragon Tooth) sit under Not shippable.",
+    options: {
+      all: "All",
+      shipped: "Shipped",
+      notShipped: "Not shipped",
+      notShippable: "Not shippable",
+    },
+    empty: {
+      title: "No loot matches your search.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: { droppedBy: "Dropped by", notShippable: "Cannot be shipped" },
+  },
   forageables: {
     noun: "items",
     subline: (shipped: number, total: number, farm: string) =>

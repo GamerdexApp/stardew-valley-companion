@@ -54,20 +54,6 @@ export interface ArtisanResult {
   health?: number;
 }
 
-export interface ProduceEntry {
-  produce: AnimalProduce;
-  animalName: string;
-  building: string;
-  isDeluxe: boolean;
-}
-
-export interface ProduceCardProps {
-  entry: ProduceEntry;
-  shipped: boolean;
-  shippable?: boolean;
-  professionBonus?: BonusResult | null;
-}
-
 export interface ArtisanGoodCardProps {
   good: ArtisanGood;
   shipped: boolean;
@@ -129,20 +115,6 @@ export interface PriceFormulaModalProps {
   good: ArtisanGood | null;
   onClose: () => void;
   activeProfessionBonuses?: Set<ProfessionBonus> | null;
-}
-
-export interface MonsterLootCardProps {
-  loot: MonsterLoot;
-  shipped: boolean;
-  shippable: boolean;
-  onClick: () => void;
-}
-
-export interface MonsterLootDetailModalProps {
-  loot: MonsterLoot | null;
-  shipped: boolean;
-  shippable: boolean;
-  onClose: () => void;
 }
 
 export interface SlayerGoalCardProps {
@@ -213,16 +185,6 @@ export interface ShipEditItem {
 
 export interface ShippedItemsEditStepProps {
   items: ShipEditItem[];
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}
-
-export interface AnimalProductsShippedEditStepProps {
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}
-
-export interface MonsterLootShippedEditStepProps {
   shipped: Record<string, ShippedItem>;
   onChange: (shipped: Record<string, ShippedItem>) => void;
 }
