@@ -175,20 +175,6 @@ export interface PriceFormulaModalProps {
   activeProfessionBonuses?: Set<ProfessionBonus> | null;
 }
 
-export interface CraftingCardProps {
-  recipe: SDVCraftingRecipe;
-  learned: boolean;
-  crafted: boolean;
-  onClick: () => void;
-}
-
-export interface CraftingDetailModalProps {
-  recipe: SDVCraftingRecipe | null;
-  learned: boolean;
-  crafted: boolean;
-  onClose: () => void;
-}
-
 export interface MonsterLootCardProps {
   loot: MonsterLoot;
   shipped: boolean;
@@ -227,10 +213,6 @@ export interface RarecrowCardProps {
 
 // ---- Edit drafts ----
 
-export interface CraftingEditDraft {
-  craftingRecipes: Record<string, CraftingRecipe>;
-}
-
 export interface FishEditDraft {
   fishCaught: FishCaughtProgress[];
 }
@@ -249,11 +231,6 @@ export interface ShippedEditDraft {
 }
 
 // ---- Edit step props ----
-
-export interface CraftingEditStepProps {
-  craftingRecipes: Record<string, CraftingRecipe>;
-  onChange: (craftingRecipes: Record<string, CraftingRecipe>) => void;
-}
 
 export interface FishEditStepProps {
   fishCaught: FishCaughtProgress[];

@@ -7,6 +7,7 @@ import { collectionsText } from "@/lib/messages/collections";
 import { tabCount } from "@/service/collections";
 import { countCompleteSections, overviewSections } from "@/service/collectionsOverview";
 import { cookingSummary } from "@/service/cooking";
+import { craftingSummary } from "@/service/crafting";
 import {
 	COLLECTION_TAB_IDS,
 	DEFAULT_COLLECTION_TAB,
@@ -18,6 +19,7 @@ import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
 import { ArtifactsTab } from "./artifacts/ArtifactsTab";
 import { CollectionTabs } from "./CollectionTabs";
 import { CookingTab } from "./cooking/CookingTab";
+import { CraftingTab } from "./crafting/CraftingTab";
 import { FishTab } from "./fish/FishTab";
 import { MineralsTab } from "./minerals/MineralsTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
@@ -27,6 +29,7 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "crafting") return <CraftingTab playthrough={playthrough} />;
 	if (tab === "cooking") return <CookingTab playthrough={playthrough} />;
 	if (tab === "minerals") return <MineralsTab playthrough={playthrough} />;
 	if (tab === "artifacts") return <ArtifactsTab playthrough={playthrough} />;
@@ -62,6 +65,15 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 		return text.cooking.subline(
 			summary.cooked.current,
 			summary.cooked.total,
+			summary.learned,
+			farmLabel
+		);
+	}
+	if (tab === "crafting") {
+		const summary = craftingSummary(playthrough.data);
+		return text.crafting.subline(
+			summary.crafted.current,
+			summary.crafted.total,
 			summary.learned,
 			farmLabel
 		);

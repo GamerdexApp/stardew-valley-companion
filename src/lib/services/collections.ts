@@ -2,6 +2,7 @@ import type { GameData } from "@/types/app";
 import {
   countArtifactsFound,
   countCookingMade,
+  countCraftingMade,
   countFishCaught,
   countMineralsFound,
 } from "@/lib/utils/collectionCounts";
@@ -17,5 +18,6 @@ export const tabCount = (
   if (tab === "artifacts") return countArtifactsFound(data);
   if (tab === "minerals") return countMineralsFound(data);
   if (tab === "cooking") return countCookingMade(data);
+  if (tab === "crafting") return countCraftingMade(data);
   return null;
 };

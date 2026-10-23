@@ -229,6 +229,58 @@ export const collectionsText = {
       undo: "Undo",
     },
   },
+  crafting: {
+    noun: "recipes",
+    subline: (crafted: number, total: number, learned: number, farm: string) =>
+      `${crafted} of ${total} crafted · ${learned} learned${farm ? ` · ${farm}` : ""}`,
+    search: "Search recipes",
+    sheetTitle: "Filter recipes",
+    apply: (count: number) => `Show ${count} recipes`,
+    tiles: {
+      total: "Total recipes",
+      totalCaption: (count: number) => `${count} not in the collection`,
+      learned: "Recipes learned",
+      crafted: "Recipes crafted",
+    },
+    filter: { status: "Status", category: "Category" },
+    statusHint:
+      "Learned means learned but not crafted yet. Not learned means the recipe is still unknown.",
+    options: {
+      all: "All",
+      crafted: "Crafted",
+      learned: "Learned",
+      notLearned: "Not learned",
+      allCategories: (count: number) => `All categories (${count})`,
+    },
+    empty: {
+      title: "No recipes match your filters.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    groups: {
+      expandAll: "Expand all",
+      collapseAll: "Collapse all",
+      badge: (crafted: number, total: number) =>
+        `${crafted} / ${total} crafted`,
+    },
+    card: {
+      details: (name: string) => `${name}, show details`,
+      recipeDetails: "Recipe details",
+      makes: (count: number) => `Makes ${count}`,
+      ingredient: (quantity: number, name: string) => `${quantity}× ${name}`,
+      notInCollection: "Not in the in-game collection",
+    },
+    dialog: {
+      status: "Status",
+      source: "Source",
+      output: "Output",
+      outputLine: (name: string, quantity: number) => `${name} × ${quantity}`,
+      bigCraftable: "Big Craftable",
+      ingredients: "Ingredients",
+      ingredient: (quantity: number) => `× ${quantity}`,
+      close: "Close",
+    },
+  },
   cooking: {
     noun: "recipes",
     subline: (cooked: number, total: number, learned: number, farm: string) =>
