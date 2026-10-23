@@ -144,24 +144,24 @@ describe("Collections page", () => {
 	it("shows no count on a tab that is not rebuilt, and writes the chosen tab into the address", async () => {
 		seed(withData(() => {}));
 		await mount();
-		const crops = [...container.querySelectorAll('[role="tab"]')].find(
-			(t) => t.textContent === "Crops"
+		const forageables = [...container.querySelectorAll('[role="tab"]')].find(
+			(t) => t.textContent === "Forageables"
 		)!;
 
-		await click(crops);
+		await click(forageables);
 
-		expect(navigation.replace).toHaveBeenCalledWith("/collections?tab=crops", {
+		expect(navigation.replace).toHaveBeenCalledWith("/collections?tab=forageables", {
 			scroll: false,
 		});
 	});
 
 	it("points a tab that is not rebuilt to its old page", async () => {
-		navigation.search = "tab=crops";
+		navigation.search = "tab=forageables";
 		seed(withData(() => {}));
 		await mount();
 
 		expect(text()).toContain("This tab is not rebuilt yet");
-		expect(container.querySelector('a[href="/collections/crops"]')).not.toBeNull();
+		expect(container.querySelector('a[href="/collections/forageables"]')).not.toBeNull();
 	});
 
 	it("falls back to Overview for an unknown tab", async () => {

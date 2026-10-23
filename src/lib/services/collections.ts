@@ -3,6 +3,7 @@ import {
   countArtifactsFound,
   countCookingMade,
   countCraftingMade,
+  countCropsShipped,
   countFishCaught,
   countMineralsFound,
 } from "@/lib/utils/collectionCounts";
@@ -19,5 +20,6 @@ export const tabCount = (
   if (tab === "minerals") return countMineralsFound(data);
   if (tab === "cooking") return countCookingMade(data);
   if (tab === "crafting") return countCraftingMade(data);
+  if (tab === "crops") return countCropsShipped(data);
   return null;
 };

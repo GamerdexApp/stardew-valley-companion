@@ -130,14 +130,6 @@ export interface FishCardProps {
   onClick: () => void;
 }
 
-export interface CropCardProps {
-  crop: Crop;
-  shipped: boolean;
-  shippedCount: number;
-  professionBonus?: BonusResult | null;
-  onClick: () => void;
-}
-
 export interface CategorySectionProps {
   title: string;
   items: CollectionItem[];
@@ -257,11 +249,6 @@ export interface ShipEditItem {
 
 export interface ShippedItemsEditStepProps {
   items: ShipEditItem[];
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}
-
-export interface CropsShippedEditStepProps {
   shipped: Record<string, ShippedItem>;
   onChange: (shipped: Record<string, ShippedItem>) => void;
 }

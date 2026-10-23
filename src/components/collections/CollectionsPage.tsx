@@ -20,6 +20,7 @@ import { ArtifactsTab } from "./artifacts/ArtifactsTab";
 import { CollectionTabs } from "./CollectionTabs";
 import { CookingTab } from "./cooking/CookingTab";
 import { CraftingTab } from "./crafting/CraftingTab";
+import { CropsTab } from "./crops/CropsTab";
 import { FishTab } from "./fish/FishTab";
 import { MineralsTab } from "./minerals/MineralsTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
@@ -29,6 +30,7 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "crops") return <CropsTab playthrough={playthrough} />;
 	if (tab === "crafting") return <CraftingTab playthrough={playthrough} />;
 	if (tab === "cooking") return <CookingTab playthrough={playthrough} />;
 	if (tab === "minerals") return <MineralsTab playthrough={playthrough} />;
@@ -77,6 +79,9 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 			summary.learned,
 			farmLabel
 		);
+	}
+	if (tab === "crops" && count) {
+		return text.crops.subline(count.current, count.total, farmLabel);
 	}
 	return text.tabs[tab];
 };

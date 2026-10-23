@@ -44,4 +44,12 @@ export const COLLECTION_TAB_IDS: CollectionTabId[] = COLLECTION_GROUPS.flatMap(
 export const DEFAULT_COLLECTION_TAB: CollectionTabId = "overview";
 
 /** Tabs that are rebuilt. The others show a note and a link to their old page. */
-export const REBUILT_COLLECTION_TABS: CollectionTabId[] = ["overview", "fish", "artifacts", "minerals", "cooking", "crafting"];
+export const REBUILT_COLLECTION_TABS: CollectionTabId[] = [
+  "overview",
+  "fish",
+  "artifacts",
+  "minerals",
+  "cooking",
+  "crafting",
+  "crops",
+];

@@ -4,9 +4,17 @@ import type { MaxQuality } from "./QualityPrices";
 
 const calc = new QualityCalculator();
 
-function Pair({ energy, health }: { energy: number; health: number }) {
+function Pair({
+	energy,
+	health,
+	stacked = false,
+}: {
+	energy: number;
+	health: number;
+	stacked?: boolean;
+}) {
 	return (
-		<span className="flex items-center gap-2">
+		<span className={`flex ${stacked ? "flex-col items-start gap-0.5" : "items-center gap-2"}`}>
 			<span className="flex items-center gap-0.5">
 				<img
 					src={assetPath("images/misc/Energy.png")}
@@ -46,7 +54,7 @@ export function EnergyHealthGrid({ energy, health, maxQuality }: EnergyHealthGri
 		<div className="border-line grid grid-cols-4 overflow-hidden rounded-md border-[1.5px]">
 			<div className="bg-bg flex flex-col items-center gap-1 px-1 py-1.5">
 				<span className="text-muted font-mono text-[11px] uppercase">Basic</span>
-				<Pair energy={energy} health={health} />
+				<Pair energy={energy} health={health} stacked />
 			</div>
 			{tiers.map(({ quality, icon, energy: tierEnergy, health: tierHealth }) => (
 				<div
@@ -54,7 +62,7 @@ export function EnergyHealthGrid({ energy, health, maxQuality }: EnergyHealthGri
 					className="border-line flex flex-col items-center gap-1 border-s-[1.5px] px-1 py-1.5"
 				>
 					<img src={assetPath(icon)} alt={quality} className="size-4 object-contain" />
-					<Pair energy={tierEnergy} health={tierHealth} />
+					<Pair energy={tierEnergy} health={tierHealth} stacked />
 				</div>
 			))}
 		</div>

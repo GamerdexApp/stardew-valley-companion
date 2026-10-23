@@ -1,7 +1,9 @@
 import {
   artifacts,
+  collections,
   cooking,
   crafting,
+  crops,
   fish,
   goldenWalnuts,
   minerals,
@@ -38,6 +40,18 @@ export const collectionCrafting = crafting()
 
 export const collectionArtifacts = artifacts().get();
 
+const shippedItemIds = new Set(
+  collections()
+    .itemsShipped()
+    .get()
+    .map((item) => item.id),
+);
+
+/** The crops the shipping collection lists. Qi Fruit is a crop that cannot be shipped for it. */
+export const shippableCrops = crops()
+  .get()
+  .filter((crop) => shippedItemIds.has(crop.id));
+
 export const collectionDishes = cooking().get();
 
 export const collectionMinerals = minerals().mineralItems().get();
@@ -69,6 +83,15 @@ export function countMineralsFound(gameData: GameData): ProgressCount {
       (mineral) => gameData.minerals[mineral.id]?.found === true,
     ).length,
     total: collectionMinerals.length,
+  };
+}
+
+export function countCropsShipped(gameData: GameData): ProgressCount {
+  return {
+    current: shippableCrops.filter(
+      (crop) => gameData.shipped[crop.id]?.shipped === true,
+    ).length,
+    total: shippableCrops.length,
   };
 }
 
