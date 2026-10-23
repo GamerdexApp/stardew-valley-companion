@@ -5,8 +5,8 @@ import localFont from "next/font/local";
 import { PlaythroughProvider } from "@/lib/contexts/PlaythroughContext";
 import { UIProvider } from "@/lib/contexts/UIContext";
 import { STORAGE_KEY } from "@/service/storage";
-import { LayoutWrapper } from "@/comps/layout/LayoutWrapper";
 import { ThemeSync } from "@/comps/layout/ThemeSync";
+import { ToastProvider } from "@/comps/ui/Toast";
 import "./globals.css";
 
 const plexSans = IBM_Plex_Sans({
@@ -106,18 +106,20 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="h-full" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<script dangerouslySetInnerHTML={{ __html: applyThemeBeforePaint }} />
 			</head>
 			<body
-				className={`${plexSans.variable} ${plexMono.variable} ${stardewValley.variable} bg-bg h-full overflow-hidden antialiased`}
+				className={`${plexSans.variable} ${plexMono.variable} ${stardewValley.variable} bg-bg min-h-dvh antialiased`}
 			>
 				<UIProvider>
-					<PlaythroughProvider>
-						<ThemeSync />
-						<LayoutWrapper>{children}</LayoutWrapper>
-					</PlaythroughProvider>
+					<ToastProvider>
+						<PlaythroughProvider>
+							<ThemeSync />
+							{children}
+						</PlaythroughProvider>
+					</ToastProvider>
 				</UIProvider>
 				<Analytics />
 			</body>

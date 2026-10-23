@@ -5,10 +5,12 @@ import type { TrackedGift } from "@/types";
 import type { AppData } from "@/types/app";
 import type { PlaythroughContextType } from "@/types/contexts";
 import { useIsHydrated } from "@/lib/hooks/useIsHydrated";
+import { saveFailedText } from "@/lib/messages/shell";
 import * as appData from "@/service/appData";
-import { applyImport, parseBackup } from "@/service/backup";
+import { applyImport, downloadBackup, parseBackup } from "@/service/backup";
 import type { ImportMode } from "@/service/backup";
 import { storageService } from "@/service/storage";
+import { useToast } from "@/comps/ui/Toast";
 
 const PlaythroughContext = createContext<PlaythroughContextType | undefined>(undefined);
 
@@ -19,15 +21,29 @@ export function PlaythroughProvider({ children }: { children: React.ReactNode })
 		storageService.loadOnServer
 	);
 	const isLoaded = useIsHydrated();
+	const showToast = useToast();
 	const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
 	const [saveFailed, setSaveFailed] = useState(false);
 
 	const updateData: PlaythroughContextType["updateData"] = (update) => {
 		const previous = storageService.load();
-		const saved = storageService.save(update(previous));
+		const next = update(previous);
+		const saved = storageService.save(next);
 
 		setSaveFailed(!saved);
-		if (saved) setLastSavedAt(new Date());
+		if (saved) {
+			setLastSavedAt(new Date());
+		} else {
+			showToast({
+				variant: "error",
+				title: saveFailedText.title,
+				message: saveFailedText.message,
+				action: {
+					label: saveFailedText.exportBackup,
+					onAction: () => downloadBackup(next),
+				},
+			});
+		}
 		return saved ? previous : null;
 	};
 
