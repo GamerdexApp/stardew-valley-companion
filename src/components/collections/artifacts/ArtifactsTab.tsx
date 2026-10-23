@@ -3,10 +3,8 @@
 import type { Artifact } from "stardew-valley-data";
 import { useMemo, useState } from "react";
 import type { Playthrough } from "@/types/app";
-import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useMemoryState } from "@/lib/hooks/useMemoryState";
 import { collectionsText } from "@/lib/messages/collections";
-import { changeGameData } from "@/service/appData";
 import {
 	allArtifacts,
 	artifactSummary,
@@ -15,15 +13,15 @@ import {
 	isFilteringArtifacts,
 } from "@/service/artifacts";
 import type { ArtifactFilters } from "@/service/artifacts";
-import { museumSideEffect, museumStatus, setMuseumStatus } from "@/service/museum";
+import { museumStatus } from "@/service/museum";
 import type { MuseumStatus } from "@/service/museum";
 import { FilterBlock } from "@/comps/page/FilterBlock";
 import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
-import { useToast } from "@/comps/ui/Toast";
 import { SummaryTile } from "../shared/SummaryTile";
+import { useMuseumStatusChange } from "../shared/useCollectionChanges";
 import { ArtifactCard } from "./ArtifactCard";
 import { ArtifactDialog } from "./ArtifactDialog";
 
@@ -60,8 +58,6 @@ const fields: FilterFieldConfig[] = [
 ];
 
 export function ArtifactsTab({ playthrough }: { playthrough: Playthrough }) {
-	const { updateData } = usePlaythrough();
-	const showToast = useToast();
 	const [filters, setFilters] = useMemoryState<ArtifactFilters>(
 		"collections:artifacts:filters",
 		emptyArtifactFilters
@@ -75,27 +71,9 @@ export function ArtifactsTab({ playthrough }: { playthrough: Playthrough }) {
 	const shownFound = shown.filter((artifact) => statusOf(artifact) !== "missing").length;
 	const shownDonated = shown.filter((artifact) => statusOf(artifact) === "donated").length;
 
-	const changeStatus = (artifact: Artifact, status: MuseumStatus) => {
-		const from = statusOf(artifact);
-		const previous = updateData((current) =>
-			changeGameData(current, playthrough.id, (gameData) =>
-				setMuseumStatus(gameData, "artifacts", artifact.id, status)
-			)
-		);
-		const sideEffect = museumSideEffect(from, status);
-		if (!previous || !sideEffect) return;
-		showToast({
-			variant: "success",
-			title:
-				sideEffect === "also-found"
-					? collectionsText.museum.toast.alsoFound(artifact.name)
-					: collectionsText.museum.toast.clearedBoth(artifact.name),
-			action: {
-				label: collectionsText.museum.toast.undo,
-				onAction: () => updateData(() => previous),
-			},
-		});
-	};
+	const changeStatus = useMuseumStatusChange(playthrough.id, "artifacts");
+	const setStatus = (artifact: Artifact, status: MuseumStatus) =>
+		changeStatus(data, artifact.name, artifact.id, status);
 
 	const clearFilters = () => setFilters(emptyArtifactFilters);
 
@@ -149,7 +127,7 @@ export function ArtifactsTab({ playthrough }: { playthrough: Playthrough }) {
 							key={artifact.id}
 							artifact={artifact}
 							status={statusOf(artifact)}
-							onStatusChange={(status) => changeStatus(artifact, status)}
+							onStatusChange={(status) => setStatus(artifact, status)}
 							onOpen={() => setSelected(artifact)}
 						/>
 					))}
@@ -158,7 +136,7 @@ export function ArtifactsTab({ playthrough }: { playthrough: Playthrough }) {
 			<ArtifactDialog
 				artifact={selected}
 				status={selected ? statusOf(selected) : "missing"}
-				onStatusChange={(status) => selected && changeStatus(selected, status)}
+				onStatusChange={(status) => selected && setStatus(selected, status)}
 				onClose={() => setSelected(null)}
 			/>
 		</>

@@ -138,42 +138,6 @@ export interface CropCardProps {
   onClick: () => void;
 }
 
-export interface MineralCardProps {
-  mineral: MineralItem;
-  donated: boolean;
-  found: boolean;
-  geodeNames: string[];
-  professionBonus: BonusResult | null;
-  onClick: () => void;
-}
-
-export interface OreCardProps {
-  ore: OreItem;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
-  onClick: () => void;
-}
-
-export interface BarCardProps {
-  bar: BarItem;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
-  oreNameById: Record<string, string>;
-  onClick: () => void;
-}
-
-export interface GeodeCardProps {
-  geode: GeodeContainer;
-  contents: MineralItem[];
-  onClick: () => void;
-}
-
-export interface NodeCardProps {
-  node: NodeItem;
-  itemNameById: Record<string, string>;
-  onClick: () => void;
-}
-
 export interface CategorySectionProps {
   title: string;
   items: CollectionItem[];
@@ -205,42 +169,6 @@ export interface TreeDetailModalProps extends CollectionProps {
   onClose: () => void;
 }
 
-export interface MineralDetailModalProps {
-  mineral: MineralItem | null;
-  donated: boolean;
-  found: boolean;
-  geodeNames: string[];
-  professionBonus: BonusResult | null;
-  onClose: () => void;
-}
-
-export interface OreDetailModalProps {
-  ore: OreItem | null;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
-  onClose: () => void;
-}
-
-export interface BarDetailModalProps {
-  bar: BarItem | null;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
-  oreNameById: Record<string, string>;
-  onClose: () => void;
-}
-
-export interface NodeDetailModalProps {
-  node: NodeItem | null;
-  itemNameById: Record<string, string>;
-  onClose: () => void;
-}
-
-export interface GeodeDetailModalProps {
-  geode: GeodeContainer | null;
-  fallbackContents: MineralItem[] | null;
-  onClose: () => void;
-}
-
 export interface PriceFormulaModalProps {
   good: ArtisanGood | null;
   onClose: () => void;
@@ -258,20 +186,6 @@ export interface CraftingDetailModalProps {
   recipe: SDVCraftingRecipe | null;
   learned: boolean;
   crafted: boolean;
-  onClose: () => void;
-}
-
-export interface ResourceCardProps {
-  resource: ResourceItem;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
-  onClick: () => void;
-}
-
-export interface ResourceDetailModalProps {
-  resource: ResourceItem | null;
-  shipped: boolean;
-  professionBonus: BonusResult | null;
   onClose: () => void;
 }
 
@@ -339,11 +253,6 @@ export interface FishEditDraft {
   fishCaught: FishCaughtProgress[];
 }
 
-export interface MineralsEditDraft {
-  minerals: Record<string, MuseumItem>;
-  shipped: Record<string, ShippedItem>;
-}
-
 export interface SpecialItemsEditDraft {
   specialItems: string[];
   books: string[];
@@ -372,16 +281,6 @@ export interface CraftingEditStepProps {
 export interface FishEditStepProps {
   fishCaught: FishCaughtProgress[];
   onChange: (fishCaught: FishCaughtProgress[]) => void;
-}
-
-export interface MineralsMuseumEditStepProps {
-  minerals: Record<string, MuseumItem>;
-  onChange: (minerals: Record<string, MuseumItem>) => void;
-}
-
-export interface MineralsShippedEditStepProps {
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
 }
 
 export interface SpecialItemsEditStepProps {

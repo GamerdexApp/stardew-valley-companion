@@ -2,6 +2,7 @@ import type { GameData } from "@/types/app";
 import {
   countArtifactsFound,
   countFishCaught,
+  countMineralsFound,
 } from "@/lib/utils/collectionCounts";
 import type { ProgressCount } from "@/lib/utils/collectionCounts";
 import type { CollectionTabId } from "@/data/collections";
@@ -13,5 +14,6 @@ export const tabCount = (
 ): ProgressCount | null => {
   if (tab === "fish") return countFishCaught(data);
   if (tab === "artifacts") return countArtifactsFound(data);
+  if (tab === "minerals") return countMineralsFound(data);
   return null;
 };

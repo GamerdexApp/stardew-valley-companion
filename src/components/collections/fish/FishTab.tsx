@@ -1,13 +1,12 @@
 "use client";
 
 import type { Fish } from "stardew-valley-data";
-import type { ProfessionBonus } from "stardew-valley-data";
 import { useMemo, useState } from "react";
 import type { Playthrough } from "@/types/app";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useMemoryState } from "@/lib/hooks/useMemoryState";
+import { useProfessionPrices } from "@/lib/hooks/useProfessionPrices";
 import { collectionsText } from "@/lib/messages/collections";
-import { applyBestProfessionBonus, getActiveProfessionBonuses } from "@/lib/utils/professionPrices";
 import { changeGameData } from "@/service/appData";
 import {
 	ALL,
@@ -39,12 +38,6 @@ const FISH_PROFESSIONS = [
 	{ id: "fisher", label: "Fisher" },
 	{ id: "angler", label: "Angler" },
 ] as const;
-
-interface ProfessionState {
-	enabled: boolean;
-	/** Null means every profession the playthrough has. */
-	chosen: string[] | null;
-}
 
 const fields: FilterFieldConfig[] = [
 	{
@@ -123,10 +116,6 @@ export function FishTab({ playthrough }: { playthrough: Playthrough }) {
 		"collections:fish:filters",
 		emptyFishFilters
 	);
-	const [professions, setProfessions] = useMemoryState<ProfessionState>(
-		"collections:fish:professions",
-		{ enabled: false, chosen: null }
-	);
 	const [selected, setSelected] = useState<Fish | null>(null);
 	const { data } = playthrough;
 
@@ -134,16 +123,8 @@ export function FishTab({ playthrough }: { playthrough: Playthrough }) {
 	const summary = useMemo(() => fishSummary(data), [data]);
 	const shownCaught = shown.filter((fish) => isCaught(data, fish.id)).length;
 
-	const owned = getActiveProfessionBonuses(data);
-	const available = FISH_PROFESSIONS.filter((profession) => owned.has(profession.id));
-	const chosenIds = professions.chosen ?? available.map((profession) => profession.id);
-	const activeBonuses = new Set(
-		professions.enabled ? chosenIds.filter((id) => owned.has(id as ProfessionBonus)) : []
-	) as Set<ProfessionBonus>;
-	const bonusFor = (fish: Fish) =>
-		activeBonuses.size > 0
-			? applyBestProfessionBonus(fish.sellPrice, fish.profession, activeBonuses)
-			: null;
+	const professions = useProfessionPrices("collections:fish:professions", data, FISH_PROFESSIONS);
+	const bonusFor = (fish: Fish) => professions.bonusFor(fish.sellPrice, fish.profession);
 
 	const setFishCaught = (fish: Fish, caught: boolean) => {
 		const previous = updateData((current) =>
@@ -182,13 +163,7 @@ export function FishTab({ playthrough }: { playthrough: Playthrough }) {
 					<SummaryTile key={season} label={options[season]} value={count} />
 				))}
 			</div>
-			<ProfessionsControl
-				available={[...available]}
-				enabled={professions.enabled}
-				chosen={chosenIds}
-				onEnabledChange={(enabled) => setProfessions({ ...professions, enabled })}
-				onChosenChange={(chosen) => setProfessions({ ...professions, chosen })}
-			/>
+			<ProfessionsControl {...professions.control} />
 			<Card className="p-4">
 				<FilterBlock
 					fields={fields}

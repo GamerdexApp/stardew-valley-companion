@@ -1,64 +1,142 @@
 "use client";
 
-import { type GeodeContainer, type MineralItem, minerals } from "stardew-valley-data";
+import type { GeodeContainer } from "stardew-valley-data";
 import { useMemo, useState } from "react";
-import { NavySection } from "@/comps/ui/NavySection";
-import { SearchField } from "@/comps/ui/SearchField";
-import { GeodeCard } from "./cards";
-import { GeodeDetailModal } from "./modals/GeodeDetailModal";
+import { useMemoryState } from "@/lib/hooks/useMemoryState";
+import { collectionsText } from "@/lib/messages/collections";
+import { assetPath } from "@/lib/utils/assetPath";
+import { allGeodes, filterByName, geodeContents, opensForRandomItems } from "@/service/minerals";
+import { SearchBlock } from "@/comps/page/SearchBlock";
+import { Card } from "@/comps/ui/Card";
+import { EmptyState } from "@/comps/ui/EmptyState";
+import { DialogSection, ItemDialog, TextList } from "../shared/ItemDialog";
+import { QualityPrices } from "../shared/QualityPrices";
+import { BLOCK_GRID, DetailsButton, MineralsBlock } from "./MineralsBlock";
 
-const allGeodes = minerals().geodes().get() as GeodeContainer[];
+const text = collectionsText.minerals;
 
-const geodeContents: Record<string, MineralItem[]> = {};
-for (const geode of allGeodes) {
-	geodeContents[geode.id] = minerals()
-		.fromGeode(geode.name)
-		.mineralItems()
-		.get() as MineralItem[];
+function Price({ geode }: { geode: GeodeContainer }) {
+	if (geode.sellPrice === 0) {
+		return (
+			<div className="border-line text-muted rounded-md border-[1.5px] px-2.5 py-1.5 text-xs">
+				{text.card.noSellPrice}
+			</div>
+		);
+	}
+	return <QualityPrices price={geode.sellPrice} maxQuality="base" />;
 }
 
 export function GeodesSection() {
-	const [search, setSearch] = useState("");
-	const [selectedGeode, setSelectedGeode] = useState<GeodeContainer | null>(null);
-
-	const filtered = useMemo(
-		() =>
-			allGeodes.filter((g) => !search || g.name.toLowerCase().includes(search.toLowerCase())),
-		[search]
-	);
-
-	const selectedContents = selectedGeode ? (geodeContents[selectedGeode.id] ?? null) : null;
+	const [query, setQuery] = useMemoryState("collections:minerals:geodes", "");
+	const [selected, setSelected] = useState<GeodeContainer | null>(null);
+	const shown = useMemo(() => filterByName(allGeodes, query), [query]);
 
 	return (
-		<>
-			<NavySection title="Geodes" badge={`${allGeodes.length} types`}>
-				<div className="mb-4 flex">
-					<SearchField value={search} onChange={setSearch} placeholder="Search geodes…" />
-				</div>
-
-				{filtered.length === 0 ? (
-					<p className="py-8 text-center text-sm text-white/40">
-						No geodes match your search.
-					</p>
-				) : (
-					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-						{filtered.map((g) => (
-							<GeodeCard
-								key={g.id}
-								geode={g}
-								contents={geodeContents[g.id] ?? []}
-								onClick={() => setSelectedGeode(g)}
+		<MineralsBlock
+			id="minerals-geodes"
+			title={text.blocks.geodes}
+			badge={text.badge.types(allGeodes.length)}
+		>
+			<Card className="p-4">
+				<SearchBlock
+					label={text.search.geodes}
+					value={query}
+					onChange={setQuery}
+					summary={collectionsText.filters.showing(
+						shown.length,
+						allGeodes.length,
+						text.nouns.geodes
+					)}
+				/>
+			</Card>
+			{shown.length === 0 ? (
+				<EmptyState
+					title={text.empty.title(text.nouns.geodes)}
+					description={text.empty.description}
+				/>
+			) : (
+				<div className={BLOCK_GRID}>
+					{shown.map((geode) => (
+						<Card key={geode.id} className="flex flex-col gap-2.5 p-3">
+							<div className="flex items-start gap-3">
+								<img
+									src={assetPath(geode.image)}
+									alt=""
+									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
+								/>
+								<div className="flex min-w-0 flex-1 flex-col gap-1">
+									<span className="font-semibold">{geode.name}</span>
+									<span className="text-muted text-xs">
+										{opensForRandomItems(geode)
+											? text.card.opensForRandomItems
+											: text.card.possibleContents(
+													geodeContents(geode).length
+												)}
+									</span>
+								</div>
+							</div>
+							<Price geode={geode} />
+							<DetailsButton
+								label={text.card.details(geode.name)}
+								text={text.card.contentsAndLocations}
+								onClick={() => setSelected(geode)}
 							/>
-						))}
-					</div>
+						</Card>
+					))}
+				</div>
+			)}
+			<ItemDialog
+				open={selected !== null}
+				onClose={() => setSelected(null)}
+				closeLabel={text.dialog.close}
+				title={selected?.name ?? ""}
+				image={selected?.image ?? ""}
+				kind={text.dialog.type.geode}
+			>
+				{selected && (
+					<>
+						<p className="text-muted italic">{selected.description}</p>
+						<DialogSection title={text.dialog.sellPrice}>
+							<Price geode={selected} />
+						</DialogSection>
+						<DialogSection title={text.dialog.contents(geodeContents(selected).length)}>
+							<ul className="flex flex-col gap-1.5">
+								{geodeContents(selected).map((line) => (
+									<li
+										key={line.name}
+										className="bg-bg flex items-center justify-between gap-3 rounded-md px-3 py-2"
+									>
+										<span className="flex min-w-0 items-center gap-2.5">
+											{line.image ? (
+												<img
+													src={assetPath(line.image)}
+													alt=""
+													className="size-7 shrink-0 object-contain [image-rendering:pixelated]"
+												/>
+											) : (
+												<span
+													aria-hidden="true"
+													className="size-7 shrink-0"
+												/>
+											)}
+											<span className="font-medium">{line.name}</span>
+										</span>
+										<span className="text-muted flex shrink-0 gap-2 font-mono text-xs">
+											{line.quantity && <span>×{line.quantity}</span>}
+											{line.chance && <span>{line.chance}</span>}
+										</span>
+									</li>
+								))}
+							</ul>
+						</DialogSection>
+						{selected.locations.length > 0 && (
+							<DialogSection title={text.dialog.howToFind}>
+								<TextList items={selected.locations} />
+							</DialogSection>
+						)}
+					</>
 				)}
-			</NavySection>
-
-			<GeodeDetailModal
-				geode={selectedGeode}
-				fallbackContents={selectedContents}
-				onClose={() => setSelectedGeode(null)}
-			/>
-		</>
+			</ItemDialog>
+		</MineralsBlock>
 	);
 }

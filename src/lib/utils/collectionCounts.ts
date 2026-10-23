@@ -1,4 +1,10 @@
-import { artifacts, crafting, fish, goldenWalnuts } from "stardew-valley-data";
+import {
+  artifacts,
+  crafting,
+  fish,
+  goldenWalnuts,
+  minerals,
+} from "stardew-valley-data";
 import type { GameData } from "@/types";
 
 export interface ProgressCount {
@@ -31,6 +37,8 @@ export const collectionCrafting = crafting()
 
 export const collectionArtifacts = artifacts().get();
 
+export const collectionMinerals = minerals().mineralItems().get();
+
 export const allGoldenWalnuts = goldenWalnuts().get();
 
 const WALNUT_TOTAL = allGoldenWalnuts.reduce((sum, w) => sum + w.amount, 0);
@@ -49,6 +57,15 @@ export function countArtifactsFound(gameData: GameData): ProgressCount {
       (artifact) => gameData.artifacts[artifact.id]?.found === true,
     ).length,
     total: collectionArtifacts.length,
+  };
+}
+
+export function countMineralsFound(gameData: GameData): ProgressCount {
+  return {
+    current: collectionMinerals.filter(
+      (mineral) => gameData.minerals[mineral.id]?.found === true,
+    ).length,
+    total: collectionMinerals.length,
   };
 }
 
