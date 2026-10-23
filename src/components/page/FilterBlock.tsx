@@ -18,6 +18,8 @@ export interface FilterFieldConfig {
 	kind?: "choice" | "chips";
 	/** The first option of a choice field is the "all" choice. */
 	options: { id: string; label: string }[];
+	/** A line under a choice field that explains what its options mean. */
+	hint?: string;
 }
 
 interface FilterBlockProps {
@@ -126,6 +128,7 @@ function ChoiceField({
 					onChange={onChange}
 				/>
 			)}
+			{field.hint && <p className="text-muted text-xs">{field.hint}</p>}
 		</div>
 	);
 }

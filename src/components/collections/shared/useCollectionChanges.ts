@@ -8,11 +8,18 @@ import {
   setMuseumStatus,
 } from "@/service/museum";
 import type { MuseumKind, MuseumStatus } from "@/service/museum";
+import {
+  recipeSideEffect,
+  recipeStatus,
+  setRecipeStatus,
+} from "@/service/recipes";
+import type { RecipeKind, RecipeStatus } from "@/service/recipes";
 import { isShipped, setShipped, setShippedCount } from "@/service/shipped";
 import { useToast } from "@/comps/ui/Toast";
 
 const museumText = collectionsText.museum;
 const shippedText = collectionsText.shipped;
+const recipeText = collectionsText.recipes;
 
 /** Writes a change to the playthrough and gives back the data from before it, for Undo. */
 function useWriter(playthroughId: string) {
@@ -54,6 +61,29 @@ export function useMuseumStatusChange(playthroughId: string, kind: MuseumKind) {
       sideEffect === "also-found"
         ? museumText.toast.alsoFound(name)
         : museumText.toast.clearedBoth(name),
+      previous,
+    );
+  };
+}
+
+/**
+ * Changes the status of a cooking or crafting recipe. A tap that changes two fields shows an
+ * Undo toast that says so.
+ */
+export function useRecipeStatusChange(playthroughId: string, kind: RecipeKind) {
+  const { write, offerUndo } = useWriter(playthroughId);
+  const done = recipeText.doneLabel[kind];
+
+  return (data: GameData, name: string, status: RecipeStatus) => {
+    const sideEffect = recipeSideEffect(recipeStatus(data, kind, name), status);
+    const previous = write((current) =>
+      setRecipeStatus(current, kind, name, status),
+    );
+    if (!sideEffect) return;
+    offerUndo(
+      sideEffect === "also-learned"
+        ? recipeText.toast.alsoLearned(name, done)
+        : recipeText.toast.clearedBoth(name, done),
       previous,
     );
   };

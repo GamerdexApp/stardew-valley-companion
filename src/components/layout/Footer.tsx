@@ -49,7 +49,7 @@ export function Footer() {
 					</div>
 
 					<div>
-						<h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-white">
+						<h2 className="mb-6 text-sm font-semibold tracking-wider text-white uppercase">
 							Resources
 						</h2>
 						<ul>
@@ -64,7 +64,10 @@ export function Footer() {
 								</a>
 							</li>
 							<li className="mb-4">
-								<Link href="/settings" className="text-sm text-white hover:text-white">
+								<Link
+									href="/settings"
+									className="text-sm text-white hover:text-white"
+								>
 									Settings
 								</Link>
 							</li>

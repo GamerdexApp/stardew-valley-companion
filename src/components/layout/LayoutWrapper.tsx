@@ -4,8 +4,8 @@ import { customTheme } from "@/app/theme";
 import { ThemeProvider } from "flowbite-react";
 import { ToastContainer } from "react-toastify";
 import { AppNavbar } from "@/comps/layout/AppNavbar";
-import { AppSidebar } from "@/comps/layout/sidebar/AppSidebar";
 import { Footer } from "@/comps/layout/Footer";
+import { AppSidebar } from "@/comps/layout/sidebar/AppSidebar";
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 	return (

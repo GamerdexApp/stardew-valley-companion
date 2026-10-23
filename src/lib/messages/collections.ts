@@ -212,6 +212,92 @@ export const collectionsText = {
       close: "Close",
     },
   },
+  recipes: {
+    statusLabel: (name: string) => `${name} status`,
+    notLearned: "Not learned",
+    learned: "Learned",
+    doneLabel: { cooking: "Cooked", crafting: "Crafted" },
+    includesLearned: {
+      cooking: "Cooked always includes Learned",
+      crafting: "Crafted always includes Learned",
+    },
+    toast: {
+      alsoLearned: (name: string, done: string) =>
+        `${name} set to ${done}. It was also marked Learned.`,
+      clearedBoth: (name: string, done: string) =>
+        `${name} set to Not learned. Learned and ${done} were cleared.`,
+      undo: "Undo",
+    },
+  },
+  cooking: {
+    noun: "recipes",
+    subline: (cooked: number, total: number, learned: number, farm: string) =>
+      `${cooked} of ${total} cooked · ${learned} learned${farm ? ` · ${farm}` : ""}`,
+    search: "Search recipes",
+    sheetTitle: "Filter recipes",
+    apply: (count: number) => `Show ${count} recipes`,
+    tiles: {
+      total: "Total recipes",
+      learned: "Recipes learned",
+      cooked: "Recipes cooked",
+    },
+    filter: { status: "Status", source: "Source" },
+    statusHint:
+      "Learned means learned but not cooked yet. Not learned means the recipe is still unknown.",
+    options: {
+      all: "All",
+      cooked: "Cooked",
+      learned: "Learned",
+      notLearned: "Not learned",
+      queenOfSauce: "Queen of Sauce",
+      friendship: "Friendship",
+      purchase: "Purchase",
+      skill: "Skill level",
+      default: "Default",
+      cutscene: "Special event",
+    },
+    empty: {
+      title: "No recipes match your filters.",
+      description: "Try a different name or clear the filters.",
+      clear: "Clear filters",
+    },
+    card: {
+      details: (name: string) => `${name}, show details`,
+      ingredientsAndSources: "Ingredients and sources",
+      energy: "Energy",
+      health: "Health",
+      buff: (stat: string, value: number) =>
+        `${stat} ${value >= 0 ? "+" : ""}${value}`,
+      buffValue: (value: number) => `${value >= 0 ? "+" : ""}${value}`,
+    },
+    source: {
+      starter: "Starter recipe",
+      queenOfSauce: "Queen of Sauce",
+      queenOfSauceOn: (season: string, day: number, year: number) =>
+        `Queen of Sauce, ${season} ${day}, Year ${year}`,
+      friendship: (villager: string, hearts: number) =>
+        `${villager}, ${hearts} hearts`,
+      purchase: (from: string) => `Buy from ${from}`,
+      purchaseFor: (from: string, price: string) =>
+        `Buy from ${from}, ${price}`,
+      skill: (skill: string, level: number) => `${skill} Level ${level}`,
+      event: "Special event",
+      eventDescribed: (description: string) => `Special event, ${description}`,
+    },
+    dialog: {
+      type: "Cooking recipe",
+      status: "Status",
+      energyHealth: "Energy and health",
+      sellPrice: "Sell price",
+      buffs: "Buffs",
+      lasts: (minutes: number, seconds: number) =>
+        `Lasts ${minutes} min${seconds > 0 ? ` ${seconds} s` : ""}`,
+      sources: "Recipe sources",
+      ingredients: "Ingredients",
+      ingredient: (quantity: number) => `× ${quantity}`,
+      close: "Close",
+    },
+  },
   shipped: {
     shipped: "Shipped",
     notShipped: "Not shipped",

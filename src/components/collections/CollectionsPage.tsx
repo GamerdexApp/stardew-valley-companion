@@ -6,6 +6,7 @@ import { useUrlTab } from "@/lib/hooks/useUrlTab";
 import { collectionsText } from "@/lib/messages/collections";
 import { tabCount } from "@/service/collections";
 import { countCompleteSections, overviewSections } from "@/service/collectionsOverview";
+import { cookingSummary } from "@/service/cooking";
 import {
 	COLLECTION_TAB_IDS,
 	DEFAULT_COLLECTION_TAB,
@@ -16,6 +17,7 @@ import { PageHeader } from "@/comps/shell/PageHeader";
 import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
 import { ArtifactsTab } from "./artifacts/ArtifactsTab";
 import { CollectionTabs } from "./CollectionTabs";
+import { CookingTab } from "./cooking/CookingTab";
 import { FishTab } from "./fish/FishTab";
 import { MineralsTab } from "./minerals/MineralsTab";
 import { NotRebuiltTab } from "./NotRebuiltTab";
@@ -25,6 +27,7 @@ const text = collectionsText;
 
 function Panel({ tab, playthrough }: { tab: CollectionTabId; playthrough: Playthrough }) {
 	if (tab === "overview") return <OverviewTab data={playthrough.data} />;
+	if (tab === "cooking") return <CookingTab playthrough={playthrough} />;
 	if (tab === "minerals") return <MineralsTab playthrough={playthrough} />;
 	if (tab === "artifacts") return <ArtifactsTab playthrough={playthrough} />;
 	if (tab === "fish") return <FishTab playthrough={playthrough} />;
@@ -53,6 +56,15 @@ const subline = (tab: CollectionTabId, playthrough: Playthrough): string => {
 			(entry) => entry.found && entry.donated
 		).length;
 		return text.minerals.subline(count?.current ?? 0, count?.total ?? 0, donated, farmLabel);
+	}
+	if (tab === "cooking") {
+		const summary = cookingSummary(playthrough.data);
+		return text.cooking.subline(
+			summary.cooked.current,
+			summary.cooked.total,
+			summary.learned,
+			farmLabel
+		);
 	}
 	return text.tabs[tab];
 };

@@ -189,20 +189,6 @@ export interface CraftingDetailModalProps {
   onClose: () => void;
 }
 
-export interface CookingCardProps {
-  dish: CookedDish;
-  learned: boolean;
-  cooked: boolean;
-  onClick: () => void;
-}
-
-export interface CookingDetailModalProps {
-  dish: CookedDish | null;
-  learned: boolean;
-  cooked: boolean;
-  onClose: () => void;
-}
-
 export interface MonsterLootCardProps {
   loot: MonsterLoot;
   shipped: boolean;
@@ -241,10 +227,6 @@ export interface RarecrowCardProps {
 
 // ---- Edit drafts ----
 
-export interface CookingEditDraft {
-  cookingRecipes: Record<string, CookingRecipe>;
-}
-
 export interface CraftingEditDraft {
   craftingRecipes: Record<string, CraftingRecipe>;
 }
@@ -267,11 +249,6 @@ export interface ShippedEditDraft {
 }
 
 // ---- Edit step props ----
-
-export interface CookingEditStepProps {
-  cookingRecipes: Record<string, CookingRecipe>;
-  onChange: (cookingRecipes: Record<string, CookingRecipe>) => void;
-}
 
 export interface CraftingEditStepProps {
   craftingRecipes: Record<string, CraftingRecipe>;

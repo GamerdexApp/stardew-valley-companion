@@ -1,5 +1,6 @@
 import {
   artifacts,
+  cooking,
   crafting,
   fish,
   goldenWalnuts,
@@ -37,6 +38,8 @@ export const collectionCrafting = crafting()
 
 export const collectionArtifacts = artifacts().get();
 
+export const collectionDishes = cooking().get();
+
 export const collectionMinerals = minerals().mineralItems().get();
 
 export const allGoldenWalnuts = goldenWalnuts().get();
@@ -66,6 +69,15 @@ export function countMineralsFound(gameData: GameData): ProgressCount {
       (mineral) => gameData.minerals[mineral.id]?.found === true,
     ).length,
     total: collectionMinerals.length,
+  };
+}
+
+export function countCookingMade(gameData: GameData): ProgressCount {
+  return {
+    current: collectionDishes.filter(
+      (dish) => gameData.cookingRecipes[dish.name]?.cooked === true,
+    ).length,
+    total: collectionDishes.length,
   };
 }
 
