@@ -23,9 +23,9 @@ import { Field } from "@/comps/ui/Field";
 import { IconButton } from "@/comps/ui/IconButton";
 import { Input } from "@/comps/ui/Input";
 import { NumberInput } from "@/comps/ui/NumberInput";
+import { Section } from "@/comps/ui/Section";
 import { Select } from "@/comps/ui/Select";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 import type { EditNote } from "../useFarmEdit";
 import { FriendshipInput } from "./FriendshipInput";
 

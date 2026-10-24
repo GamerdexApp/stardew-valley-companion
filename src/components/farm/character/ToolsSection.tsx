@@ -8,8 +8,8 @@ import { isUpgrading, levelDots, levelLabel, toolEntries } from "@/service/tools
 import type { ToolEntry } from "@/service/tools";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
+import { Section } from "@/comps/ui/Section";
 import { Select } from "@/comps/ui/Select";
-import { Section } from "../Section";
 import { ToolPanelDialog } from "./ToolPanelDialog";
 
 const text = farmText.character.tools;

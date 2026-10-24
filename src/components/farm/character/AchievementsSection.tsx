@@ -16,9 +16,9 @@ import type { AchievementFilters } from "@/service/character";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { Input } from "@/comps/ui/Input";
+import { Section } from "@/comps/ui/Section";
 import { SegmentedControl } from "@/comps/ui/SegmentedControl";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 
 const text = farmText.character.achievements;
 

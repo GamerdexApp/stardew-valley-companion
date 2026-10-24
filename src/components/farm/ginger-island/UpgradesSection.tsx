@@ -4,8 +4,8 @@ import { costsMoreThanLeft, islandSummary, isUnlocked, upgradesCost } from "@/se
 import { ISLAND_UPGRADES } from "@/data/constants/gingerIsland";
 import { Badge } from "@/comps/ui/Badge";
 import { Card } from "@/comps/ui/Card";
+import { Section } from "@/comps/ui/Section";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 
 const text = farmText.gingerIsland.upgrades;
 

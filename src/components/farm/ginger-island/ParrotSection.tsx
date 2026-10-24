@@ -1,8 +1,8 @@
 import { farmText } from "@/lib/messages/farm";
 import { PARROT_RATE, WALNUT_TOTAL } from "@/service/gingerIsland";
 import type { IslandSummary } from "@/service/gingerIsland";
+import { Section } from "@/comps/ui/Section";
 import { SummaryTile } from "@/comps/ui/SummaryTile";
-import { Section } from "../Section";
 
 const text = farmText.gingerIsland.parrot;
 

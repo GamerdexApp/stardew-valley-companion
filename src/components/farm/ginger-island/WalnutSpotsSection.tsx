@@ -20,8 +20,8 @@ import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
 import { ExpandableDetails } from "@/comps/ui/ExpandableDetails";
+import { Section } from "@/comps/ui/Section";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 
 const text = farmText.gingerIsland.spots;
 

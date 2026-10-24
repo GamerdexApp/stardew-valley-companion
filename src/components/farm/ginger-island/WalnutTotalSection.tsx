@@ -3,7 +3,7 @@ import { barShares } from "@/service/gingerIsland";
 import type { IslandSummary } from "@/service/gingerIsland";
 import { Field } from "@/comps/ui/Field";
 import { NumberInput } from "@/comps/ui/NumberInput";
-import { Section } from "../Section";
+import { Section } from "@/comps/ui/Section";
 
 const text = farmText.gingerIsland.total;
 

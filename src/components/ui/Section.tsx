@@ -15,14 +15,14 @@ interface SectionProps {
 }
 
 /**
- * A titled card of the Farm page. The heading is a button that closes and opens the section, and
+ * A titled card of a page. The heading is a button that closes and opens the section, and
  * the choice is remembered while the app stays open. A closed section keeps its badge.
  */
 export function Section({ title, badge, description, children }: SectionProps) {
 	const slug = title.replace(/\W+/g, "-").toLowerCase();
-	const headingId = `farm-${slug}`;
-	const bodyId = `farm-${slug}-body`;
-	const [collapsed, setCollapsed] = useMemoryState(`farm:collapsed:${slug}`, false);
+	const headingId = `section-${slug}`;
+	const bodyId = `section-${slug}-body`;
+	const [collapsed, setCollapsed] = useMemoryState(`section:collapsed:${slug}`, false);
 
 	return (
 		<Card aria-labelledby={headingId} role="region" className="flex flex-col gap-3 p-4">

@@ -6,10 +6,10 @@ import { Card } from "@/comps/ui/Card";
 import { Field } from "@/comps/ui/Field";
 import { Input } from "@/comps/ui/Input";
 import { NumberInput } from "@/comps/ui/NumberInput";
+import { Section } from "@/comps/ui/Section";
 import { SectionLabel } from "@/comps/ui/SectionLabel";
 import { SegmentedControl } from "@/comps/ui/SegmentedControl";
 import { Select } from "@/comps/ui/Select";
-import { Section } from "../Section";
 
 const profile = farmText.character.profile;
 const stats = farmText.character.stats;

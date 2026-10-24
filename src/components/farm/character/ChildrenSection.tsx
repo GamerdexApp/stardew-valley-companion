@@ -6,8 +6,8 @@ import { Card } from "@/comps/ui/Card";
 import { Field } from "@/comps/ui/Field";
 import { Input } from "@/comps/ui/Input";
 import { NumberInput } from "@/comps/ui/NumberInput";
+import { Section } from "@/comps/ui/Section";
 import { Select } from "@/comps/ui/Select";
-import { Section } from "../Section";
 
 const text = farmText.character.children;
 const GENDERS: string[] = [

@@ -4,8 +4,8 @@ import { farmText } from "@/lib/messages/farm";
 import { assetPath } from "@/lib/utils/assetPath";
 import { setStardrop } from "@/service/character";
 import { Card } from "@/comps/ui/Card";
+import { Section } from "@/comps/ui/Section";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 
 const text = farmText.character.stardrops;
 const allStardrops = starDrops().get();

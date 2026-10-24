@@ -6,10 +6,9 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: "/villagers",
 	},
-	openGraph: {
-		title: "Villagers | Stardew Valley Companion",
-		description: "Track your Stardew Valley villager friendships and gift preferences.",
-		url: "/villagers",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 

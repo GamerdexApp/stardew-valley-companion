@@ -14,8 +14,8 @@ import { Card } from "@/comps/ui/Card";
 import { Field } from "@/comps/ui/Field";
 import { NumberInput } from "@/comps/ui/NumberInput";
 import { ProgressBar } from "@/comps/ui/ProgressBar";
+import { Section } from "@/comps/ui/Section";
 import { Switch } from "@/comps/ui/Switch";
-import { Section } from "../Section";
 
 const text = farmText.character.mastery;
 
