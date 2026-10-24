@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Quests",
-	description: "Track your Stardew Valley quests and special orders.",
+	description: "Track your Stardew Valley quests, special orders, secret notes and lost books.",
 	alternates: {
 		canonical: "/quests",
 	},
-	openGraph: {
-		title: "Quests | Stardew Valley Companion",
-		description: "Track your Stardew Valley quests and special orders.",
-		url: "/quests",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 

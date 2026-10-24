@@ -7,7 +7,7 @@ import { uiText } from "@/lib/messages/ui";
 
 interface TabsProps<TabId extends string> {
 	label: string;
-	tabs: { id: TabId; label: string; count?: number; locked?: boolean }[];
+	tabs: { id: TabId; label: string; count?: number | string; locked?: boolean }[];
 	activeId: TabId;
 	onChange: (id: TabId) => void;
 	children: ReactNode;
