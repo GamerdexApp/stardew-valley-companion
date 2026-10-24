@@ -1,1 +1,0 @@
-export { CookingCard } from "./CookingCard";

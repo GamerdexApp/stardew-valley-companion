@@ -1,1 +1,0 @@
-export { SpecialItemCard } from "./SpecialItemCard";

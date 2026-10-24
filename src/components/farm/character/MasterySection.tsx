@@ -1,93 +1,105 @@
-"use client";
-
-import { MASTERY_LEVELS, skills } from "stardew-valley-data";
-import { HiCheck, HiLockClosed } from "react-icons/hi";
-import { type CharacterProps as Props } from "@/types";
+import { MASTERY_LEVELS } from "stardew-valley-data";
+import type { GameData } from "@/types/app";
+import { farmText } from "@/lib/messages/farm";
 import { getCurrentMasteryLevel } from "@/lib/pages/character";
 import { assetPath } from "@/lib/utils/assetPath";
-import { NavySection } from "@/comps/ui/NavySection";
+import {
+	allSkills,
+	isMastered,
+	MAX_MASTERY_XP,
+	setMastered,
+	setMasteryXp,
+} from "@/service/character";
+import { Card } from "@/comps/ui/Card";
+import { Field } from "@/comps/ui/Field";
+import { NumberInput } from "@/comps/ui/NumberInput";
+import { ProgressBar } from "@/comps/ui/ProgressBar";
+import { Section } from "@/comps/ui/Section";
+import { Switch } from "@/comps/ui/Switch";
 
-const MAX_MASTERY_XP = MASTERY_LEVELS[MASTERY_LEVELS.length - 1]?.totalXp ?? 100_000;
+const text = farmText.character.mastery;
 
-export function MasterySection({ gameData }: Props) {
-	const { masteryXp, unlocked } = gameData.mastery;
-	const currentLevel = getCurrentMasteryLevel(masteryXp);
-	const barPercent = Math.min(100, (masteryXp / MAX_MASTERY_XP) * 100);
-	const allSkills = skills().get();
-	const masteredCount = allSkills.filter((s) => unlocked.includes(s.id)).length;
+interface MasterySectionProps {
+	data: GameData;
+	edit: (change: (current: GameData) => GameData) => void;
+}
+
+export function MasterySection({ data, edit }: MasterySectionProps) {
+	const { masteryXp } = data.mastery;
+	const level = getCurrentMasteryLevel(masteryXp);
+	const next = MASTERY_LEVELS.find((item) => item.level === level + 1);
+	const masteredCount = allSkills.filter((skill) => isMastered(data, skill.id)).length;
 
 	return (
-		<NavySection title="Mastery" badge={`${masteredCount} / ${allSkills.length} Mastered`}>
-			<div className="-mt-2 mb-2 text-[0.75rem] text-blue-300">
-				{masteryXp.toLocaleString()} / {MAX_MASTERY_XP.toLocaleString()} XP · Level{" "}
-				{currentLevel}
+		<Section title={text.title} badge={text.mastered(masteredCount, allSkills.length)}>
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-[16rem_1fr] md:items-end">
+				<Field label={text.xp}>
+					<NumberInput
+						value={masteryXp}
+						max={MAX_MASTERY_XP}
+						onChange={(value) => edit((d) => setMasteryXp(d, value))}
+					/>
+				</Field>
+				<div className="flex flex-col gap-1">
+					<ProgressBar
+						value={masteryXp / MAX_MASTERY_XP}
+						label={text.title}
+						tone="warn"
+					/>
+					<span className="text-muted text-xs">
+						{text.level(masteryXp, level)}{" "}
+						{next ? text.nextLevel(next.level, next.totalXp) : text.maxLevel}
+					</span>
+				</div>
 			</div>
-
-			<div className="mb-5 h-2 overflow-hidden rounded-full bg-white/15">
-				<div
-					className="from-highlight h-full rounded-full bg-linear-to-r to-yellow-300 transition-all"
-					style={{ width: `${barPercent}%` }}
-				/>
-			</div>
-
-			<div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+			<p className="text-muted text-xs">{text.thresholds}</p>
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
 				{allSkills.map((skill) => {
-					const mastered = unlocked.includes(skill.id);
+					const mastered = isMastered(data, skill.id);
 					return (
-						<div
+						<Card
 							key={skill.id}
-							className={`rounded-xl border p-3 transition-all ${
-								mastered
-									? "border-accent/40 bg-accent/10"
-									: "border-white/10 bg-white/5"
-							}`}
+							highlighted={mastered}
+							className={`flex flex-col gap-2 p-3 ${mastered ? "bg-tint" : ""}`}
 						>
-							<div className="mb-2 flex items-center gap-2">
+							<div className="flex items-start gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(skill.image)}
-									alt={skill.name}
-									className="h-9 w-9 shrink-0 object-contain"
+									alt=""
+									className="size-10 shrink-0 object-contain [image-rendering:pixelated]"
 								/>
-								<span
-									className={`text-xs font-bold ${mastered ? "text-accent" : "text-white/80"}`}
-								>
-									{skill.name}
-								</span>
-							</div>
-
-							<div className="mb-2.5">
-								{mastered ? (
-									<span className="bg-accent/20 text-accent inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.625rem] font-bold">
-										<HiCheck className="h-3 w-3" /> Mastered
+								<span className="flex-1 font-semibold">{skill.name}</span>
+								<div className="flex shrink-0 flex-col items-end gap-1">
+									<Switch
+										checked={mastered}
+										onChange={(value) =>
+											edit((d) => setMastered(d, skill.id, value))
+										}
+										label={text.switchLabel(skill.name)}
+									/>
+									<span
+										className={`text-xs font-medium ${mastered ? "text-kept" : "text-muted"}`}
+									>
+										{mastered ? text.mastered1 : text.notMastered}
 									</span>
-								) : (
-									<span className="inline-flex items-center gap-1 rounded-full bg-white/[0.07] px-2 py-0.5 text-[0.625rem] font-bold text-white/60">
-										<HiLockClosed className="h-3 w-3 text-red-500" /> Not
-										Mastered
-									</span>
-								)}
+								</div>
 							</div>
-
-							<div className="flex flex-col divide-y divide-white/6">
+							<ul className="flex flex-col gap-1.5">
 								{skill.mastery.unlocks.map((unlock) => (
-									<div key={unlock.name} className="py-1 first:pt-0 last:pb-0">
-										<div
-											className={`text-[0.625rem] leading-tight font-semibold ${mastered ? "text-white/90" : "text-white/65"}`}
-										>
-											{unlock.name}
-										</div>
-										<div
-											className={`text-[0.5625rem] leading-snug ${mastered ? "text-white/70" : "text-white/50"}`}
-										>
+									<li key={unlock.name} className="flex flex-col">
+										<span className="text-sm font-medium">{unlock.name}</span>
+										<span className="text-muted text-xs">
 											{unlock.description}
-										</div>
-									</div>
+										</span>
+									</li>
 								))}
-							</div>
-						</div>
+							</ul>
+						</Card>
 					);
 				})}
 			</div>
-		</NavySection>
+		</Section>
 	);
 }

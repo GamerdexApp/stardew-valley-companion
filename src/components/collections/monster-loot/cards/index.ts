@@ -1,1 +1,0 @@
-export { MonsterLootCard } from "./MonsterLootCard";

@@ -1,36 +1,31 @@
 # Stardew Valley Companion
 
-> A free, browser-based progress tracker for Stardew Valley. No account required. All data is stored locally in the browser. Supports multiple playthroughs with save file import or manual setup.
+> A free, browser-based progress tracker for Stardew Valley.
+> Data is stored in your browser. No account or login is required. Cloud sync is optional.
 
-## Features
+## What it tracks
 
-- [Dashboard](https://stardew-valley.gamerdex.app/dashboard): At-a-glance overview of an entire playthrough — stats, skills, progress, and perfection score.
-- [Community Center](https://stardew-valley.gamerdex.app/community-center): Track every bundle room and donation. See exactly what is still needed to complete the Community Center.
-- [Joja Route](https://stardew-valley.gamerdex.app/joja): Track Joja Community Development Form progress as an alternative to the Community Center.
-- [Collections](https://stardew-valley.gamerdex.app/collections): Monitor fish, crops, minerals, artifacts, cooking, crafting, forageables, animal products, artisan goods, monster loot, special items, and rarecrows with progress bars.
-- [Villagers](https://stardew-valley.gamerdex.app/villagers): Track heart levels for every villager, marriage status, and heart event progress.
-- [Farm / Character](https://stardew-valley.gamerdex.app/farm/character): Skill levels, professions, mastery, tool upgrades, and backpack level.
-- [Farm / Buildings](https://stardew-valley.gamerdex.app/farm/buildings): Track farm building construction and upgrades.
-- [Farm / Animals](https://stardew-valley.gamerdex.app/farm/animals): Track farm animal counts and mood.
-- [Farm / Ginger Island](https://stardew-valley.gamerdex.app/farm/ginger-island): Track Ginger Island unlock and parrot upgrade progress.
-- [Mines](https://stardew-valley.gamerdex.app/mines): Mine depth, Skull Cavern progress, key items, and monster slayer goals.
-- [Town](https://stardew-valley.gamerdex.app/town): Track town restoration and community progress.
-- [Calendar](https://stardew-valley.gamerdex.app/calendar): Seasonal calendar showing available crops, fish, and events.
-- [Grandpa's Shrine](https://stardew-valley.gamerdex.app/grandpa): Track Grandpa's evaluation score and candles.
-- [Perfection](https://stardew-valley.gamerdex.app/perfection): Full breakdown of perfection score across all 11 categories with waiver tracking.
-- [Gear](https://stardew-valley.gamerdex.app/gear): Track weapon, ring, boot, and hat upgrades.
-- [Quests](https://stardew-valley.gamerdex.app/quests): Track special orders and quest progress.
-- [Items Needed](https://stardew-valley.gamerdex.app/items-needed): Consolidated view of all items still needed across bundles and goals.
+- **Collections**: fish, artifacts, minerals, cooking, crafting, crops, forageables, animal products, artisan goods, monster loot, rarecrows and special items
+- **Farm**: farmer profile, skills, mastery, tools, animals, buildings and Ginger Island
+- **Villagers, Town and Calendar**: hearts and events, shops and hours, birthdays and festivals by season
+- **Progress**: Mines and Skull Cavern, quests and special orders, the Community Center or Joja route, Grandpa's evaluation and the perfection score
+- **Gear and items needed**: weapons, footwear, rings, hats, trinkets, and what is still needed across every list
+- **Playthroughs**: several farms, kept apart, from a save file or built by hand
 
-## Technical
+## Pages
 
-- Built with Next.js 16, React 19, Tailwind CSS 4, and Flowbite React.
-- All playthrough data stored in browser localStorage — nothing is sent to any server.
-- Save file import: parses Stardew Valley XML save files automatically.
-- Supports multiple simultaneous playthroughs with independent state.
-- Data can be exported as JSON for backup and re-imported at any time.
+- `/overview`: progress across every area
+- `/farm`, `/villagers`, `/town`, `/calendar`
+- `/collections`, `/gear`, `/items-needed`
+- `/mines`, `/quests`, `/community-center`, `/grandpa`, `/perfection`
+- `/playthroughs`: manage the saved playthroughs
+- `/settings`: optional cloud sync, preferences, backup and data
 
-## Optional
+## Technical notes
 
-- [Playthroughs](https://stardew-valley.gamerdex.app/playthrough/list): Manage all saved playthroughs.
-- [Settings](https://stardew-valley.gamerdex.app/settings): Import, export, or reset playthrough data.
+- Built with Next.js, React, TypeScript and Tailwind CSS
+- Save file import: reads Stardew Valley save files in the browser
+- No backend and no analytics code in the app. Playthrough data lives in browser localStorage
+- Data can be exported as a JSON file for backup and imported again at any time
+- Cloud sync, when turned on, keeps one file in your own Google Drive, Dropbox, OneDrive or GitHub
+- Open source, no ads

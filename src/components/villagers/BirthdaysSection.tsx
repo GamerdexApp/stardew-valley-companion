@@ -1,68 +1,58 @@
-"use client";
-
-import { villagers } from "stardew-valley-data";
-import type { VillagersProps as Props } from "@/types";
+import type { GameData } from "@/types/app";
+import { villagersText } from "@/lib/messages/villagers";
+import { assetPath } from "@/lib/utils/assetPath";
 import { capitalize } from "@/lib/utils/formatting";
-import { SEASONS } from "@/data/constants/seasons";
-import { NavySection } from "@/comps/ui/NavySection";
-import { BirthdayRow } from "./cards";
+import { birthdaysBySeason } from "@/service/villagers";
+import { Badge } from "@/comps/ui/Badge";
+import { Section } from "@/comps/ui/Section";
 
-export function BirthdaysSection({ gameData }: Props) {
-	const { season: currentSeason, day: currentDay } = gameData.character.currentDate;
+const text = villagersText.birthdays;
+
+export function BirthdaysSection({ data }: { data: GameData }) {
+	const { season, day } = data.character.currentDate;
 
 	return (
-		<NavySection title="Birthdays">
-			<p className="-mt-2 mb-4 text-xs text-white/40">Plan ahead for gift giving</p>
-
-			<div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-				{Object.values(SEASONS)
-					.filter((s) => s.id !== "ginger island")
-					.map((meta) => {
-						const seasonVillagers = villagers()
-							.byBirthdaySeason(meta.id as "spring" | "summer" | "fall" | "winter")
-							.sortByBirthday()
-							.get();
-
-						return (
-							<div key={meta.id} className="flex flex-col">
-								<div className="mb-2 flex items-center gap-1.5 border-b border-white/10 pb-2">
-									<div
-										className="h-2 w-2 shrink-0 rounded-full"
-										style={{ background: meta.dotColor }}
+		<Section title={text.title} description={text.description}>
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+				{birthdaysBySeason(data).map((group) => (
+					<section
+						key={group.id}
+						aria-label={group.label}
+						className="border-line flex flex-col gap-2 rounded-md border-[1.5px] p-3"
+					>
+						<h3 className="flex items-center justify-between font-semibold">
+							{group.label}
+							<span className="text-muted font-mono text-xs">
+								{group.entries.length}
+							</span>
+						</h3>
+						<ul className="flex flex-col gap-1">
+							{group.entries.map(({ villager, today }) => (
+								<li
+									key={villager.id}
+									className={`flex items-center gap-2 rounded-md px-2 py-1 ${today ? "bg-tint" : ""}`}
+								>
+									<img
+										loading="lazy"
+										decoding="async"
+										src={assetPath(villager.image)}
+										alt=""
+										width={28}
+										height={28}
+										className="size-7 shrink-0 object-contain [image-rendering:pixelated]"
 									/>
-									<span className="text-sm font-bold tracking-wider text-white uppercase">
-										{meta.label}
+									<span className="min-w-0 flex-1 text-sm">{villager.name}</span>
+									{today && <Badge tone="added">{text.today}</Badge>}
+									<span className="text-muted font-mono text-xs">
+										{text.day(villager.birthday.day)}
 									</span>
-								</div>
-
-								<div className="flex flex-col">
-									{seasonVillagers.map((villager) => {
-										const isToday =
-											meta.id === currentSeason &&
-											villager.birthday.day === currentDay;
-										return (
-											<BirthdayRow
-												key={villager.id}
-												villager={villager}
-												isToday={isToday}
-											/>
-										);
-									})}
-									{seasonVillagers.length === 0 && (
-										<span className="text-xs text-white/30">None</span>
-									)}
-								</div>
-							</div>
-						);
-					})}
+								</li>
+							))}
+						</ul>
+					</section>
+				))}
 			</div>
-
-			<div className="mt-4 border-t border-white/10 pt-3">
-				<p className="text-[0.7rem] text-white/35">
-					{capitalize(currentSeason)} Day {currentDay} highlighted if a birthday falls
-					today.
-				</p>
-			</div>
-		</NavySection>
+			<p className="text-muted text-xs">{text.note(capitalize(season), day)}</p>
+		</Section>
 	);
 }

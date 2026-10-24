@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-24
+
+### Added
+
+- A new interface built with a sidebar, a playthrough switcher and one page per game area:
+  Overview, Farm, Villagers, Town, Calendar, Collections, Gear, Items needed, Mines and monsters,
+  Quests, Community Center, Grandpa's evaluation, Perfection, Playthroughs and Settings.
+- A landing page for new visitors. A visitor with a saved playthrough goes straight to the
+  Overview.
+- Every change saves at once, and a toast offers Undo. The Save button is gone.
+- Optional cloud sync through Google Drive, Dropbox, OneDrive or a GitHub repository, with a merge
+  that keeps the higher progress when two devices change the same playthrough. The synced file has
+  the same format as the backup file.
+- Settings for the theme (light, dark or system), backup and import, and the platform of each
+  playthrough. Choosing between the Community Center and Joja moved to Settings, and the sidebar
+  follows the choice.
+- Search, filters and tabs that stay in the address, so a reload or a shared link opens the same
+  view.
+- The farm icon of each playthrough shows in the playthrough switcher.
+- Privacy policy and Terms of service links in the footer.
+
+### Changed
+
+- Saved data keeps its shape. The storage key, the playthrough fields and the backup file are
+  unchanged, so existing playthroughs and old backups work as before.
+- Old addresses such as `/dashboard` and `/playthrough/list` redirect to the matching new page.
+- Pages load faster. Long lists load their pictures as you scroll, the location pictures on the
+  Town page are small copies, and a visitor who never uses sync does not load the sync code.
+- The interface no longer uses Flowbite. It uses Tailwind CSS with the app's own components, with
+  keyboard focus rings, labelled controls and a layout that works down to 320 px wide.
+
+### Removed
+
+- The Vercel analytics script. The app has no analytics code, as the privacy policy says.
+
 ## [1.1.0] - 2026-04-10
 
 ### Added

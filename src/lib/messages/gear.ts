@@ -1,0 +1,47 @@
+export const gearText = {
+  title: "Gear",
+  tabsLabel: "Gear",
+  subline: (items: number) =>
+    `Weapons, footwear, rings, hats, trinkets, bait, and tackle · ${items} items`,
+  tabs: {
+    weapons: "Weapons",
+    footwear: "Footwear",
+    rings: "Rings",
+    hats: "Hats",
+    trinkets: "Trinkets",
+    bait: "Bait",
+    tackle: "Tackle",
+  },
+  total: "Total",
+  search: (tab: string) => `Search ${tab}`,
+  showing: (shown: number, total: number, tab: string) =>
+    `Showing ${shown} of ${total} ${tab}`,
+  empty: "Nothing matches your search.",
+  clear: "Clear filters",
+  weapons: {
+    type: "Type",
+    types: {
+      all: "All types",
+      sword: "Sword",
+      dagger: "Dagger",
+      club: "Club",
+      slingshot: "Slingshot",
+    },
+    sheetTitle: "Filter weapons",
+    apply: (count: number, type: string) => `Show ${count} ${type}`,
+    damage: (min: number, max: number) => `${min}-${max} DMG`,
+    slingshotDamage: "Damage depends on the ammo",
+    speed: (speed: number) => `SPD ${speed}`,
+    level: (level: number) => `Lvl ${level}`,
+  },
+  stat: {
+    defense: (value: number) => `DEF ${value}`,
+    immunity: (value: number) => `IMM ${value}`,
+  },
+  sellPrice: "Sell price",
+  sources: "Where to find it",
+  effect: "Effect",
+  source: "Source",
+  obtain: "How to get it",
+  noPrice: "Cannot be sold",
+};

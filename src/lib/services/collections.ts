@@ -1,0 +1,37 @@
+import type { GameData } from "@/types/app";
+import {
+  countArtifactsFound,
+  countCookingMade,
+  countCraftingMade,
+  countCropsShipped,
+  countFishCaught,
+  countMineralsFound,
+} from "@/lib/utils/collectionCounts";
+import type { ProgressCount } from "@/lib/utils/collectionCounts";
+import type { CollectionTabId } from "@/data/collections";
+import { countAnimalProductsShipped } from "./animalProducts";
+import { countArtisanGoodsShipped } from "./artisanGoods";
+import { countForageablesShipped } from "./forageables";
+import { countMonsterLootShipped } from "./monsterLoot";
+import { countRarecrowsObtained } from "./rarecrows";
+import { countSpecialItemsAcquired } from "./specialItems";
+
+/** The done and total on a tab pill. The Overview tab has none. */
+export const tabCount = (
+  tab: CollectionTabId,
+  data: GameData,
+): ProgressCount | null => {
+  if (tab === "fish") return countFishCaught(data);
+  if (tab === "artifacts") return countArtifactsFound(data);
+  if (tab === "minerals") return countMineralsFound(data);
+  if (tab === "cooking") return countCookingMade(data);
+  if (tab === "crafting") return countCraftingMade(data);
+  if (tab === "crops") return countCropsShipped(data);
+  if (tab === "forageables") return countForageablesShipped(data);
+  if (tab === "animal-products") return countAnimalProductsShipped(data);
+  if (tab === "monster-loot") return countMonsterLootShipped(data);
+  if (tab === "artisan-goods") return countArtisanGoodsShipped(data);
+  if (tab === "rarecrows") return countRarecrowsObtained(data);
+  if (tab === "special-items") return countSpecialItemsAcquired(data);
+  return null;
+};

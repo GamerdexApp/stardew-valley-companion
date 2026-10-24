@@ -5,7 +5,7 @@ Thank you for your interest in contributing!
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/christopherpezza/stardew-vally-companion.git`
+2. Clone your fork: `git clone https://github.com/<your-username>/stardew-valley-companion.git`
 3. Install dependencies: `pnpm install`
 4. Start the dev server: `pnpm dev`
 

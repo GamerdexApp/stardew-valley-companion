@@ -1,8 +1,16 @@
-export type { AppData, Playthrough } from "./playthrough";
+export type {
+  AppData,
+  Platform,
+  Playthrough,
+  Settings,
+  Theme,
+  UiSettings,
+} from "./playthrough";
 export type { SeasonMeta } from "./seasons";
 export type { LevelMeta } from "./tools";
 export type {
   CharacterInfo,
+  ChildProgress,
   CookingRecipe,
   CraftingRecipe,
   BuildingProgress,

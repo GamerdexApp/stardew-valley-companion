@@ -8,7 +8,9 @@ A comprehensive Stardew Valley progress tracker and companion app built with Nex
 
 - Create playthroughs manually or by uploading a Stardew Valley save file (PC)
 - Switch between multiple playthroughs
+- Every change saves at once, and a toast offers Undo
 - Full import / export / reset in settings
+- Optional cloud sync through Google Drive, Dropbox, OneDrive or a GitHub repository, with a merge that keeps the higher progress when two devices change the same playthrough
 
 ### Farm
 
@@ -39,7 +41,7 @@ A comprehensive Stardew Valley progress tracker and companion app built with Nex
 - **Quests** — special order and story quest tracking
 - **Grandpa's Evaluation** — score and candle tracking
 - **Mines & Monsters** — floor progress, elevator level, monster eradication goals
-- **Perfection** — overall perfection percentage with per-category breakdown
+- **Perfection** — overall perfection percentage with per-category breakdown and waivers
 - **Calendar** — seasonal item and birthday calendar view
 - **Items Needed** — aggregated view of items still needed across all goals
 - **Town** — town and world unlock progress
@@ -48,15 +50,15 @@ A comprehensive Stardew Valley progress tracker and companion app built with Nex
 ## Tech Stack
 
 - **Next.js 16** (App Router) · **React 19** · **TypeScript 6** (strict)
-- **Tailwind CSS 4** · **Flowbite-React**
+- **Tailwind CSS 4**
 - **stardew-valley-data** — game data queries and save file parser
-- **react-toastify** · **react-icons**
+- **react-icons**
 - **pnpm** · **Node >= 24**
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/chiefpansancolt/stardew-valley-companion.git
+git clone https://github.com/GamerdexApp/stardew-valley-companion.git
 cd stardew-valley-companion
 pnpm install
 pnpm dev
@@ -70,14 +72,16 @@ Open [http://localhost:3000](http://localhost:3000).
 pnpm dev          # Start dev server at http://localhost:3000
 pnpm build        # Production build + TypeScript check
 pnpm lint         # ESLint
+pnpm test         # Vitest
 pnpm format       # Prettier write
 pnpm format:check # Prettier check
 ```
 
-Game images are copied from `stardew-valley-data` to `public/images/` automatically on `pnpm install` via `postinstall`. Run manually with:
+Game images are copied from `stardew-valley-data` to `public/images/` automatically on `pnpm install` via `postinstall`, and small copies of the location pictures are made next to them. Run manually with:
 
 ```bash
 bash scripts/copy-game-assets.sh
+node scripts/make-thumbnails.mjs
 ```
 
 ## License

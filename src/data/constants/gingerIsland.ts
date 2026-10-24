@@ -92,14 +92,3 @@ export const ISLAND_UPGRADES: IslandUpgradeData[] = [
     location: "Volcano Dungeon level 5",
   },
 ];
-
-export const WALNUT_LOCATIONS = [
-  "Island North",
-  "Island West",
-  "Island East",
-  "Island Southeast",
-  "Island South",
-  "Ginger Island",
-  "Volcano",
-  "Caldera",
-];

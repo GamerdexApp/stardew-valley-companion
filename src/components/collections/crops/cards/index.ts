@@ -1,1 +1,0 @@
-export { CropCard } from "./CropCard";

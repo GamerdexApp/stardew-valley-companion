@@ -1,1 +1,0 @@
-export { EnergyHealthGrid } from "./EnergyHealthGrid";

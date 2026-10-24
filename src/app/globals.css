@@ -1,18 +1,183 @@
 @import "tailwindcss";
-@import "flowbite-react/plugin/tailwindcss";
-@source "../../.flowbite-react/class-list.json";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --bg: #f5f0e1;
+  --surface: #fffdf6;
+  --line: #d9cfb4;
+  --track: #e8e0c8;
+  --ink: #26231c;
+  --muted: #615a47;
+  --primary: #3f6e2a;
+  --on-primary: #ffffff;
+  --tint: #e5eedb;
+  --link: #2b4f9e;
+  --danger: #9b2c2c;
+  --warn: #8f5a1e;
+  --accent: #c0864a;
+  --scrim: rgba(38, 35, 28, 0.55);
+  --sb-bg: #2b3a67;
+  --sb-text: #f5f0e1;
+  --sb-muted: #b8c0dc;
+  --sb-line: #44558a;
+  --sb-active-bg: #f5f0e1;
+  --sb-active-text: #2b3a67;
+  --sb-ring: #f5f0e1;
+  --silver: #5f6a82;
+  --gold: #8a6200;
+  --iridium: #6b3fa0;
+  --heart: #b3263e;
+  --kept: #3f6e2a;
+  --changed: #8f5a1e;
+  --added: #2b4f9e;
+  --fixed: #4b4fa3;
+  --locked: #615a47;
+  --ring: var(--primary);
+}
+
+.dark {
+  --bg: #141a2e;
+  --surface: #1d2540;
+  --line: #38426a;
+  --track: #2a3355;
+  --ink: #e8eaf6;
+  --muted: #a9b0d0;
+  --primary: #e5b84b;
+  --on-primary: #1a1f36;
+  --tint: #2d3a66;
+  --link: #8fb5f0;
+  --danger: #f28b82;
+  --warn: #f0c060;
+  --accent: #e5b84b;
+  --scrim: rgba(0, 0, 0, 0.62);
+  --sb-bg: #0e1324;
+  --sb-text: #e8eaf6;
+  --sb-muted: #9aa2c4;
+  --sb-line: #252e50;
+  --sb-active-bg: #2a3355;
+  --sb-active-text: #f2cf72;
+  --sb-ring: #f2cf72;
+  --silver: #b9c0d8;
+  --gold: #e5b84b;
+  --iridium: #c7a6f2;
+  --heart: #f28b9b;
+  --kept: #8fcb6a;
+  --changed: #f0c060;
+  --added: #8fb5f0;
+  --fixed: #a9acef;
+  --locked: #a9b0d0;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-track: var(--track);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-tint: var(--tint);
+  --color-link: var(--link);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
+  --color-accent: var(--accent);
+  --color-scrim: var(--scrim);
+  --color-sb-bg: var(--sb-bg);
+  --color-sb-text: var(--sb-text);
+  --color-sb-muted: var(--sb-muted);
+  --color-sb-line: var(--sb-line);
+  --color-sb-active-bg: var(--sb-active-bg);
+  --color-sb-active-text: var(--sb-active-text);
+  --color-sb-ring: var(--sb-ring);
+  --color-silver: var(--silver);
+  --color-gold: var(--gold);
+  --color-iridium: var(--iridium);
+  --color-heart: var(--heart);
+  --color-kept: var(--kept);
+  --color-changed: var(--changed);
+  --color-added: var(--added);
+  --color-fixed: var(--fixed);
+  --color-locked: var(--locked);
+
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-brand: var(--font-stardew-valley), var(--font-plex-sans), sans-serif;
+}
+
+/* Colors of the old Flowbite pages. Each one goes when the last page that uses it is rebuilt. */
 @theme {
-  --color-primary: #4a7c31;
   --color-secondary: #2b3a67;
-  --color-accent: #c0864a;
   --color-highlight: #d9c97c;
-  --color-surface: #f5f0e1;
   --color-surface-dark: #1e2538;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* A scrolling box clips an outline that sits outside its control, so these boxes draw the ring inside. */
+  [data-focus-inset] :focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* Tailwind 4 resets buttons to the default cursor. Every control a user can click needs a pointer. */
+  a[href],
+  button:not(:disabled),
+  summary,
+  select:not(:disabled),
+  label[for],
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"],
+  [role="switch"],
+  [role="menuitem"],
+  input:is([type="checkbox"], [type="radio"], [type="file"]):not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* A header cell centers unless its parent sets text-align. The value start does not count, so the cell must repeat it. */
+  .text-start th {
+    text-align: start;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 .Toastify__toast {
   padding: 0 !important;
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
 }

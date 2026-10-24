@@ -1,0 +1,106 @@
+"use client";
+
+import { useEffect, useId } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
+import { collectionsText } from "@/lib/messages/collections";
+import type { ProgressCount } from "@/lib/utils/collectionCounts";
+import { tabIndexAfterKey } from "@/lib/utils/tabKeys";
+import { COLLECTION_GROUPS } from "@/data/collections";
+import type { CollectionTabId } from "@/data/collections";
+import { SectionLabel } from "@/comps/ui/SectionLabel";
+
+const text = collectionsText;
+
+interface CollectionTabsProps {
+	activeId: CollectionTabId;
+	counts: Partial<Record<CollectionTabId, ProgressCount | null>>;
+	onChange: (id: CollectionTabId) => void;
+	children: ReactNode;
+}
+
+export function CollectionTabs({ activeId, counts, onChange, children }: CollectionTabsProps) {
+	const baseId = useId();
+
+	useEffect(() => {
+		document
+			.getElementById(`${baseId}-tab-${activeId}`)
+			?.scrollIntoView({ block: "nearest", inline: "center" });
+	}, [baseId, activeId]);
+
+	/** One tab per group takes Tab: the active tab, or the first tab of a group that has none. */
+	const stopOf = (tabs: CollectionTabId[]) => (tabs.includes(activeId) ? activeId : tabs[0]);
+
+	const move = (event: KeyboardEvent<HTMLDivElement>, tabs: CollectionTabId[]) => {
+		const focused = (event.target as HTMLElement).closest<HTMLElement>("[data-tab]")?.dataset
+			.tab;
+		const to = tabIndexAfterKey(
+			event.key,
+			tabs.indexOf(focused as CollectionTabId),
+			tabs.length
+		);
+		if (to === null) return;
+		event.preventDefault();
+		const next = tabs[to];
+		onChange(next);
+		document.getElementById(`${baseId}-tab-${next}`)?.focus();
+	};
+
+	return (
+		<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-3">
+				{COLLECTION_GROUPS.map((group) => (
+					<div key={group.id} className="flex flex-col gap-1.5">
+						<SectionLabel className="text-muted">{text.groups[group.id]}</SectionLabel>
+						<div
+							role="tablist"
+							aria-label={text.groups[group.id]}
+							onKeyDown={(event) => move(event, group.tabs)}
+							data-focus-inset
+							className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0"
+						>
+							{group.tabs.map((id) => {
+								const active = id === activeId;
+								const count = counts[id];
+								return (
+									<button
+										key={id}
+										id={`${baseId}-tab-${id}`}
+										type="button"
+										role="tab"
+										aria-selected={active}
+										aria-controls={`${baseId}-panel`}
+										data-tab={id}
+										tabIndex={id === stopOf(group.tabs) ? 0 : -1}
+										onClick={() => onChange(id)}
+										className={`flex min-h-11 shrink-0 items-center gap-2 rounded-full border-[1.5px] px-3.5 whitespace-nowrap lg:min-h-9 ${
+											active
+												? "border-primary bg-primary text-on-primary focus-visible:outline-on-primary font-medium"
+												: "border-line bg-surface hover:bg-tint"
+										}`}
+									>
+										{text.tabs[id]}
+										{count && (
+											<span
+												className={`font-mono text-xs ${active ? "" : "text-muted"}`}
+											>
+												{count.current} / {count.total}
+											</span>
+										)}
+									</button>
+								);
+							})}
+						</div>
+					</div>
+				))}
+			</div>
+			<div
+				id={`${baseId}-panel`}
+				role="tabpanel"
+				aria-labelledby={`${baseId}-tab-${activeId}`}
+				className="flex flex-col gap-4"
+			>
+				{children}
+			</div>
+		</div>
+	);
+}

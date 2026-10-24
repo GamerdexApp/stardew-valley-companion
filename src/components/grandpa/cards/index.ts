@@ -1,1 +1,0 @@
-export { GrandpaCategoryCard } from "./GrandpaCategoryCard";

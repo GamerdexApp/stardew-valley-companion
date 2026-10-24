@@ -12,8 +12,6 @@ import {
   mixedSeeds,
   monsterLoot,
   trees,
-  universalGifts,
-  villagers,
 } from "stardew-valley-data";
 
 export const MAGICAL_BUILDING_NAMES = [
@@ -34,24 +32,6 @@ export const ITEMS_NEEDED_DATA = {
     .magical()
     .get()
     .filter((b) => MAGICAL_BUILDING_NAMES.includes(b.name)),
-};
-
-export const ALL_VILLAGERS = villagers().sortByName().get();
-
-const _universalGifts = universalGifts();
-export const UNIVERSAL_GIFTS = {
-  loves: _universalGifts.loves as string[],
-  likes: _universalGifts.likes as string[],
-  neutrals: _universalGifts.neutrals as string[],
-};
-
-export const TAG_COLORS: Record<string, { bg: string; text: string }> = {
-  Donate: { bg: "bg-purple-100", text: "text-purple-700" },
-  Ship: { bg: "bg-green-100", text: "text-green-700" },
-  Cook: { bg: "bg-orange-100", text: "text-orange-700" },
-  Craft: { bg: "bg-blue-100", text: "text-blue-700" },
-  Build: { bg: "bg-yellow-100", text: "text-yellow-700" },
-  Gift: { bg: "bg-red-100", text: "text-red-700" },
 };
 
 const MANUAL_IMAGE_OVERRIDES: Record<string, string> = {

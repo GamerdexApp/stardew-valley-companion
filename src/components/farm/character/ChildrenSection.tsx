@@ -1,44 +1,107 @@
-"use client";
+import type { GameData } from "@/types/app";
+import { farmText } from "@/lib/messages/farm";
+import { addChild, MAX_CHILDREN, removeChild, updateChild } from "@/service/character";
+import { Button } from "@/comps/ui/Button";
+import { Card } from "@/comps/ui/Card";
+import { Field } from "@/comps/ui/Field";
+import { Input } from "@/comps/ui/Input";
+import { NumberInput } from "@/comps/ui/NumberInput";
+import { Section } from "@/comps/ui/Section";
+import { Select } from "@/comps/ui/Select";
 
-import { FaBaby } from "react-icons/fa";
-import { type CharacterProps as Props } from "@/types";
-import { NavySection } from "@/comps/ui/NavySection";
+const text = farmText.character.children;
+const GENDERS: string[] = [
+	farmText.character.profile.genders.male,
+	farmText.character.profile.genders.female,
+];
 
-export function ChildrenSection({ gameData }: Props) {
-	const { children } = gameData;
+interface ChildrenSectionProps {
+	data: GameData;
+	edit: (change: (current: GameData) => GameData) => void;
+	editWithUndo: (change: (current: GameData) => GameData, title: string) => void;
+}
 
-	if (children.length === 0) return null;
+export function ChildrenSection({ data, edit, editWithUndo }: ChildrenSectionProps) {
+	const { children } = data;
+	const atLimit = children.length >= MAX_CHILDREN;
 
 	return (
-		<NavySection title="Children" badge={`${children.length} / 2`}>
-			<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-				{children.map((child, idx) => (
-					<div
-						key={idx}
-						className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3"
-					>
-						<div className="bg-accent/20 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
-							<FaBaby className="text-accent h-5 w-5" />
-						</div>
-						<div className="min-w-0 flex-1">
-							<div className="text-sm font-bold text-white">
-								{child.name || "Unnamed"}
-							</div>
-							<div className="mt-0.5 flex items-center gap-2">
-								<span className="text-xs text-white/60">Age {child.age}</span>
-								{child.gender && (
-									<>
-										<span className="text-white/30">·</span>
-										<span className="text-xs text-white/60">
-											{child.gender}
-										</span>
-									</>
-								)}
-							</div>
-						</div>
-					</div>
-				))}
+		<Section title={text.title} badge={text.count(children.length, MAX_CHILDREN)}>
+			{children.length === 0 && <p className="text-muted">{text.empty}</p>}
+			<ul className="flex flex-col gap-3">
+				{children.map((child, index) => {
+					const position = index + 1;
+					const genders = GENDERS.includes(child.gender)
+						? GENDERS
+						: [child.gender, ...GENDERS];
+					return (
+						<li key={index}>
+							<Card className="grid grid-cols-2 items-end gap-3 p-3 md:grid-cols-[1fr_8rem_9rem_auto]">
+								<div className="col-span-2 md:col-span-1">
+									<Field label={text.name(position)}>
+										<Input
+											value={child.name}
+											onChange={(event) =>
+												edit((d) =>
+													updateChild(d, index, {
+														name: event.target.value,
+													})
+												)
+											}
+										/>
+									</Field>
+								</div>
+								<Field label={text.age(position)}>
+									<NumberInput
+										value={child.age}
+										onChange={(age) =>
+											edit((d) => updateChild(d, index, { age }))
+										}
+									/>
+								</Field>
+								<Field label={text.gender(position)}>
+									<Select
+										value={child.gender}
+										onChange={(event) =>
+											edit((d) =>
+												updateChild(d, index, {
+													gender: event.target.value,
+												})
+											)
+										}
+									>
+										{genders.map((gender) => (
+											<option key={gender} value={gender}>
+												{gender}
+											</option>
+										))}
+									</Select>
+								</Field>
+								<Button
+									variant="danger"
+									className="col-span-2 md:col-span-1"
+									onClick={() =>
+										editWithUndo(
+											(d) => removeChild(d, index),
+											child.name
+												? `${child.name} removed`
+												: `Child ${position} removed`
+										)
+									}
+								>
+									{text.remove(position)}
+								</Button>
+							</Card>
+						</li>
+					);
+				})}
+			</ul>
+			<div className="flex flex-wrap items-center gap-3">
+				<Button disabled={atLimit} onClick={() => edit(addChild)}>
+					{text.add}
+				</Button>
+				<span className="text-muted text-xs">{text.limit}</span>
 			</div>
-		</NavySection>
+		</Section>
 	);
 }
