@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		title: "JojaMart | Stardew Valley Companion",
-		description: "Track your Stardew Valley JojaMart membership and community development route.",
+		description:
+			"Track your Stardew Valley JojaMart membership and community development route.",
 		url: "/joja",
 	},
 };

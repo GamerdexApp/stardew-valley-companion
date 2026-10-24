@@ -132,4 +132,3 @@ export interface ShippedItemsEditStepProps {
   shipped: Record<string, ShippedItem>;
   onChange: (shipped: Record<string, ShippedItem>) => void;
 }
-

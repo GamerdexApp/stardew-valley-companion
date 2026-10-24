@@ -7,11 +7,6 @@ export const farmText = {
     buildings: "Buildings",
     "ginger-island": "Ginger Island",
   },
-  notRebuilt: {
-    title: "This tab is not rebuilt yet",
-    body: "It still works on its old page.",
-    open: "Open the old page",
-  },
   animals: {
     tiles: {
       animals: "Farm animals",
@@ -202,6 +197,70 @@ export const farmText = {
       capacity: (count: number) => `Houses up to ${count}`,
       cost: (cost: number) => `${cost.toLocaleString()}g`,
       done: "Done",
+    },
+  },
+  gingerIsland: {
+    tiles: {
+      found: "Walnuts found",
+      upgrades: "Upgrades",
+      available: "Available to spend",
+      complete: "Complete",
+      parrot: "Parrot cost",
+    },
+    total: {
+      title: "Walnut total",
+      field: "Total found (0 to 130)",
+      summary: (found: number, spent: number, available: number) =>
+        `${found} golden walnuts found. ${spent} spent on upgrades, ${available} left to spend.`,
+      legend: "Green is spent, brown is available, grey is still unfound.",
+      note: "This one total feeds the dashboard, Perfection and this page. Ticking a spot below adds its walnuts to the total.",
+      bar: "Walnuts spent, available and not found",
+    },
+    upgrades: {
+      title: "Island upgrades",
+      badge: (unlocked: number, total: number) =>
+        `${unlocked} / ${total} unlocked`,
+      unlocked: "Unlocked",
+      locked: "Locked",
+      cost: (cost: number) => `${cost} walnut${cost === 1 ? "" : "s"}`,
+      switch: (name: string) => `${name} unlocked`,
+      warning: (cost: number, left: number) =>
+        `Costs ${cost}, but only ${left} left to spend. You can still unlock it.`,
+      note: (total: number) =>
+        `Costs add up to ${total} walnuts. A locked upgrade that costs more than the walnuts you have left shows a warning.`,
+    },
+    spots: {
+      title: "Golden walnuts",
+      badge: (found: number, total: number) => `${found} / ${total} found`,
+      count: (spots: number, total: number) =>
+        `${spots} of ${total} spots found. Some spots hold several walnuts, shown as ×3 or ×5.`,
+      search: "Search walnut spots by name or hint",
+      showing: (shown: number, total: number) =>
+        `Showing ${shown} of ${total} spots`,
+      location: "Location",
+      status: "Status",
+      allLocations: "All locations",
+      statuses: { all: "All", found: "Found", "not-found": "Not found" },
+      sheetTitle: "Filter walnut spots",
+      apply: (count: number) => `Show ${count} spot${count === 1 ? "" : "s"}`,
+      empty: "No walnuts match your filters.",
+      clear: "Clear filters",
+      amount: (amount: number) => `×${amount}`,
+      switch: (name: string) => `${name} found`,
+      showHint: "Show hint",
+      hideHint: "Hide hint",
+    },
+    parrot: {
+      title: "Joja parrot calculator",
+      badge: (rate: number) => `${rate.toLocaleString()}g per walnut`,
+      found: "Walnuts found",
+      foundOf: "of 130",
+      remaining: "Walnuts remaining",
+      remainingCaption: "unfound walnuts",
+      rate: "Cost per walnut",
+      rateCaption: "fixed rate",
+      cost: "Total cost",
+      costCaption: "to buy all remaining",
     },
   },
   character: {

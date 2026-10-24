@@ -173,5 +173,5 @@
 }
 
 html:has(dialog[open]) {
-	overflow: hidden;
+  overflow: hidden;
 }

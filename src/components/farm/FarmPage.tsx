@@ -13,7 +13,7 @@ import { Tabs } from "@/comps/ui/Tabs";
 import { AnimalsTab } from "./animals/AnimalsTab";
 import { BuildingsTab } from "./buildings/BuildingsTab";
 import { CharacterTab } from "./character/CharacterTab";
-import { FarmNotRebuilt } from "./FarmNotRebuilt";
+import { GingerIslandTab } from "./ginger-island/GingerIslandTab";
 
 const text = farmText;
 
@@ -23,7 +23,7 @@ function Panel({ tab, playthrough }: { tab: FarmTabId; playthrough: Playthrough 
 	if (tab === "character") return <CharacterTab playthrough={playthrough} />;
 	if (tab === "animals") return <AnimalsTab playthrough={playthrough} />;
 	if (tab === "buildings") return <BuildingsTab playthrough={playthrough} />;
-	return <FarmNotRebuilt tab={tab} />;
+	return <GingerIslandTab playthrough={playthrough} />;
 }
 
 function FarmContent({ playthrough }: { playthrough: Playthrough }) {

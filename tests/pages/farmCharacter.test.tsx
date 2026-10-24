@@ -134,15 +134,6 @@ describe("Farm page", () => {
 		expect(navigation.replace).toHaveBeenCalledWith("/farm?tab=animals", { scroll: false });
 	});
 
-	it("points a tab that is not rebuilt to its old page", async () => {
-		navigation.search = "tab=ginger-island";
-		seed(withData(() => {}));
-		await mount();
-
-		expect(text()).toContain("This tab is not rebuilt yet");
-		expect(container.querySelector('a[href="/farm/ginger-island"]')).not.toBeNull();
-	});
-
 	it("falls back to Character for an unknown tab", async () => {
 		navigation.search = "tab=nothing";
 		seed(withData(() => {}));
