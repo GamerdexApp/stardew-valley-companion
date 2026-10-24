@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Gear",
-	description: "Track your Stardew Valley tools and gear upgrades.",
+	description:
+		"A reference for Stardew Valley weapons, footwear, rings, hats, trinkets, bait and tackle.",
 	alternates: {
 		canonical: "/gear",
 	},
-	openGraph: {
-		title: "Gear | Stardew Valley Companion",
-		description: "Track your Stardew Valley tools and gear upgrades.",
-		url: "/gear",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 

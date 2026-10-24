@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { LuSearch } from "react-icons/lu";
 import { questsText } from "@/lib/messages/quests";
-import { searchItems } from "@/service/quests";
+import { searchItems } from "@/lib/utils/searchItems";
 import { Button } from "@/comps/ui/Button";
 import { EmptyState } from "@/comps/ui/EmptyState";
 import { Input } from "@/comps/ui/Input";

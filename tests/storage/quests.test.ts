@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { GameData } from "@/types/app";
+import { searchItems } from "@/lib/utils/searchItems";
 import {
   allBooks,
   allQuests,
@@ -12,7 +13,6 @@ import {
   qiOrders,
   questKey,
   questsSummary,
-  searchItems,
   secretNoteList,
   setBookFound,
   setBooksFound,
