@@ -7,7 +7,6 @@ export * from "./ui";
 export * from "./villagers";
 export * from "./toast";
 export * from "./modals";
-export * from "./grandpa";
 export * from "./specialItems";
 export * from "./farm";
 export * from "./town";
