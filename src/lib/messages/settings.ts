@@ -30,6 +30,26 @@ export const settingsText = {
       cleared: "Platform cleared",
       undo: "Undo",
     },
+    route: {
+      title: "Community Center or Joja",
+      description: (name: string) =>
+        `The route ${name} is on. The sidebar, the Overview and the Community Center page follow this choice. It is saved with the playthrough.`,
+      label: "Route",
+      options: {
+        "community-center": {
+          label: "Community Center",
+          detail: "Restore it with 30 bundles in 6 rooms.",
+        },
+        joja: {
+          label: "Joja membership",
+          detail: "Buy 5 community development projects, 135,000g in total.",
+        },
+      },
+      keeps:
+        "Switching to Joja keeps your bundles, so you can switch back. Switching to the Community Center fills in the standard 30 bundles when none are saved.",
+      changed: (label: string) => `Route set to ${label}.`,
+      undo: "Undo",
+    },
     appearance: {
       title: "Appearance",
       description:

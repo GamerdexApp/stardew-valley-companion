@@ -15,7 +15,10 @@ export function AppBar() {
 	const { activePlaythrough } = usePlaythrough();
 	const savedLabel = useSavedLabel();
 
-	const title = getPageTitle(pathname);
+	const title = getPageTitle(
+		pathname,
+		activePlaythrough?.data.joja.isMember ? "joja" : "community-center"
+	);
 	const subline = [activePlaythrough?.name, savedLabel].filter(Boolean).join(" · ");
 
 	return (

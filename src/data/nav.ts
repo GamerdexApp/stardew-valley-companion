@@ -133,6 +133,26 @@ export const navGroups: NavGroup[] = [
   },
 ];
 
+export type CommunityRoute = "community-center" | "joja";
+
+/** The Community Center link follows the route the farm is on. A Joja farm sees Joja Development. */
+const jojaNavItem: NavItem = {
+  id: "communityCenter",
+  label: "Joja Development",
+  href: "/community-center",
+  icon: LuStore,
+};
+
+export const navGroupsFor = (route: CommunityRoute): NavGroup[] =>
+  route === "community-center"
+    ? navGroups
+    : navGroups.map((group) => ({
+        ...group,
+        items: group.items.map((item) =>
+          item.id === "communityCenter" ? jojaNavItem : item,
+        ),
+      }));
+
 export const settingsNavItem: NavItem = {
   id: "settings",
   label: "Settings",
@@ -162,5 +182,13 @@ const routeTitles: Record<string, string> = {
 export const getNavItem = (pathname: string) =>
   navItems.find((item) => isNavItemActive(item, pathname)) ?? null;
 
-export const getPageTitle = (pathname: string): string =>
-  routeTitles[pathname] ?? getNavItem(pathname)?.label ?? APP_NAME;
+export const getPageTitle = (
+  pathname: string,
+  route: CommunityRoute = "community-center",
+): string =>
+  routeTitles[pathname] ??
+  navGroupsFor(route)
+    .flatMap((group) => group.items)
+    .find((item) => isNavItemActive(item, pathname))?.label ??
+  getNavItem(pathname)?.label ??
+  APP_NAME;

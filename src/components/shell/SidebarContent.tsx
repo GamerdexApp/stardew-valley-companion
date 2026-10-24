@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { shellText } from "@/lib/messages/shell";
 import type { NavItem } from "@/data/nav";
-import { isNavItemActive, navGroups, settingsNavItem } from "@/data/nav";
+import { isNavItemActive, navGroupsFor, settingsNavItem } from "@/data/nav";
 import { SectionLabel } from "@/comps/ui/SectionLabel";
 import { BrandMark } from "./BrandMark";
 import { PlaythroughSwitcher } from "./PlaythroughSwitcher";
@@ -31,6 +32,10 @@ function SidebarLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => v
 }
 
 export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+	const { activePlaythrough } = usePlaythrough();
+	const navGroups = navGroupsFor(
+		activePlaythrough?.data.joja.isMember ? "joja" : "community-center"
+	);
 	return (
 		<div className="flex min-h-0 flex-1 flex-col gap-4 [--ring:var(--color-sb-active-text)]">
 			<BrandMark onNavigate={onNavigate} />

@@ -1,16 +1,19 @@
 "use client";
 
-import type { Platform } from "@/types/app";
+import type { Platform, Playthrough } from "@/types/app";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { formatShortDate } from "@/lib/format";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { settingsText } from "@/lib/messages/settings";
+import { chooseRoute, routeOf } from "@/service/communityCenter";
+import type { Route } from "@/service/communityCenter";
 import { PLATFORMS } from "@/data/constants/platforms";
 import { NEW_PLAYTHROUGH_HREF } from "@/data/nav";
 import { ButtonLink } from "@/comps/ui/Button";
 import { RadioGroup } from "@/comps/ui/RadioGroup";
 import { Select } from "@/comps/ui/Select";
 import { useToast } from "@/comps/ui/Toast";
+import { useFarmEdit } from "../farm/useFarmEdit";
 import { SettingsCard } from "./SettingsCard";
 
 const text = settingsText.preferences;
@@ -81,6 +84,42 @@ function PlaythroughSettings() {
 	);
 }
 
+const routeText = text.route;
+const routes: Route[] = ["community-center", "joja"];
+
+function RouteSettings({ playthrough }: { playthrough: Playthrough }) {
+	const { editWithNote } = useFarmEdit(playthrough.id, playthrough.data);
+	const route = routeOf(playthrough.data);
+
+	return (
+		<SettingsCard title={routeText.title} description={routeText.description(playthrough.name)}>
+			<RadioGroup
+				label={routeText.label}
+				value={route}
+				options={routes.map((id) => ({ id, label: routeText.options[id].label }))}
+				onChange={(next) =>
+					editWithNote(
+						(data) => chooseRoute(data, next),
+						() => ({
+							title: routeText.changed(routeText.options[next].label),
+							undo: routeText.undo,
+						})
+					)
+				}
+			/>
+			<dl className="flex flex-col gap-2">
+				{routes.map((id) => (
+					<div key={id} className="flex flex-col">
+						<dt className="font-medium">{routeText.options[id].label}</dt>
+						<dd className="text-muted">{routeText.options[id].detail}</dd>
+					</div>
+				))}
+			</dl>
+			<p className="text-muted">{routeText.keeps}</p>
+		</SettingsCard>
+	);
+}
+
 const themeOptions = (["light", "dark", "system"] as const).map((id) => ({
 	id,
 	label: themes[id],
@@ -107,9 +146,12 @@ function Appearance() {
 }
 
 export function PreferencesTab() {
+	const { activePlaythrough } = usePlaythrough();
+
 	return (
 		<div className="grid items-start gap-4 lg:grid-cols-2">
 			<PlaythroughSettings />
+			{activePlaythrough && <RouteSettings playthrough={activePlaythrough} />}
 			<Appearance />
 		</div>
 	);

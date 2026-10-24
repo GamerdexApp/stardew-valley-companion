@@ -41,6 +41,11 @@ import {
   PAN_LEVEL_OFFSET,
   TOOL_ENTRIES,
 } from "@/data/constants/tools";
+import {
+  allProjects,
+  isProjectPurchased,
+  jojaSummary,
+} from "./communityCenter";
 
 const capitalize = (word: string) =>
   word.charAt(0).toUpperCase() + word.slice(1);
@@ -291,9 +296,6 @@ export const perfectionFigures = (data: GameData): PerfectionFigures => {
 export const isCategoryDone = (category: CategoryProgress): boolean =>
   category.current >= category.total;
 
-const titleCase = (id: string) =>
-  id.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-
 export interface CommunityCenterFigures {
   path: "community-center" | "joja";
   badge: string;
@@ -307,14 +309,16 @@ export const communityCenterFigures = (
 ): CommunityCenterFigures => {
   const { communityCenter, joja } = data;
   if (joja.isMember) {
-    const entries = Object.entries(joja.developments);
-    const purchased = entries.filter(([, done]) => done).length;
+    const { purchased, total } = jojaSummary(data);
     return {
       path: "joja",
-      badge: `${purchased} / ${entries.length} purchased`,
+      badge: `${purchased} / ${total} purchased`,
       completed: joja.completed,
       flags: [],
-      rows: entries.map(([id, done]) => ({ label: titleCase(id), done })),
+      rows: allProjects.map((project) => ({
+        label: project.name,
+        done: isProjectPurchased(data, project),
+      })),
     };
   }
   const rooms = communityCenter.rooms as unknown as Record<string, boolean>;

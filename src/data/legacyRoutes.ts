@@ -41,7 +41,7 @@ export const LEGACY_ROUTES: LegacyRoute[] = [
     from: `/collections/${tab}`,
     to: `/collections?tab=${tab}`,
   })),
-  { from: "/joja", to: "/community-center?tab=joja" },
+  { from: "/joja", to: "/community-center" },
 ];
 
 /**

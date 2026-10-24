@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Community Center",
-	description: "Track your Stardew Valley Community Center bundle progress.",
+	description: "Track your Stardew Valley Community Center bundles or Joja development projects.",
 	alternates: {
 		canonical: "/community-center",
 	},
-	openGraph: {
-		title: "Community Center | Stardew Valley Companion",
-		description: "Track your Stardew Valley Community Center bundle progress.",
-		url: "/community-center",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 

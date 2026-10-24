@@ -167,6 +167,56 @@ describe("Preferences tab", () => {
 		expect(stored()!.settings).toEqual({ theme: "dark" });
 	});
 
+	it("shows the route of the active playthrough and what each route means", async () => {
+		seed(saved);
+		await mount(<PreferencesTab />);
+
+		expect(container.textContent).toContain("Community Center or Joja");
+		expect(container.textContent).toContain("The route Riverland is on.");
+		expect(container.textContent).toContain("Restore it with 30 bundles in 6 rooms.");
+		expect(container.textContent).toContain(
+			"Buy 5 community development projects, 135,000g in total."
+		);
+		expect((radio("Community Center") as HTMLInputElement).checked).toBe(true);
+		expect((radio("Joja membership") as HTMLInputElement).checked).toBe(false);
+	});
+
+	it("switches the route of the active playthrough only, and offers Undo", async () => {
+		seed(saved);
+		await mount(<PreferencesTab />);
+
+		await click(radio("Joja membership"));
+
+		expect(stored()!.playthroughs[0].data.joja.isMember).toBe(true);
+		expect(stored()!.playthroughs[1].data.joja.isMember).toBe(false);
+		expect(stored()!.playthroughs[0].data.communityCenter).toMatchObject({
+			unlocked: false,
+			bundlesActive: false,
+		});
+		expect(document.body.textContent).toContain("Route set to Joja membership.");
+		expect((radio("Joja membership") as HTMLInputElement).checked).toBe(true);
+		await click(button("Undo"));
+		expect(stored()!.playthroughs[0].data.joja.isMember).toBe(false);
+	});
+
+	it("fills the standard bundles when the route goes back to the Community Center with none saved", async () => {
+		const joja = structuredClone(saved);
+		joja.playthroughs[0].data.joja.isMember = true;
+		joja.playthroughs[0].data.bundles = {};
+		seed(joja);
+		await mount(<PreferencesTab />);
+
+		await click(radio("Community Center"));
+
+		expect(Object.keys(stored()!.playthroughs[0].data.bundles)).toHaveLength(30);
+	});
+
+	it("has no route card when there is no active playthrough", async () => {
+		await mount(<PreferencesTab />);
+
+		expect(container.textContent).not.toContain("Community Center or Joja");
+	});
+
 	it("points to creating a playthrough when there are none", async () => {
 		await mount(<PreferencesTab />);
 

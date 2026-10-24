@@ -297,16 +297,19 @@ describe("community center and joja", () => {
     data.joja = {
       isMember: true,
       completed: false,
-      developments: { "greenhouse-fix": true, "bus-repair": false },
+      developments: { "greenhouse-joja": true, "bus-joja": false },
     };
 
     const figures = communityCenterFigures(data);
 
     expect(figures.path).toBe("joja");
-    expect(figures.badge).toBe("1 / 2 purchased");
+    expect(figures.badge).toBe("1 / 5 purchased");
     expect(figures.rows).toEqual([
-      { label: "Greenhouse Fix", done: true },
-      { label: "Bus Repair", done: false },
+      { label: "Minecarts", done: false },
+      { label: "Panning", done: false },
+      { label: "Bridge", done: false },
+      { label: "Greenhouse", done: true },
+      { label: "Bus", done: false },
     ]);
     expect(figures.flags).toEqual([]);
   });

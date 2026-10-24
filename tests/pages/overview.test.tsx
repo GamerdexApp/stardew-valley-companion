@@ -154,7 +154,7 @@ describe("Overview page", () => {
 			joja.data.joja = {
 				isMember: true,
 				completed: true,
-				developments: { "greenhouse-fix": true, "bus-repair": false },
+				developments: { "greenhouse-joja": true, "bus-joja": false },
 			};
 			seed({ playthroughs: [joja], activePlaythroughId: joja.id });
 			await mount();
@@ -162,7 +162,7 @@ describe("Overview page", () => {
 			expect(headings()).toContain("Joja Development");
 			expect(headings()).not.toContain("Community Center");
 			expect(text()).toContain("All projects completed");
-			expect(text()).toContain("Greenhouse Fix");
+			expect(text()).toContain("Greenhouse");
 			expect(text()).toContain("Not purchased");
 		});
 
