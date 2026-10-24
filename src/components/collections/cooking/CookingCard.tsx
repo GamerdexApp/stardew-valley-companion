@@ -35,7 +35,7 @@ export function CookingCard({ dish, status, onStatusChange, onOpen }: CookingCar
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
 				/>
-				<div className="flex min-w-0 flex-1 flex-col gap-1">
+				<div className="flex min-w-0 flex-1 flex-col gap-1 break-words">
 					<span className="font-semibold">{dish.name}</span>
 					<span className="text-muted text-xs">{shortSource(dish.recipeSources[0])}</span>
 				</div>

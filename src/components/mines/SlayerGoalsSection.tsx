@@ -1,3 +1,4 @@
+import { LuPhone } from "react-icons/lu";
 import type { GameData } from "@/types/app";
 import { minesText } from "@/lib/messages/mines";
 import { assetPath } from "@/lib/utils/assetPath";
@@ -36,8 +37,10 @@ export function SlayerGoalsSection({ data }: { data: GameData }) {
 							) : (
 								<span
 									aria-hidden="true"
-									className="bg-tint size-8 shrink-0 rounded-md"
-								/>
+									className="bg-tint text-muted flex size-8 shrink-0 items-center justify-center rounded-md"
+								>
+									<LuPhone size={16} />
+								</span>
 							)}
 							<div className="flex min-w-0 flex-1 flex-col">
 								<span className="font-semibold">{goal.name}</span>

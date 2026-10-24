@@ -218,6 +218,18 @@ describe("Slayer goals", () => {
 		expect(goals.querySelectorAll('[role="progressbar"]')).toHaveLength(12);
 	});
 
+	it("shows a phone icon where a reward has no picture", async () => {
+		seed(withData(() => {}));
+		await mount();
+		const goal = [...section("Slayer goals").querySelectorAll("div.flex.flex-col.gap-2")].find(
+			(el) => el.textContent?.includes("Magma Sprites")
+		)!;
+
+		expect(goal.textContent).toContain("Reward: Marlon's Phone Number");
+		expect(goal.querySelector("img")).toBeNull();
+		expect(goal.querySelector("svg")).not.toBeNull();
+	});
+
 	it("follows the kills typed in the monster list", async () => {
 		seed(withData(() => {}));
 		await mount();

@@ -70,5 +70,6 @@ describe("The app shell", () => {
 
 		expect(sidebar.className).toContain("[--ring:var(--color-sb-ring)]");
 		expect(css.match(/--sb-ring:/g)).toHaveLength(2);
+		expect(css).toContain("[data-focus-inset] :focus-visible");
 	});
 });

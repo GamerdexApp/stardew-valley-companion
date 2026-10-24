@@ -151,7 +151,7 @@ export function SpecialItemsTab({ playthrough }: { playthrough: Playthrough }) {
 										alt=""
 										className={`size-12 shrink-0 object-contain [image-rendering:pixelated] ${state === "missing" ? "opacity-50 grayscale" : ""}`}
 									/>
-									<div className="flex min-w-0 flex-1 flex-col gap-1">
+									<div className="flex min-w-0 flex-1 flex-col gap-1 break-words">
 										<span className="font-semibold">{item.name}</span>
 										<span className={`${chip} self-start`}>
 											{text.kind[item.type]}

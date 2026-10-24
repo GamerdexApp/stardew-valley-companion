@@ -136,6 +136,11 @@
     outline-offset: 2px;
   }
 
+  /* A scrolling box clips an outline that sits outside its control, so these boxes draw the ring inside. */
+  [data-focus-inset] :focus-visible {
+    outline-offset: -2px;
+  }
+
   /* Tailwind 4 resets buttons to the default cursor. Every control a user can click needs a pointer. */
   a[href],
   button:not(:disabled),

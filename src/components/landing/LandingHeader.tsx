@@ -32,7 +32,9 @@ export function LandingHeader() {
 						height={32}
 						className="block size-8 shrink-0 rounded-md"
 					/>
-					<span className="font-brand text-lg font-bold">{APP_NAME}</span>
+					<span className="font-brand text-base leading-tight font-bold min-[360px]:text-lg">
+						{APP_NAME}
+					</span>
 				</Link>
 				<nav
 					aria-label={text.header.label}

@@ -51,7 +51,7 @@ export function VillagerCard({ villager, data, onHearts, onStatus, onOpen }: Vil
 					height={48}
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
 				/>
-				<div className="flex min-w-0 flex-1 flex-col gap-0.5">
+				<div className="flex min-w-0 flex-1 flex-col gap-0.5 break-words">
 					<span className="font-semibold">{villager.name}</span>
 					<span className="text-muted text-xs">{villager.occupation}</span>
 					<span className="text-muted text-xs">

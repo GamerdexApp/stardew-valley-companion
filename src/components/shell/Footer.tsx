@@ -21,8 +21,8 @@ function ExternalLink({ href, children }: { href: string; children: string }) {
 export function Footer() {
 	return (
 		<footer className="bg-primary text-on-primary flex flex-col gap-6 px-4 pt-10 pb-7 [--ring:var(--color-on-primary)] lg:px-8">
-			<div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1.2fr]">
-				<div className="flex min-w-0 flex-col gap-3">
+			<div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-[1.4fr_1fr_1.2fr] md:gap-8">
+				<div className="col-span-2 flex min-w-0 flex-col gap-3 md:col-span-1">
 					<span className="bg-sb-bg w-fit rounded-md px-3 py-2 [--ring:var(--color-sb-ring)]">
 						<BrandMark />
 					</span>
@@ -36,16 +36,18 @@ export function Footer() {
 					<ExternalLink href={DISCORD_URL}>{text.discord}</ExternalLink>
 					<ExternalLink href={GITHUB_URL}>{text.github}</ExternalLink>
 				</nav>
-				<nav aria-label={text.about} className="flex min-w-0 flex-col gap-1.5">
-					<SectionLabel className="text-on-primary">{text.about}</SectionLabel>
-					<ExternalLink href={WIKI_URL}>{text.wiki}</ExternalLink>
-					<ExternalLink href={`${GAMERDEX_URL}/privacy`}>{text.privacy}</ExternalLink>
-					<ExternalLink href={`${GAMERDEX_URL}/terms`}>{text.terms}</ExternalLink>
-					<div className="border-on-primary/40 mt-2 flex flex-col gap-1 rounded-md border-[1.5px] px-3.5 py-3">
+				<div className="contents md:flex md:min-w-0 md:flex-col md:gap-3">
+					<nav aria-label={text.about} className="flex min-w-0 flex-col gap-1.5">
+						<SectionLabel className="text-on-primary">{text.about}</SectionLabel>
+						<ExternalLink href={WIKI_URL}>{text.wiki}</ExternalLink>
+						<ExternalLink href={`${GAMERDEX_URL}/privacy`}>{text.privacy}</ExternalLink>
+						<ExternalLink href={`${GAMERDEX_URL}/terms`}>{text.terms}</ExternalLink>
+					</nav>
+					<div className="border-on-primary/40 col-span-2 flex flex-col gap-1 rounded-md border-[1.5px] px-3.5 py-3 md:col-span-1">
 						<span className="font-semibold">{text.disclaimerTitle}</span>
 						<span className="text-[13px]">{text.disclaimer}</span>
 					</div>
-				</nav>
+				</div>
 			</div>
 			<div className="border-on-primary/40 flex flex-wrap items-center justify-between gap-4 border-t-[1.5px] pt-4 text-[13px]">
 				<span>

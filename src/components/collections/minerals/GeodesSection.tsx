@@ -66,7 +66,7 @@ export function GeodesSection() {
 									alt=""
 									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
 								/>
-								<div className="flex min-w-0 flex-1 flex-col gap-1">
+								<div className="flex min-w-0 flex-1 flex-col gap-1 break-words">
 									<span className="font-semibold">{geode.name}</span>
 									<span className="text-muted text-xs">
 										{opensForRandomItems(geode)

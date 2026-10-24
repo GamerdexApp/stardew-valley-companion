@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { collectionsText } from "@/lib/messages/collections";
 import type { ProgressCount } from "@/lib/utils/collectionCounts";
@@ -20,6 +20,12 @@ interface CollectionTabsProps {
 
 export function CollectionTabs({ activeId, counts, onChange, children }: CollectionTabsProps) {
 	const baseId = useId();
+
+	useEffect(() => {
+		document
+			.getElementById(`${baseId}-tab-${activeId}`)
+			?.scrollIntoView({ block: "nearest", inline: "center" });
+	}, [baseId, activeId]);
 
 	/** One tab per group takes Tab: the active tab, or the first tab of a group that has none. */
 	const stopOf = (tabs: CollectionTabId[]) => (tabs.includes(activeId) ? activeId : tabs[0]);
@@ -49,7 +55,8 @@ export function CollectionTabs({ activeId, counts, onChange, children }: Collect
 							role="tablist"
 							aria-label={text.groups[group.id]}
 							onKeyDown={(event) => move(event, group.tabs)}
-							className="flex flex-wrap gap-2"
+							data-focus-inset
+							className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0"
 						>
 							{group.tabs.map((id) => {
 								const active = id === activeId;
@@ -65,9 +72,9 @@ export function CollectionTabs({ activeId, counts, onChange, children }: Collect
 										data-tab={id}
 										tabIndex={id === stopOf(group.tabs) ? 0 : -1}
 										onClick={() => onChange(id)}
-										className={`flex min-h-11 items-center gap-2 rounded-full border-[1.5px] px-3.5 lg:min-h-9 ${
+										className={`flex min-h-11 shrink-0 items-center gap-2 rounded-full border-[1.5px] px-3.5 whitespace-nowrap lg:min-h-9 ${
 											active
-												? "border-primary bg-primary text-on-primary font-medium"
+												? "border-primary bg-primary text-on-primary focus-visible:outline-on-primary font-medium"
 												: "border-line bg-surface hover:bg-tint"
 										}`}
 									>

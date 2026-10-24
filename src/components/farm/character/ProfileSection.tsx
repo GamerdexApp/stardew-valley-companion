@@ -85,7 +85,7 @@ export function ProfileSection({ data, edit }: ProfileSectionProps) {
 						/>
 					</Field>
 				</div>
-				<div className="grid grid-cols-3 gap-3 md:max-w-xl">
+				<div className="grid grid-cols-[1.5fr_1fr_1fr] gap-3 md:max-w-xl">
 					<Field label={profile.season}>
 						<Select
 							value={character.currentDate.season}

@@ -56,7 +56,7 @@ export function FishDialog({ fish, caught, bonus, onCaughtChange, onClose }: Fis
 							alt=""
 							className="size-14 shrink-0 object-contain [image-rendering:pixelated]"
 						/>
-						<div className="flex min-w-0 flex-1 flex-col gap-1">
+						<div className="flex min-w-0 flex-1 flex-col gap-1 break-words">
 							<span className="flex flex-wrap items-center gap-2 text-xs font-medium">
 								<span
 									className={`border-line rounded-md border-[1.5px] px-1.5 py-0.5 ${isRod ? "text-warn" : "text-added"}`}

@@ -21,7 +21,7 @@ function SidebarLink({ item, onNavigate }: { item: NavItem; onNavigate?: () => v
 			aria-current={active ? "page" : undefined}
 			className={`flex h-10 items-center gap-2.5 rounded-md px-2.5 lg:h-9 ${
 				active
-					? "bg-sb-active-bg text-sb-active-text font-semibold"
+					? "bg-sb-active-bg text-sb-active-text focus-visible:outline-sb-active-text font-semibold"
 					: "text-sb-text hover:bg-sb-line"
 			}`}
 		>
@@ -58,7 +58,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 					</div>
 				))}
 			</nav>
-			<div className="border-sb-line border-t-[1.5px] pt-3">
+			<div data-focus-inset className="border-sb-line border-t-[1.5px] pt-3">
 				<SidebarLink item={settingsNavItem} onNavigate={onNavigate} />
 			</div>
 		</div>
