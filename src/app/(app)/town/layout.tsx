@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Town",
-	description: "Track your Stardew Valley town progress and friendships.",
+	description: "Locations, shops and hours throughout the Stardew Valley map.",
 	alternates: {
 		canonical: "/town",
 	},
-	openGraph: {
-		title: "Town | Stardew Valley Companion",
-		description: "Track your Stardew Valley town progress and friendships.",
-		url: "/town",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 
