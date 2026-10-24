@@ -180,4 +180,37 @@ describe("Collections overview tab", () => {
 		expect(container.querySelector('[role="switch"]')).toBeNull();
 		expect(container.querySelector("input")).toBeNull();
 	});
+
+	it("lets the keyboard reach both tab groups, and moves from the focused tab", async () => {
+		seed(withData(() => {}));
+		await mount();
+		const lists = [...container.querySelectorAll('[role="tablist"]')];
+		const stops = lists.map((list) =>
+			[...list.querySelectorAll('[role="tab"]')].filter(
+				(tab) => (tab as HTMLElement).tabIndex === 0
+			)
+		);
+
+		expect(lists).toHaveLength(2);
+		expect(stops.map((group) => group.length)).toEqual([1, 1]);
+		expect(stops[0][0].textContent).toContain("Overview");
+		expect(stops[1][0].textContent).toContain("Crops");
+
+		const crops = stops[1][0] as HTMLElement;
+		await act(async () => {
+			crops.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+		});
+		expect(navigation.replace).toHaveBeenLastCalledWith(
+			expect.stringContaining("tab=forageables"),
+			expect.anything()
+		);
+
+		await act(async () => {
+			crops.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
+		});
+		expect(navigation.replace).toHaveBeenLastCalledWith(
+			expect.stringContaining("tab=special-items"),
+			expect.anything()
+		);
+	});
 });

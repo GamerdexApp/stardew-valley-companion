@@ -2,6 +2,7 @@ export const shellText = {
   skipToContent: "Skip to content",
   closeMenu: "Close menu",
   openMenu: "Open menu",
+  menuLabel: "Site menu",
   mainNav: "Main",
   brandSubtitle: "Companion",
   switcher: {

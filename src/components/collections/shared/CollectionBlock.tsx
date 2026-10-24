@@ -27,12 +27,13 @@ export function CollectionBlock({ id, title, badge, children }: CollectionBlockP
 
 export const BLOCK_GRID = "grid grid-cols-1 items-start gap-3 md:grid-cols-2 xl:grid-cols-3";
 
+/** The accessible name starts with the visible text, so voice control can say what it sees. */
 export function DetailsButton({
-	label,
+	name,
 	text,
 	onClick,
 }: {
-	label: string;
+	name: string;
 	text: string;
 	onClick: () => void;
 }) {
@@ -40,7 +41,7 @@ export function DetailsButton({
 		<button
 			type="button"
 			onClick={onClick}
-			aria-label={label}
+			aria-label={`${text}, ${name}`}
 			className="text-link flex min-h-11 items-center self-start font-semibold underline-offset-2 hover:underline lg:min-h-6"
 		>
 			{text}

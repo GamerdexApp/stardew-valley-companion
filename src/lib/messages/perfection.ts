@@ -41,6 +41,5 @@ export const perfectionText = {
     showAll: "Show all",
     showFewer: "Show fewer",
     complete: "Complete",
-    open: (name: string) => `Show what is missing for ${name}`,
   },
 };

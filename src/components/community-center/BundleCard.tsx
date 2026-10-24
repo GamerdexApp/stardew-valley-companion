@@ -69,7 +69,6 @@ export function BundleCard({ bundle, data, onItem, onAll, slot }: BundleCardProp
 				<button
 					type="button"
 					aria-pressed={isItemHandedIn(data, bundle, 0)}
-					aria-label={text.paidLabel(bundle.name)}
 					disabled={locked}
 					onClick={() => onItem(0, !isItemHandedIn(data, bundle, 0))}
 					className={`flex min-h-11 items-center justify-between gap-3 rounded-md border-[1.5px] px-3 text-sm disabled:opacity-70 lg:min-h-9 ${
@@ -100,7 +99,12 @@ export function BundleCard({ bundle, data, onItem, onAll, slot }: BundleCardProp
 									<button
 										type="button"
 										aria-pressed={on}
-										aria-label={text.itemLabel(item.name, bundle.name)}
+										aria-label={text.itemLabel(
+											item.quantity > 1
+												? `${item.name} ${text.quantity(item.quantity)}`
+												: item.name,
+											bundle.name
+										)}
 										disabled={locked}
 										onClick={() =>
 											onItem(index, !isItemHandedIn(data, bundle, index))

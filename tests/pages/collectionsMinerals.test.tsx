@@ -53,10 +53,10 @@ const block = (title: string) =>
 		(el) => el.querySelector("h2")?.textContent === title
 	) as HTMLElement;
 const cardsIn = (root: ParentNode) =>
-	root.querySelectorAll('button[aria-label$=", show details"]').length;
+	root.querySelectorAll('button.text-link[aria-label*=", "]').length;
 const cardOf = (root: ParentNode, name: string) =>
 	root
-		.querySelector(`button[aria-label="${name}, show details"]`)!
+		.querySelector(`button.text-link[aria-label$=", ${name}"]`)!
 		.closest("div.flex.flex-col.gap-2\\.5") as HTMLElement;
 const statusRadio = (root: ParentNode, name: string, status: string) =>
 	[...root.querySelectorAll("fieldset")]
@@ -276,9 +276,7 @@ describe("Collections minerals tab", () => {
 		expect(cardOf(block("Bars"), "Copper Bar").textContent).toContain(
 			"5× Copper Ore + 1× Coal · 30 min"
 		);
-		await click(
-			block("Bars").querySelector('button[aria-label="Refined Quartz, show details"]')
-		);
+		await click(block("Bars").querySelector('button[aria-label$=", Refined Quartz"]'));
 		const dialog = dialogWith("Smelt recipe");
 
 		expect(dialog.textContent).toContain("1× Quartz + 1× Coal · 90 min");
@@ -323,7 +321,7 @@ describe("Collections minerals tab", () => {
 		expect(cardOf(geodes, "Omni Geode").textContent).toContain("No sell price");
 		expect(cardOf(geodes, "Mystery Box").textContent).toContain("Opens for random items");
 
-		await click(geodes.querySelector('button[aria-label="Mystery Box, show details"]'));
+		await click(geodes.querySelector('button[aria-label$=", Mystery Box"]'));
 		const dialog = dialogWith("Possible contents");
 		expect(dialog.textContent).toContain("Possible contents (63)");
 		expect(dialog.textContent).toContain("0.2%");
@@ -337,7 +335,7 @@ describe("Collections minerals tab", () => {
 		expect(cardOf(nodes, "Mystic Stone").textContent).toContain("+150 XP");
 		expect(cardOf(nodes, "Mystic Stone").textContent).toContain("Iridium Ore ×1-3");
 
-		await click(nodes.querySelector('button[aria-label="Mystic Stone, show details"]'));
+		await click(nodes.querySelector('button[aria-label$=", Mystic Stone"]'));
 		const dialog = dialogWith("Mining XP");
 		expect(dialog.textContent).toContain("Prismatic Shard");
 		expect(dialog.textContent).toContain("25%");

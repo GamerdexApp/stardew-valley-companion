@@ -48,10 +48,11 @@ const mount = async () => {
 };
 
 const text = () => container.textContent ?? "";
-const cardCount = () => container.querySelectorAll('button[aria-label$=", show details"]').length;
+const cardCount = () =>
+	container.querySelectorAll('button[aria-label^="Ingredients and sources, "]').length;
 const cardOf = (name: string) =>
 	container
-		.querySelector(`button[aria-label="${name}, show details"]`)!
+		.querySelector(`button[aria-label="Ingredients and sources, ${name}"]`)!
 		.closest("div.flex.flex-col.gap-2\\.5") as HTMLElement;
 const statusRadio = (root: ParentNode, name: string, status: string) =>
 	[...root.querySelectorAll("fieldset")]
@@ -153,9 +154,9 @@ describe("Collections cooking tab", () => {
 	it("lists the recipes in alphabetical order", async () => {
 		seed(withData(() => {}));
 		await mount();
-		const labels = [...container.querySelectorAll('button[aria-label$=", show details"]')].map(
-			(b) => b.getAttribute("aria-label")!.replace(", show details", "")
-		);
+		const labels = [
+			...container.querySelectorAll('button[aria-label^="Ingredients and sources, "]'),
+		].map((b) => b.getAttribute("aria-label")!.replace("Ingredients and sources, ", ""));
 
 		expect(labels).toEqual([...labels].sort((a, b) => a.localeCompare(b)));
 	});
@@ -263,7 +264,9 @@ describe("Collections cooking tab", () => {
 		await mount();
 
 		await click(
-			container.querySelector('button[aria-label="Complete Breakfast, show details"]')
+			container.querySelector(
+				'button[aria-label="Ingredients and sources, Complete Breakfast"]'
+			)
 		);
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("Recipe sources")
@@ -282,7 +285,9 @@ describe("Collections cooking tab", () => {
 		seed(withData(() => {}));
 		await mount();
 
-		await click(container.querySelector('button[aria-label="Fried Egg, show details"]'));
+		await click(
+			container.querySelector('button[aria-label="Ingredients and sources, Fried Egg"]')
+		);
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("Recipe sources")
 		)!;

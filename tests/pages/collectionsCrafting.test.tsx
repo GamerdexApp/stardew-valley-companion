@@ -48,10 +48,10 @@ const mount = async () => {
 };
 
 const text = () => container.textContent ?? "";
-const cardCount = () => container.querySelectorAll('button[aria-label$=", show details"]').length;
+const cardCount = () => container.querySelectorAll('button[aria-label^="Recipe details, "]').length;
 const cardOf = (name: string) =>
 	container
-		.querySelector(`button[aria-label="${name}, show details"]`)!
+		.querySelector(`button[aria-label="Recipe details, ${name}"]`)!
 		.closest("div.flex.flex-col.gap-2\\.5") as HTMLElement;
 const statusRadio = (root: ParentNode, name: string, status: string) =>
 	[...root.querySelectorAll("fieldset")]
@@ -294,7 +294,7 @@ describe("Collections crafting tab", () => {
 		seed(withData(() => {}));
 		await mount();
 
-		await click(container.querySelector('button[aria-label="Bomb, show details"]'));
+		await click(container.querySelector('button[aria-label="Recipe details, Bomb"]'));
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("Output")
 		)!;
@@ -311,7 +311,7 @@ describe("Collections crafting tab", () => {
 	it("shows the Big Craftable note for a big craftable output", async () => {
 		seed(withData(() => {}));
 		await mount();
-		await click(container.querySelector('button[aria-label="Bee House, show details"]'));
+		await click(container.querySelector('button[aria-label="Recipe details, Bee House"]'));
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("Output")
 		)!;

@@ -151,7 +151,11 @@ export function FilterBlock({
 	const hasFilters = activeCount > 0 || search.value !== "";
 
 	return (
-		<section aria-label={text.filters} className="flex flex-col gap-3">
+		<div
+			role="group"
+			aria-label={`${text.filters}: ${search.label}`}
+			className="flex flex-col gap-3"
+		>
 			<div className="flex flex-wrap items-center gap-3">
 				<div className="w-full lg:w-auto lg:flex-1">
 					<Input
@@ -221,6 +225,6 @@ export function FilterBlock({
 					)
 				)}
 			</Flyout>
-		</section>
+		</div>
 	);
 }

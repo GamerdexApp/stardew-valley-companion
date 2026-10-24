@@ -79,7 +79,7 @@ export function GeodesSection() {
 							</div>
 							<Price geode={geode} />
 							<DetailsButton
-								label={text.card.details(geode.name)}
+								name={geode.name}
 								text={text.card.contentsAndLocations}
 								onClick={() => setSelected(geode)}
 							/>

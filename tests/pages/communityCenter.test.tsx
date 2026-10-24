@@ -206,7 +206,11 @@ describe("Community Center tab", () => {
 		seed(standardCenter());
 		await mount();
 
-		await click(control("2,500g Bundle paid"));
+		await click(
+			[...section("Vault").querySelectorAll("button[aria-pressed]")].find((b) =>
+				b.textContent?.startsWith("2,500g required")
+			) as HTMLElement
+		);
 
 		expect(section("Vault").textContent).toContain("1 / 4 complete");
 		expect(section("Vault").textContent).toContain("1 / 1 paid");

@@ -75,7 +75,7 @@ export function NodesSection() {
 								)}
 							</ul>
 							<DetailsButton
-								label={text.card.details(node.name)}
+								name={node.name}
 								text={text.card.dropsAndLocations}
 								onClick={() => setSelected(node)}
 							/>

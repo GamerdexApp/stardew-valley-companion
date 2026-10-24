@@ -37,7 +37,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 		activePlaythrough?.data.joja.isMember ? "joja" : "community-center"
 	);
 	return (
-		<div className="flex min-h-0 flex-1 flex-col gap-4 [--ring:var(--color-sb-active-text)]">
+		<div className="flex min-h-0 flex-1 flex-col gap-4 [--ring:var(--color-sb-ring)]">
 			<BrandMark onNavigate={onNavigate} />
 			<PlaythroughSwitcher onNavigate={onNavigate} />
 			<nav

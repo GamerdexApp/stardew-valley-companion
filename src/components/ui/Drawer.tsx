@@ -8,11 +8,12 @@ import { IconButton } from "./IconButton";
 interface DrawerProps {
 	open: boolean;
 	onClose: () => void;
+	label: string;
 	closeLabel: string;
 	children: ReactNode;
 }
 
-export function Drawer({ open, onClose, closeLabel, children }: DrawerProps) {
+export function Drawer({ open, onClose, label, closeLabel, children }: DrawerProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
 	useEffect(() => {
@@ -26,11 +27,12 @@ export function Drawer({ open, onClose, closeLabel, children }: DrawerProps) {
 	return (
 		<dialog
 			ref={dialogRef}
+			aria-label={label}
 			onClose={onClose}
 			onClick={(event) => {
 				if (event.target === event.currentTarget) onClose();
 			}}
-			className="bg-sb-bg text-sb-text backdrop:bg-scrim fixed inset-s-0 top-0 m-0 h-dvh max-h-none w-77.5 max-w-[85vw] flex-col gap-3 p-4 open:flex"
+			className="bg-sb-bg text-sb-text backdrop:bg-scrim fixed inset-s-0 top-0 m-0 h-dvh max-h-none w-77.5 max-w-[85vw] flex-col gap-3 p-4 [--ring:var(--color-sb-ring)] open:flex"
 		>
 			<div className="-mb-6 flex justify-end">
 				<IconButton

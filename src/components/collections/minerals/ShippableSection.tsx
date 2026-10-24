@@ -174,7 +174,7 @@ export function ShippableSection({
 								bonus={bonusFor(item)}
 							/>
 							<DetailsButton
-								label={text.card.details(item.name)}
+								name={item.name}
 								text={
 									isBar(item)
 										? text.card.smeltRecipeAndLocations

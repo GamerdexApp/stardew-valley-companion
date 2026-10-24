@@ -72,7 +72,7 @@ export function Menu({ label, trigger, children, className = "" }: MenuProps) {
 					ref={panelRef}
 					role="menu"
 					aria-label={label}
-					className="border-line bg-surface text-ink absolute inset-x-0 top-full z-20 mt-1 flex flex-col gap-0.5 rounded-md border-[1.5px] p-1.5"
+					className="border-line bg-surface text-ink absolute inset-x-0 top-full z-20 mt-1 flex flex-col gap-0.5 rounded-md border-[1.5px] p-1.5 [--ring:var(--primary)]"
 				>
 					{typeof children === "function" ? children(close) : children}
 				</div>

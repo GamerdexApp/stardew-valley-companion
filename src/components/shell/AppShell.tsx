@@ -38,15 +38,24 @@ export function AppShell({ children }: { children: ReactNode }) {
 			</aside>
 			<div className="flex min-w-0 flex-1 flex-col">
 				<AppBar />
-				<main id="main" className="flex flex-1 flex-col gap-4 px-4 py-4 lg:px-8 lg:py-6">
+				<main
+					id="main"
+					tabIndex={-1}
+					className="flex flex-1 flex-col gap-4 px-4 py-4 outline-none lg:px-8 lg:py-6"
+				>
 					{isLoaded ? children : <PageSkeleton />}
 				</main>
 				<Footer />
 			</div>
-			<Drawer open={drawerOpen} onClose={closeDrawer} closeLabel={shellText.closeMenu}>
+			<Drawer
+				open={drawerOpen}
+				onClose={closeDrawer}
+				label={shellText.menuLabel}
+				closeLabel={shellText.closeMenu}
+			>
 				<div className="flex min-h-0 flex-1 flex-col gap-3">
 					<SidebarContent onNavigate={closeDrawer} />
-					<div className="bg-surface text-ink rounded-md p-2">
+					<div className="bg-surface text-ink rounded-md p-2 [--ring:var(--primary)]">
 						<ThemeChoice />
 					</div>
 				</div>

@@ -4,6 +4,7 @@ import { useId } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { collectionsText } from "@/lib/messages/collections";
 import type { ProgressCount } from "@/lib/utils/collectionCounts";
+import { tabIndexAfterKey } from "@/lib/utils/tabKeys";
 import { COLLECTION_GROUPS } from "@/data/collections";
 import type { CollectionTabId } from "@/data/collections";
 import { SectionLabel } from "@/comps/ui/SectionLabel";
@@ -20,12 +21,20 @@ interface CollectionTabsProps {
 export function CollectionTabs({ activeId, counts, onChange, children }: CollectionTabsProps) {
 	const baseId = useId();
 
+	/** One tab per group takes Tab: the active tab, or the first tab of a group that has none. */
+	const stopOf = (tabs: CollectionTabId[]) => (tabs.includes(activeId) ? activeId : tabs[0]);
+
 	const move = (event: KeyboardEvent<HTMLDivElement>, tabs: CollectionTabId[]) => {
-		const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-		if (step === 0) return;
+		const focused = (event.target as HTMLElement).closest<HTMLElement>("[data-tab]")?.dataset
+			.tab;
+		const to = tabIndexAfterKey(
+			event.key,
+			tabs.indexOf(focused as CollectionTabId),
+			tabs.length
+		);
+		if (to === null) return;
 		event.preventDefault();
-		const index = tabs.indexOf(activeId);
-		const next = tabs[(Math.max(index, 0) + step + tabs.length) % tabs.length];
+		const next = tabs[to];
 		onChange(next);
 		document.getElementById(`${baseId}-tab-${next}`)?.focus();
 	};
@@ -53,7 +62,8 @@ export function CollectionTabs({ activeId, counts, onChange, children }: Collect
 										role="tab"
 										aria-selected={active}
 										aria-controls={`${baseId}-panel`}
-										tabIndex={active ? 0 : -1}
+										data-tab={id}
+										tabIndex={id === stopOf(group.tabs) ? 0 : -1}
 										onClick={() => onChange(id)}
 										className={`flex min-h-11 items-center gap-2 rounded-full border-[1.5px] px-3.5 lg:min-h-9 ${
 											active

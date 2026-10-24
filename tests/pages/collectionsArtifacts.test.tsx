@@ -48,10 +48,10 @@ const mount = async () => {
 };
 
 const text = () => container.textContent ?? "";
-const cardCount = () => container.querySelectorAll('button[aria-label$=", show locations"]').length;
+const cardCount = () => container.querySelectorAll('button[aria-label^="Locations"]').length;
 const cardOf = (name: string) =>
 	container
-		.querySelector(`button[aria-label="${name}, show locations"]`)!
+		.querySelector(`button[aria-label^="Locations"][aria-label$=", ${name}"]`)!
 		.closest("div.flex.flex-col.gap-2\\.5") as HTMLElement;
 const statusRadio = (root: ParentNode, name: string, status: string) =>
 	[...root.querySelectorAll("fieldset")]
@@ -252,7 +252,9 @@ describe("Collections artifacts tab", () => {
 		seed(withData(() => {}));
 		await mount();
 
-		await click(container.querySelector('button[aria-label="Dwarf Scroll I, show locations"]'));
+		await click(
+			container.querySelector('button[aria-label="Locations and reward, Dwarf Scroll I"]')
+		);
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("How to find")
 		)!;
@@ -269,7 +271,7 @@ describe("Collections artifacts tab", () => {
 		await mount();
 
 		await click(
-			container.querySelector('button[aria-label="Dwarf Scroll II, show locations"]')
+			container.querySelector('button[aria-label="Locations and reward, Dwarf Scroll II"]')
 		);
 		const dialog = [...document.body.querySelectorAll("dialog")].find((d) =>
 			d.textContent?.includes("How to find")

@@ -169,7 +169,6 @@ export const collectionsText = {
       smeltRecipeAndLocations: "Smelt recipe and locations",
       dropsAndLocations: "Drops and locations",
       contentsAndLocations: "Contents and locations",
-      details: (name: string) => `${name}, show details`,
       noSellPrice: "No sell price",
       opensForRandomItems: "Opens for random items",
       possibleContents: (count: number) => `${count} possible contents`,
@@ -331,7 +330,7 @@ export const collectionsText = {
       notShippable: "Cannot be shipped",
       equipment: (name: string) => `Made in the ${name}`,
       calculate: "Calculate price",
-      calculateLabel: (name: string) => `Calculate the price of ${name}`,
+      calculateLabel: (name: string) => `Calculate price, ${name}`,
       energyHealth: "Energy and health",
       poison: "Poison",
       buff: (stat: string, value: number) =>
@@ -611,7 +610,7 @@ export const collectionsText = {
         `${crafted} / ${total} crafted`,
     },
     card: {
-      details: (name: string) => `${name}, show details`,
+      details: (name: string, action: string) => `${action}, ${name}`,
       recipeDetails: "Recipe details",
       makes: (count: number) => `Makes ${count}`,
       ingredient: (quantity: number, name: string) => `${quantity}× ${name}`,
@@ -661,7 +660,7 @@ export const collectionsText = {
       clear: "Clear filters",
     },
     card: {
-      details: (name: string) => `${name}, show details`,
+      details: (name: string, action: string) => `${action}, ${name}`,
       ingredientsAndSources: "Ingredients and sources",
       energy: "Energy",
       health: "Health",
@@ -739,7 +738,7 @@ export const collectionsText = {
       reward: "Reward",
       locations: "Locations",
       locationsAndReward: "Locations and reward",
-      details: (name: string) => `${name}, show locations`,
+      details: (name: string, action: string) => `${action}, ${name}`,
     },
     dialog: {
       type: "Artifact · Museum",

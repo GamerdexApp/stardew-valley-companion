@@ -19,10 +19,10 @@ export const calendarText = {
   },
   grid: {
     label: (season: string) => `${season} calendar`,
-    cell: (season: string, day: number, count: number) =>
-      count === 0
-        ? `${season} ${day}, no events`
-        : `${season} ${day}, ${count} event${count === 1 ? "" : "s"}`,
+    quiet: (season: string, day: number) => `${season} ${day}, no events`,
+    /** Read after the day number on a day with events. */
+    busyContext: (season: string, isToday: boolean) =>
+      `, ${season}${isToday ? ", Today" : ""}`,
     today: "Today",
     hint: "Today is highlighted only while you view the current season. Days with events open in the panel below. Days without events stay inactive. The calendar is read only because it is derived from game data.",
     hintShort:

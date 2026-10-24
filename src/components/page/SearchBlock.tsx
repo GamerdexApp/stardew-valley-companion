@@ -16,7 +16,7 @@ const text = uiText.filters;
 /** The toolbar of a list that has a name search and no other filter. */
 export function SearchBlock({ label, value, onChange, summary }: SearchBlockProps) {
 	return (
-		<section aria-label={label} className="flex flex-col gap-3">
+		<div role="group" aria-label={label} className="flex flex-col gap-3">
 			<Input
 				type="search"
 				value={value}
@@ -33,6 +33,6 @@ export function SearchBlock({ label, value, onChange, summary }: SearchBlockProp
 					</Button>
 				)}
 			</div>
-		</section>
+		</div>
 	);
 }

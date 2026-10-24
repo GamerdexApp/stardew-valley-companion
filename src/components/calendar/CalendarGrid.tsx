@@ -43,7 +43,11 @@ export function CalendarGrid({
 						<>
 							<span
 								className={`flex size-6 items-center justify-center rounded-full font-mono text-xs ${
-									isToday ? "bg-primary text-on-primary" : ""
+									isToday
+										? "bg-primary text-on-primary"
+										: active
+											? ""
+											: "text-muted"
 								}`}
 							>
 								{day.day}
@@ -98,20 +102,25 @@ export function CalendarGrid({
 					return active ? (
 						<button
 							key={day.day}
+							data-date={`${seasonName} ${day.day}`}
 							type="button"
-							aria-label={`${text.cell(seasonName, day.day, eventCount(day))}${isToday ? `, ${text.today}` : ""}`}
 							aria-pressed={day.day === selected}
 							onClick={() => onSelect(day.day)}
 							className={`${classes} cursor-pointer`}
 						>
 							{content}
+							<span className="sr-only">{text.busyContext(seasonName, isToday)}</span>
+							<span className="sr-only md:hidden">
+								{lines.map((line) => line.text).join(", ")}
+							</span>
 						</button>
 					) : (
 						<div
 							key={day.day}
+							data-date={`${seasonName} ${day.day}`}
 							role="img"
-							aria-label={`${text.cell(seasonName, day.day, 0)}${isToday ? `, ${text.today}` : ""}`}
-							className={`${classes} opacity-80`}
+							aria-label={`${text.quiet(seasonName, day.day)}${isToday ? `, ${text.today}` : ""}`}
+							className={classes}
 						>
 							{content}
 						</div>

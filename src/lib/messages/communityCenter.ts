@@ -70,7 +70,6 @@ export const communityCenterText = {
     goldRequired: (cost: string) => `${cost}g required`,
     paid: "Paid",
     notPaid: "Not paid",
-    paidLabel: (name: string) => `${name} paid`,
     itemLabel: (item: string, bundle: string) => `${item} for ${bundle}`,
     selectOf: (needed: number, total: number) =>
       `Select ${needed} of ${total} items.`,

@@ -23,6 +23,7 @@
   --sb-line: #44558a;
   --sb-active-bg: #f5f0e1;
   --sb-active-text: #2b3a67;
+  --sb-ring: #f5f0e1;
   --silver: #5f6a82;
   --gold: #8a6200;
   --iridium: #6b3fa0;
@@ -56,6 +57,7 @@
   --sb-line: #252e50;
   --sb-active-bg: #2a3355;
   --sb-active-text: #f2cf72;
+  --sb-ring: #f2cf72;
   --silver: #b9c0d8;
   --gold: #e5b84b;
   --iridium: #c7a6f2;
@@ -88,6 +90,7 @@
   --color-sb-line: var(--sb-line);
   --color-sb-active-bg: var(--sb-active-bg);
   --color-sb-active-text: var(--sb-active-text);
+  --color-sb-ring: var(--sb-ring);
   --color-silver: var(--silver);
   --color-gold: var(--gold);
   --color-iridium: var(--iridium);

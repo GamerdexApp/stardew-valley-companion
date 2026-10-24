@@ -111,7 +111,7 @@ afterEach(() => {
 const dialogWith = (needle: string) =>
 	[...document.body.querySelectorAll("dialog")].find((d) => d.textContent?.includes(needle))!;
 const calculateButton = (name: string) =>
-	container.querySelector(`button[aria-label="Calculate the price of ${name}"]`) as HTMLElement;
+	container.querySelector(`button[aria-label="Calculate price, ${name}"]`) as HTMLElement;
 const pick = (dialog: Element, name: string) =>
 	[...dialog.querySelectorAll("button[aria-pressed]")].find((b) =>
 		b.textContent?.includes(name)
@@ -159,9 +159,9 @@ describe("Collections artisan goods tab", () => {
 		expect(cardOf("Cheese").textContent).toContain("Basic");
 		expect(cardOf("Cheese").textContent).not.toContain("Calculate");
 		expect(cardOf("Wine").textContent).toContain("3× base fruit price");
-		expect(
-			container.querySelectorAll('button[aria-label^="Calculate the price of"]')
-		).toHaveLength(9);
+		expect(container.querySelectorAll('button[aria-label^="Calculate price, "]')).toHaveLength(
+			9
+		);
 	});
 
 	it("has no shipped control for Coffee, Vinegar and Oil", async () => {

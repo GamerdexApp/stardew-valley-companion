@@ -48,7 +48,10 @@ export function ArtifactCard({ artifact, status, onStatusChange, onOpen }: Artif
 			<button
 				type="button"
 				onClick={onOpen}
-				aria-label={text.card.details(artifact.name)}
+				aria-label={text.card.details(
+					artifact.name,
+					hasReward ? text.card.locationsAndReward : text.card.locations
+				)}
 				className="text-link flex min-h-11 items-center self-start font-semibold underline-offset-2 hover:underline lg:min-h-6"
 			>
 				{hasReward ? text.card.locationsAndReward : text.card.locations}

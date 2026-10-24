@@ -69,7 +69,7 @@ export function Dialog({
 			onClick={(event) => {
 				if (event.target === event.currentTarget) onClose();
 			}}
-			className={`border-line bg-surface text-ink backdrop:bg-scrim overflow-hidden ${panelClasses[variant]}`}
+			className={`border-line bg-surface text-ink backdrop:bg-scrim overflow-hidden [--ring:var(--primary)] ${panelClasses[variant]}`}
 		>
 			{open && (
 				<>

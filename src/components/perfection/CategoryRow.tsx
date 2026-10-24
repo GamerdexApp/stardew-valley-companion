@@ -50,7 +50,6 @@ export function CategoryRow({ row }: { row: Row }) {
 					type="button"
 					aria-expanded={open}
 					aria-controls={regionId}
-					aria-label={text.open(category.name)}
 					onClick={() => setOpen(!open)}
 					className="flex min-h-11 items-center gap-3 p-3"
 				>

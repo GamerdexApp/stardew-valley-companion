@@ -56,7 +56,9 @@ const click = async (element: Element | null | undefined) => {
 	});
 };
 const cell = (label: string) =>
-	container.querySelector(`[aria-label^="${label}"]`) as HTMLElement | null;
+	container.querySelector(`[data-date="${label.replace(/,$/, "")}"]`) as HTMLElement | null;
+const nameOf = (element: HTMLElement) =>
+	element.getAttribute("aria-label") ?? element.textContent ?? "";
 const radio = (label: string) =>
 	[...container.querySelectorAll('input[type="radio"]')].find((input) =>
 		input.closest("label")?.textContent?.trim().startsWith(label)
@@ -101,9 +103,7 @@ describe("Calendar with no playthrough", () => {
 		expect(radio("Spring").checked).toBe(true);
 		for (const weekday of ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
 			expect(text()).toContain(weekday);
-		expect(
-			container.querySelectorAll('[aria-label^="Spring "][aria-label*=", "]')
-		).toHaveLength(28);
+		expect(container.querySelectorAll('[data-date^="Spring "]')).toHaveLength(28);
 		expect(container.textContent).not.toContain("Now");
 		expect(text()).toContain("Select a day with events to see what happens.");
 	});
@@ -143,18 +143,20 @@ describe("Calendar with a playthrough", () => {
 		expect(radio("Fall").checked).toBe(true);
 		expect(container.textContent).toContain("Fall · Now");
 		expect(text()).toContain("Fall 20, Year 3");
-		expect(cell("Fall 20,")!.getAttribute("aria-label")).toContain("Today");
+		expect(nameOf(cell("Fall 20,")!)).toContain("Today");
 	});
 
 	it("marks today only while the current season is shown", async () => {
 		seed(withData(onSpring13));
 		await mount();
 
-		expect(cell("Spring 13,")!.getAttribute("aria-label")).toContain("Today");
+		expect(nameOf(cell("Spring 13,")!)).toContain("Today");
 		await click(radio("Summer"));
-		expect(container.querySelector('[aria-label*="Today"]')).toBeNull();
+		expect(container.querySelector("[data-date]")!.parentElement!.textContent).not.toContain(
+			"Today"
+		);
 		await click(radio("Spring"));
-		expect(cell("Spring 13,")!.getAttribute("aria-label")).toContain("Today");
+		expect(nameOf(cell("Spring 13,")!)).toContain("Today");
 	});
 
 	it("opens today in the panel when it has events", async () => {
@@ -272,9 +274,7 @@ describe("Calendar seasons and layers", () => {
 
 		await click(radio("Fall"));
 
-		expect(container.querySelectorAll('[aria-label^="Fall "][aria-label*=", "]')).toHaveLength(
-			28
-		);
+		expect(container.querySelectorAll('[data-date^="Fall "]')).toHaveLength(28);
 		expect(text()).toContain("Select a day with events to see what happens.");
 		expect(cell("Fall 16,")!.textContent).toContain("Stardew Valley Fair");
 	});

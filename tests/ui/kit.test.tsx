@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { act } from "react";
+import { createRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { Button } from "@/comps/ui/Button";
 import { Dialog } from "@/comps/ui/Dialog";
@@ -115,5 +117,47 @@ describe("ui kit renders with its accessibility basics", () => {
 		expect(closed).not.toContain("body text");
 		expect(open).toContain("body text");
 		expect(open).toContain("Edit");
+	});
+});
+
+(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+
+describe("Tabs keyboard", () => {
+	it("moves with the arrow keys and jumps with Home and End", async () => {
+		const onChange = vi.fn();
+		const container = document.createElement("div");
+		document.body.appendChild(container);
+		const root = createRoot(container);
+		await act(async () => {
+			root.render(
+				<Tabs
+					label="Farm"
+					tabs={[
+						{ id: "a", label: "A" },
+						{ id: "b", label: "B" },
+						{ id: "c", label: "C" },
+					]}
+					activeId="b"
+					onChange={onChange}
+				>
+					panel
+				</Tabs>
+			);
+		});
+		const press = async (key: string) => {
+			await act(async () => {
+				container
+					.querySelector('[role="tab"]')!
+					.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+			});
+			return onChange.mock.lastCall![0];
+		};
+
+		expect(await press("ArrowRight")).toBe("c");
+		expect(await press("ArrowLeft")).toBe("a");
+		expect(await press("Home")).toBe("a");
+		expect(await press("End")).toBe("c");
+		await act(async () => root.unmount());
+		container.remove();
 	});
 });

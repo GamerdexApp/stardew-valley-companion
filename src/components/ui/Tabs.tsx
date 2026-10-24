@@ -4,6 +4,7 @@ import { useId } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { LuLock } from "react-icons/lu";
 import { uiText } from "@/lib/messages/ui";
+import { tabIndexAfterKey } from "@/lib/utils/tabKeys";
 
 interface TabsProps<TabId extends string> {
 	label: string;
@@ -23,12 +24,12 @@ export function Tabs<TabId extends string>({
 	const baseId = useId();
 
 	const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-		const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-		if (step === 0) return;
+		const from = tabs.findIndex((tab) => tab.id === activeId);
+		const to = tabIndexAfterKey(event.key, from, tabs.length);
+		if (to === null) return;
 
 		event.preventDefault();
-		const index = tabs.findIndex((tab) => tab.id === activeId);
-		const next = tabs[(index + step + tabs.length) % tabs.length];
+		const next = tabs[to];
 		onChange(next.id);
 		document.getElementById(`${baseId}-tab-${next.id}`)?.focus();
 	};

@@ -74,7 +74,8 @@ const rowOf = (name: string) =>
 	[...section("Categories").querySelectorAll("li")].find((li) =>
 		li.textContent?.includes(name)
 	) as HTMLElement;
-const opener = (name: string) => control(`Show what is missing for ${name}`);
+const opener = (name: string) =>
+	rowOf(name).querySelector<HTMLInputElement>("button[aria-expanded]");
 
 beforeEach(() => {
 	forgetMemoryState();

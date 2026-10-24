@@ -23,7 +23,7 @@ export function Footer() {
 		<footer className="bg-primary text-on-primary flex flex-col gap-6 px-4 pt-10 pb-7 [--ring:var(--color-on-primary)] lg:px-8">
 			<div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1.2fr]">
 				<div className="flex min-w-0 flex-col gap-3">
-					<span className="bg-sb-bg w-fit rounded-md px-3 py-2">
+					<span className="bg-sb-bg w-fit rounded-md px-3 py-2 [--ring:var(--color-sb-ring)]">
 						<BrandMark />
 					</span>
 					<span className="max-w-sm">{text.tagline}</span>

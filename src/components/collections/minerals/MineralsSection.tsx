@@ -151,7 +151,7 @@ export function MineralsSection({ data, bonusFor, onStatusChange }: MineralsSect
 								bonus={bonusFor(mineral)}
 							/>
 							<DetailsButton
-								label={text.card.details(mineral.name)}
+								name={mineral.name}
 								text={text.card.locationsAndSources}
 								onClick={() => setSelected(mineral)}
 							/>
