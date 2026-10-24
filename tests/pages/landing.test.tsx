@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act } from "react";
 import { createRoot } from "react-dom/client";
@@ -180,11 +182,11 @@ describe("Frequently asked questions", () => {
 });
 
 describe("Redirect for a returning visitor", () => {
-	const run = (search: string, stored: unknown) => {
+	const run = (search: string, stored: unknown, pathname = "/") => {
 		const replace = vi.fn();
 		const storage = { getItem: () => (stored === undefined ? null : JSON.stringify(stored)) };
 		new Function("location", "localStorage", redirectReturningVisitor)(
-			{ search, replace },
+			{ pathname, search, replace },
 			storage
 		);
 		return replace;
@@ -206,16 +208,27 @@ describe("Redirect for a returning visitor", () => {
 	it("does nothing when the saved data cannot be read", () => {
 		const replace = vi.fn();
 		new Function("location", "localStorage", redirectReturningVisitor)(
-			{ search: "", replace },
+			{ pathname: "/", search: "", replace },
 			{ getItem: () => "{broken" }
 		);
 
 		expect(replace).not.toHaveBeenCalled();
 	});
 
-	it("is put in the page head", async () => {
-		await mount();
+	it("acts on the landing address only", () => {
+		expect(run("", { playthroughs: [{ id: "a" }] }, "/farm")).not.toHaveBeenCalled();
+		expect(run("", { playthroughs: [{ id: "a" }] }, "/overview")).not.toHaveBeenCalled();
+	});
 
-		expect(container.querySelector("script")?.innerHTML).toContain("/overview");
+	it("runs from the head of the root layout, never from the page", async () => {
+		await mount();
+		const layout = readFileSync(
+			path.resolve(import.meta.dirname, "../../src/app/layout.tsx"),
+			"utf8"
+		);
+		const head = layout.slice(layout.indexOf("<head>"), layout.indexOf("</head>"));
+
+		expect(container.querySelector("script")).toBeNull();
+		expect(head).toContain("redirectReturningVisitor");
 	});
 });

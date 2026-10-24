@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { PlaythroughProvider } from "@/lib/contexts/PlaythroughContext";
 import { UIProvider } from "@/lib/contexts/UIContext";
+import { redirectReturningVisitor } from "@/lib/landingRedirect";
 import { STORAGE_KEY } from "@/service/storage";
 import { ThemeSync } from "@/comps/layout/ThemeSync";
 import { ToastProvider } from "@/comps/ui/Toast";
@@ -108,6 +109,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<head>
 				<script dangerouslySetInnerHTML={{ __html: applyThemeBeforePaint }} />
+				<script dangerouslySetInnerHTML={{ __html: redirectReturningVisitor }} />
 			</head>
 			<body
 				className={`${plexSans.variable} ${plexMono.variable} ${stardewValley.variable} bg-bg min-h-dvh antialiased`}

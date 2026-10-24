@@ -1,4 +1,3 @@
-import { redirectReturningVisitor } from "@/lib/landingRedirect";
 import { Footer } from "@/comps/shell/Footer";
 import { Faq } from "./Faq";
 import { Features } from "./Features";
@@ -9,7 +8,6 @@ import { Steps } from "./Steps";
 export function LandingPage() {
 	return (
 		<div className="bg-bg text-ink min-h-dvh">
-			<script dangerouslySetInnerHTML={{ __html: redirectReturningVisitor }} />
 			<LandingHeader />
 			<main>
 				<Hero />
