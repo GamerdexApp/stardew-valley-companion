@@ -4,8 +4,10 @@ import { farmText } from "@/lib/messages/farm";
 import { assetPath } from "@/lib/utils/assetPath";
 import {
 	capacityOf,
+	FRIENDSHIP_STEP,
 	heartsOf,
 	housingFor,
+	MAX_FRIENDSHIP,
 	MAX_HAPPINESS,
 	MAX_HEARTS,
 	occupantsOf,
@@ -18,9 +20,9 @@ import { ExpandableDetails } from "@/comps/ui/ExpandableDetails";
 import { Field } from "@/comps/ui/Field";
 import { IconButton } from "@/comps/ui/IconButton";
 import { NumberInput } from "@/comps/ui/NumberInput";
+import { NumberStepper } from "@/comps/ui/NumberStepper";
 import { Select } from "@/comps/ui/Select";
 import { Switch } from "@/comps/ui/Switch";
-import { FriendshipInput } from "./FriendshipInput";
 
 const text = farmText.animals.card;
 
@@ -93,7 +95,9 @@ export function AnimalCard({
 				</IconButton>
 			</div>
 			<div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-				<FriendshipInput
+				<NumberStepper
+					step={FRIENDSHIP_STEP}
+					max={MAX_FRIENDSHIP}
 					value={animal.friendship}
 					label={text.friendship(animal.name)}
 					raiseLabel={text.raise(animal.name)}

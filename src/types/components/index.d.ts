@@ -1,6 +1,5 @@
 export * from "./calendar";
 export * from "./character";
-export * from "./mines";
 export * from "./quests";
 export * from "./collections";
 export * from "./filters";

@@ -87,23 +87,6 @@ export interface TreeDetailModalProps extends CollectionProps {
   onClose: () => void;
 }
 
-export interface SlayerGoalCardProps {
-  goal: MonsterSlayerGoal;
-  killCount: number;
-}
-
-export interface MonsterCardProps {
-  monster: Monster;
-  killCount: number;
-  onClick: () => void;
-}
-
-export interface MonsterDetailModalProps {
-  monster: Monster | null;
-  killCount: number;
-  onClose: () => void;
-}
-
 // ---- Edit drafts ----
 
 export interface FishEditDraft {

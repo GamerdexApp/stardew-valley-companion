@@ -20,6 +20,7 @@ export const allSpecies: FarmAnimal[] = queryAnimals()
 const allPets = queryAnimals().pets().get().filter(isPet);
 
 export const MAX_FRIENDSHIP = 1000;
+export const FRIENDSHIP_STEP = 50;
 export const MAX_HAPPINESS = 255;
 export const POINTS_PER_HEART = 200;
 export const MAX_HEARTS = 5;

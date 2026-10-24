@@ -8,7 +8,9 @@ import { assetPath } from "@/lib/utils/assetPath";
 import {
 	addPet,
 	canBeStarter,
+	FRIENDSHIP_STEP,
 	hasFriendship,
+	MAX_FRIENDSHIP,
 	PET_TYPES,
 	petImage,
 	removePet,
@@ -23,11 +25,11 @@ import { Field } from "@/comps/ui/Field";
 import { IconButton } from "@/comps/ui/IconButton";
 import { Input } from "@/comps/ui/Input";
 import { NumberInput } from "@/comps/ui/NumberInput";
+import { NumberStepper } from "@/comps/ui/NumberStepper";
 import { Section } from "@/comps/ui/Section";
 import { Select } from "@/comps/ui/Select";
 import { Switch } from "@/comps/ui/Switch";
 import type { EditNote } from "../useFarmEdit";
-import { FriendshipInput } from "./FriendshipInput";
 
 const text = farmText.animals.pets;
 
@@ -223,7 +225,9 @@ export function PetsSection({ data, edit, editWithNote }: PetsSectionProps) {
 							</IconButton>
 						</div>
 						{hasFriendship(pet) ? (
-							<FriendshipInput
+							<NumberStepper
+								step={FRIENDSHIP_STEP}
+								max={MAX_FRIENDSHIP}
 								value={pet.friendship ?? 0}
 								label={text.card.friendship(pet.name)}
 								raiseLabel={text.card.raise(pet.name)}

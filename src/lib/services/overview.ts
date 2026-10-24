@@ -15,7 +15,6 @@ import {
 } from "stardew-valley-data";
 import type { RodData } from "@/types";
 import type { CommunityCenterRooms, GameData } from "@/types/app";
-import { getGoalKillCount } from "@/lib/pages/mines";
 import {
   calculatePerfection,
   calculatePerfectionScore,
@@ -31,6 +30,7 @@ import type { ProgressCount } from "@/lib/utils/collectionCounts";
 import { getFarmIcon } from "@/lib/utils/farmIcon";
 import { formatTimePlayed } from "@/lib/utils/formatting";
 import { effectiveMaxHearts } from "@/lib/utils/villagerHearts";
+import { getGoalKillCount } from "@/service/mines";
 import {
   CC_ROOMS,
   ROOM_LABELS,

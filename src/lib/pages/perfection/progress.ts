@@ -9,7 +9,6 @@ import {
   villagers,
 } from "stardew-valley-data";
 import type { GameData } from "@/types";
-import { getGoalKillCount } from "@/lib/pages/mines";
 import { assetPath } from "@/lib/utils/assetPath";
 import {
   allGoldenWalnuts,
@@ -18,6 +17,7 @@ import {
   countWalnutsFound,
 } from "@/lib/utils/collectionCounts";
 import { effectiveMaxHearts } from "@/lib/utils/villagerHearts";
+import { getGoalKillCount } from "@/service/mines";
 
 export interface MissingItem {
   id: string;
