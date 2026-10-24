@@ -4,3 +4,5 @@ minimumReleaseAgeExclude:
   - stardew-valley-data@1.1.1
 overrides:
   deepmerge-ts: ^8.0.2
+  source-map-js: ^1.2.2
+  zod: ^4.6.6
