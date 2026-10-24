@@ -29,6 +29,8 @@ export function MonsterCard({ monster, kills, onKills }: MonsterCardProps) {
 		<Card className="flex flex-col gap-3 p-3">
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(monster.image)}
 					alt=""
 					width={40}
@@ -90,6 +92,8 @@ export function MonsterCard({ monster, kills, onKills }: MonsterCardProps) {
 									className="bg-bg flex items-center gap-2 rounded-md px-3 py-1.5 text-sm"
 								>
 									<img
+										loading="lazy"
+										decoding="async"
 										src={assetPath(item.image)}
 										alt=""
 										width={20}

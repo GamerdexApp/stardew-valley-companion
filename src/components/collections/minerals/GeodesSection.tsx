@@ -60,6 +60,8 @@ export function GeodesSection() {
 						<Card key={geode.id} className="flex flex-col gap-2.5 p-3">
 							<div className="flex items-start gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(geode.image)}
 									alt=""
 									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
@@ -109,6 +111,8 @@ export function GeodesSection() {
 										<span className="flex min-w-0 items-center gap-2.5">
 											{line.image ? (
 												<img
+													loading="lazy"
+													decoding="async"
 													src={assetPath(line.image)}
 													alt=""
 													className="size-7 shrink-0 object-contain [image-rendering:pixelated]"

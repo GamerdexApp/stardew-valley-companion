@@ -143,6 +143,21 @@ describe("Town page", () => {
 		expect(cardOf("Pelican Town").textContent).toMatch(/\+\d+/);
 	});
 
+	it("shows the small copy of a location picture, and the original when the small one fails", async () => {
+		await mount();
+		const image = cardOf("Pierre's General Store").querySelector("img")!;
+
+		expect(image.getAttribute("src")).toBe(
+			"/images/locations/thumbs/Pierre's General Store.webp"
+		);
+		await act(async () => {
+			image.dispatchEvent(new Event("error"));
+		});
+		expect(cardOf("Pierre's General Store").querySelector("img")!.getAttribute("src")).toBe(
+			"/images/locations/Pierre's General Store.png"
+		);
+	});
+
 	it("opens the details in place with the facts and the inventory of a shop", async () => {
 		await mount();
 		await open("Pierre's General Store");

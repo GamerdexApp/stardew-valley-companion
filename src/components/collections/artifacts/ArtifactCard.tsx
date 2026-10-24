@@ -25,6 +25,8 @@ export function ArtifactCard({ artifact, status, onStatusChange, onOpen }: Artif
 		>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(artifact.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getFarmIcon, mapOfFarmType } from "@/lib/utils/farmIcon";
+import { getFarmIcon } from "@/lib/utils/farmIcon";
+import { mapOfFarmType } from "@/data/constants/farms";
 
 describe("farm icon", () => {
   it("gives each farm type its own map icon", () => {
@@ -19,8 +20,15 @@ describe("farm icon", () => {
     );
   });
 
+  it("matches the icon of every map in the game data", () => {
+    for (let type = 0; type <= 7; type++) {
+      expect(getFarmIcon(type)).toBe(`/${mapOfFarmType(type).icon}`);
+    }
+  });
+
   it("reads an unknown type as the Standard farm", () => {
     expect(mapOfFarmType(42).name).toBe("Standard");
     expect(getFarmIcon(-1)).toBe(getFarmIcon(0));
+    expect(getFarmIcon(42)).toBe(getFarmIcon(0));
   });
 });

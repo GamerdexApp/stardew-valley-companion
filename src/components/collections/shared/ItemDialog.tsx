@@ -35,6 +35,8 @@ export function ItemDialog({
 		>
 			<div className="flex items-center gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(image)}
 					alt=""
 					className="size-14 shrink-0 object-contain [image-rendering:pixelated]"

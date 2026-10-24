@@ -7,7 +7,7 @@ import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useIsDesktop } from "@/lib/hooks/useMediaQuery";
 import { shellText } from "@/lib/messages/shell";
 import { getFarmIcon } from "@/lib/utils/farmIcon";
-import { formatGameDate } from "@/service/playthroughList";
+import { formatGameDate } from "@/lib/utils/gameDate";
 import { NEW_PLAYTHROUGH_HREF, PLAYTHROUGHS_HREF } from "@/data/nav";
 import { Dialog } from "@/comps/ui/Dialog";
 import { Menu, MenuItem, MenuLabel, MenuSeparator } from "@/comps/ui/Menu";

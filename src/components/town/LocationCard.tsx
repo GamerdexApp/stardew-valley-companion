@@ -1,8 +1,9 @@
 import type { GameLocation } from "stardew-valley-data";
+import { useState } from "react";
 import { townText } from "@/lib/messages/town";
 import { assetPath } from "@/lib/utils/assetPath";
 import { capitalize } from "@/lib/utils/formatting";
-import { hoursOf } from "@/service/town";
+import { hoursOf, locationThumb } from "@/service/town";
 import { Badge } from "@/comps/ui/Badge";
 import { Card } from "@/comps/ui/Card";
 import { ExpandableDetails } from "@/comps/ui/ExpandableDetails";
@@ -21,6 +22,7 @@ function Fact({ label, value }: { label: string; value: string }) {
 }
 
 export function LocationCard({ location }: { location: GameLocation }) {
+	const [thumbFailed, setThumbFailed] = useState(false);
 	const hours = hoursOf(location);
 	const closed = location.closed.join(", ");
 
@@ -28,7 +30,10 @@ export function LocationCard({ location }: { location: GameLocation }) {
 		<Card className="flex flex-col gap-2 p-3">
 			<div className="flex items-start gap-3">
 				<img
-					src={assetPath(location.image)}
+					loading="lazy"
+					decoding="async"
+					src={assetPath(thumbFailed ? location.image : locationThumb(location))}
+					onError={() => setThumbFailed(true)}
 					alt=""
 					width={40}
 					height={40}

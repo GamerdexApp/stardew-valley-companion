@@ -10,6 +10,8 @@ export function HeroCard({ hero }: { hero: Hero }) {
 				<span className="bg-track flex size-11 shrink-0 items-center justify-center rounded-md lg:size-13">
 					{hero.farmIcon ? (
 						<img
+							loading="lazy"
+							decoding="async"
 							src={hero.farmIcon}
 							alt=""
 							className="size-8 object-contain [image-rendering:pixelated] lg:size-10"

@@ -51,6 +51,8 @@ export function NodesSection() {
 						<Card key={node.id} className="flex flex-col gap-2.5 p-3">
 							<div className="flex items-start gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(node.image)}
 									alt=""
 									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

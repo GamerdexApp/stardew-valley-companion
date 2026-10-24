@@ -57,6 +57,8 @@ export function LostBooksTab({ playthrough }: { playthrough: Playthrough }) {
 				>
 					<div className="flex items-start gap-2">
 						<img
+							loading="lazy"
+							decoding="async"
 							src={assetPath(book.image)}
 							alt=""
 							width={24}

@@ -27,6 +27,8 @@ export function SkillsToolsCard({ data }: { data: GameData }) {
 				{skillRows(data).map((row) => (
 					<li key={row.key} className="flex items-center gap-3">
 						<img
+							loading="lazy"
+							decoding="async"
 							src={row.image}
 							alt=""
 							className="size-5 shrink-0 object-contain [image-rendering:pixelated]"

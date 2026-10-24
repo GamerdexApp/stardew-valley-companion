@@ -29,7 +29,13 @@ function Row({ price, label, reachable }: { price: number; label: string; reacha
 			</div>
 			{tiers.map(({ quality, icon, value }) => (
 				<div key={quality} className={`${cell} border-line border-s-[1.5px]`}>
-					<img src={assetPath(icon)} alt={quality} className="size-4 object-contain" />
+					<img
+						loading="lazy"
+						decoding="async"
+						src={assetPath(icon)}
+						alt={quality}
+						className="size-4 object-contain"
+					/>
 					<span className="font-mono text-xs font-medium">{value.toLocaleString()}g</span>
 				</div>
 			))}

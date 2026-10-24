@@ -63,6 +63,8 @@ function CalculatorBody({ good, professionsOn, bonusesFor }: CalculatorBodyProps
 										}`}
 									>
 										<img
+											loading="lazy"
+											decoding="async"
 											src={assetPath(option.image)}
 											alt=""
 											className="size-8 shrink-0 object-contain [image-rendering:pixelated]"

@@ -30,6 +30,8 @@ export function StardropsSection({ data, edit }: StardropsSectionProps) {
 							className={`flex items-start gap-3 p-3 ${has ? "bg-tint" : ""}`}
 						>
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(drop.image)}
 								alt=""
 								className={`size-10 shrink-0 object-contain [image-rendering:pixelated] ${has ? "" : "opacity-50 grayscale"}`}

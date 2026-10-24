@@ -50,6 +50,8 @@ export function FishDialog({ fish, caught, bonus, onCaughtChange, onClose }: Fis
 				<>
 					<div className="flex items-center gap-3">
 						<img
+							loading="lazy"
+							decoding="async"
 							src={assetPath(fish.image)}
 							alt=""
 							className="size-14 shrink-0 object-contain [image-rendering:pixelated]"

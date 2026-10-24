@@ -22,6 +22,8 @@ function Tile({ tile }: { tile: OverviewTile }) {
 					}`}
 				/>
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(tile.image)}
 					alt=""
 					className={`absolute inset-0 size-full object-contain p-0.5 [image-rendering:pixelated] ${

@@ -22,6 +22,8 @@ export function Features() {
 					<li key={feature.title}>
 						<Card className="flex h-full items-start gap-3 p-4">
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(feature.image)}
 								alt=""
 								width={32}

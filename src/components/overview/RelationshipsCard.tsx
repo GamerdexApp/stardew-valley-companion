@@ -12,6 +12,8 @@ function SpouseRow({ row }: { row: VillagerRow }) {
 	return (
 		<div className="border-heart flex items-center gap-4 rounded-md border-[1.5px] px-3 py-2.5">
 			<img
+				loading="lazy"
+				decoding="async"
 				src={row.image}
 				alt=""
 				className="size-11 shrink-0 object-contain [image-rendering:pixelated]"
@@ -41,6 +43,8 @@ function VillagerTile({ row }: { row: VillagerRow }) {
 			}`}
 		>
 			<img
+				loading="lazy"
+				decoding="async"
 				src={row.image}
 				alt=""
 				className="size-9 object-contain [image-rendering:pixelated]"

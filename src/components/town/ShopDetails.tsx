@@ -37,6 +37,8 @@ function Row({
 			<div className="flex items-center gap-2">
 				{image ? (
 					<img
+						loading="lazy"
+						decoding="async"
 						src={assetPath(image)}
 						alt=""
 						width={24}
@@ -68,6 +70,8 @@ function Materials({ materials }: { materials: { item: string; quantity: number 
 					>
 						{image && (
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(image)}
 								alt=""
 								width={16}
@@ -261,6 +265,8 @@ export function ShopDetails({ location }: { location: GameLocation }) {
 											className="text-muted border-line flex items-center gap-1 rounded-md border-[1.5px] px-1.5 py-0.5 text-xs"
 										>
 											<img
+												loading="lazy"
+												decoding="async"
 												src={assetPath(donation.image)}
 												alt=""
 												width={16}

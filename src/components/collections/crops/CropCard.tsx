@@ -56,6 +56,8 @@ export function CropCard({
 		>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(crop.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
@@ -114,6 +116,8 @@ export function CropCard({
 									</span>
 								)}
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(stage.image)}
 									alt={text.stage(stage.name)}
 									className="size-8 object-contain [image-rendering:pixelated]"

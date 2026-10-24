@@ -33,6 +33,8 @@ export function ProduceCard({
 		>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(produce.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

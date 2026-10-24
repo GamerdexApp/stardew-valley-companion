@@ -25,6 +25,8 @@ export function CraftingCard({ recipe, status, onStatusChange, onOpen }: Craftin
 		>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(recipe.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

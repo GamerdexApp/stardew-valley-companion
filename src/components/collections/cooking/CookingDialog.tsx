@@ -97,6 +97,8 @@ export function CookingDialog({ dish, status, onStatusChange, onClose }: Cooking
 									>
 										{image ? (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={image}
 												alt=""
 												className="size-7 shrink-0 object-contain [image-rendering:pixelated]"

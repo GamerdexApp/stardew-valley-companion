@@ -17,6 +17,8 @@ function Pair({
 		<span className={`flex ${stacked ? "flex-col items-start gap-0.5" : "items-center gap-2"}`}>
 			<span className="flex items-center gap-0.5">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath("images/misc/Energy.png")}
 					alt="Energy"
 					className="size-3.5 object-contain"
@@ -25,6 +27,8 @@ function Pair({
 			</span>
 			<span className="flex items-center gap-0.5">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath("images/misc/Health.png")}
 					alt="Health"
 					className="size-3.5 object-contain"
@@ -61,7 +65,13 @@ export function EnergyHealthGrid({ energy, health, maxQuality }: EnergyHealthGri
 					key={quality}
 					className="border-line flex flex-col items-center gap-1 border-s-[1.5px] px-1 py-1.5"
 				>
-					<img src={assetPath(icon)} alt={quality} className="size-4 object-contain" />
+					<img
+						loading="lazy"
+						decoding="async"
+						src={assetPath(icon)}
+						alt={quality}
+						className="size-4 object-contain"
+					/>
 					<Pair energy={tierEnergy} health={tierHealth} stacked />
 				</div>
 			))}

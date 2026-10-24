@@ -222,6 +222,16 @@ const NIGHT_HOURS: Record<string, [string, string]> = {
   "Adventurer's Guild": ["2pm", "2am"],
 };
 
+/**
+ * The small picture of a location, made when the game art is copied in (`scripts/make-thumbnails.mjs`).
+ * The pictures of the game are map sized, and a card shows them at 40 px.
+ */
+export const locationThumb = (location: GameLocation): string =>
+  `images/locations/thumbs/${location.image
+    .split("/")
+    .pop()!
+    .replace(/\.[^.]+$/, "")}.webp`;
+
 export const hoursOf = (location: GameLocation): string | null => {
   if (!location.openHours) return null;
   const [open, close] = NIGHT_HOURS[location.name] ?? [

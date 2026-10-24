@@ -76,6 +76,8 @@ export function NeededCard({ item, onGifted, onUntrack }: NeededCardProps) {
 			<div className="flex items-start gap-3">
 				{item.image && !broken ? (
 					<img
+						loading="lazy"
+						decoding="async"
 						src={item.image}
 						alt=""
 						width={32}

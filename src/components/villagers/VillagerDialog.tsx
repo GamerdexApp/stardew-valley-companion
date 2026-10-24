@@ -74,6 +74,8 @@ export function VillagerDialog({
 		>
 			<div className="flex flex-col gap-4 sm:flex-row">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(portrait)}
 					alt=""
 					width={96}

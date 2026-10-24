@@ -139,6 +139,8 @@ function AddPetDialog({
 									className="sr-only"
 								/>
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(variant.image)}
 									alt=""
 									className="size-8 object-contain [image-rendering:pixelated]"
@@ -192,6 +194,8 @@ export function PetsSection({ data, edit, editWithNote }: PetsSectionProps) {
 					<Card key={index} className="flex flex-col gap-3 p-3">
 						<div className="flex items-start gap-3">
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(petImage(pet))}
 								alt=""
 								className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

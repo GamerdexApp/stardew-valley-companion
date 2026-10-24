@@ -25,6 +25,8 @@ export function SlayerGoalsSection({ data }: { data: GameData }) {
 						<div className="flex items-start gap-3">
 							{goal.reward.image ? (
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(goal.reward.image)}
 									alt=""
 									width={32}

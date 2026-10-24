@@ -78,6 +78,8 @@ export function CategoryRow({ row }: { row: Row }) {
 						>
 							{item.image && (
 								<img
+									loading="lazy"
+									decoding="async"
 									src={item.image}
 									alt=""
 									width={20}

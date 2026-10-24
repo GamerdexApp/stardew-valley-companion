@@ -45,6 +45,8 @@ export function BundleCard({ bundle, data, onItem, onAll, slot }: BundleCardProp
 			{slot}
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(bundle.image)}
 					alt=""
 					width={40}
@@ -109,6 +111,8 @@ export function BundleCard({ bundle, data, onItem, onAll, slot }: BundleCardProp
 									>
 										{image ? (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={assetPath(image)}
 												alt=""
 												width={24}
@@ -126,6 +130,8 @@ export function BundleCard({ bundle, data, onItem, onAll, slot }: BundleCardProp
 										)}
 										{quality && (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={assetPath(quality)}
 												alt={item.quality}
 												width={14}

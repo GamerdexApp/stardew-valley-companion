@@ -190,6 +190,8 @@ export function TrackGiftDialog({ data, onClose, edit }: TrackGiftDialogProps) {
 										}`}
 									>
 										<img
+											loading="lazy"
+											decoding="async"
 											src={assetPath(villager.image)}
 											alt=""
 											width={24}

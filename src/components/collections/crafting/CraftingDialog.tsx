@@ -73,6 +73,8 @@ export function CraftingDialog({ recipe, status, onStatusChange, onClose }: Craf
 									>
 										{image ? (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={image}
 												alt=""
 												className="size-7 shrink-0 object-contain [image-rendering:pixelated]"

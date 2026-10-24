@@ -30,6 +30,8 @@ export function GearCard({
 		<Card className="flex flex-col gap-2 p-3">
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(image)}
 					alt=""
 					width={40}

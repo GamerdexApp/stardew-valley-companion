@@ -45,6 +45,8 @@ export function ArtisanGoodCard({
 		>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(good.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
@@ -54,6 +56,8 @@ export function ArtisanGoodCard({
 					<span className="text-muted flex items-center gap-1.5 text-xs">
 						{equipmentImage && (
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(equipmentImage)}
 								alt=""
 								className="size-5 object-contain [image-rendering:pixelated]"
@@ -71,6 +75,8 @@ export function ArtisanGoodCard({
 									<li key={ingredient.name} className={chip}>
 										{image && (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={assetPath(image)}
 												alt=""
 												className="size-4 object-contain [image-rendering:pixelated]"

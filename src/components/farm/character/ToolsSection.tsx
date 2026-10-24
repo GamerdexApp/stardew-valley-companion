@@ -47,6 +47,8 @@ function ToolTile({
 			)}
 			{image ? (
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(image)}
 					alt=""
 					className={`size-10 object-contain [image-rendering:pixelated] ${owned ? "" : "opacity-40 grayscale"}`}

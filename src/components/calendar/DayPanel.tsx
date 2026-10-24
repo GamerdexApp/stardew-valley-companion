@@ -111,6 +111,8 @@ export function DayPanel({
 						>
 							<div className="flex items-center gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(villager.image)}
 									alt=""
 									width={32}
@@ -163,6 +165,8 @@ export function DayPanel({
 						className="border-line flex items-center gap-3 rounded-md border-[1.5px] p-3"
 					>
 						<img
+							loading="lazy"
+							decoding="async"
 							src={assetPath(festival.icon)}
 							alt=""
 							width={28}
@@ -182,6 +186,8 @@ export function DayPanel({
 				<SectionLabel className="text-muted">{text.bookseller}</SectionLabel>
 				<div className="flex items-start gap-3">
 					<img
+						loading="lazy"
+						decoding="async"
 						src={assetPath(BOOKSELLER_IMAGE)}
 						alt=""
 						width={24}

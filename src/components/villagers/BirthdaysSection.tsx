@@ -33,6 +33,8 @@ export function BirthdaysSection({ data }: { data: GameData }) {
 									className={`flex items-center gap-2 rounded-md px-2 py-1 ${today ? "bg-tint" : ""}`}
 								>
 									<img
+										loading="lazy"
+										decoding="async"
 										src={assetPath(villager.image)}
 										alt=""
 										width={28}

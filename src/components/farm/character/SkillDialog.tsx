@@ -178,6 +178,8 @@ export function SkillDialog({ skill, data, editWithNote, onClose }: SkillDialogP
 				<>
 					<div className="flex flex-wrap items-center gap-3">
 						<img
+							loading="lazy"
+							decoding="async"
 							src={assetPath(skill.image)}
 							alt=""
 							className="size-10 shrink-0 object-contain [image-rendering:pixelated]"

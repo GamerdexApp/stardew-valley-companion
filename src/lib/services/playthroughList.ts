@@ -1,9 +1,12 @@
 import type { Platform, Playthrough } from "@/types/app";
+import { formatGameDate } from "@/lib/utils/gameDate";
 import {
   calculatePerfection,
   calculatePerfectionScore,
 } from "@/service/perfection";
 import { FARM_TYPE_LABELS } from "@/data/constants/farms";
+
+export { formatGameDate };
 
 export type PlaythroughSort = "lastModified" | "name" | "createdAt";
 export type PlatformFilter = Platform | "all";
@@ -58,15 +61,6 @@ export const perfectionPercent = (playthrough: Playthrough): number =>
     calculatePerfection(playthrough.data),
     playthrough.data.perfectionWaiverCount,
   );
-
-const capitalize = (word: string) =>
-  word.charAt(0).toUpperCase() + word.slice(1);
-
-/** "Spring 13, Year 2" */
-export const formatGameDate = (playthrough: Playthrough): string => {
-  const { season, day, year } = playthrough.data.character.currentDate;
-  return `${capitalize(season)} ${day}, Year ${year}`;
-};
 
 /** "Riverland farm · Sam", leaving out whichever part is empty. */
 export const describeFarm = (playthrough: Playthrough): string => {

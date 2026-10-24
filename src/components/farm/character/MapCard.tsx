@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { farmText } from "@/lib/messages/farm";
 import { assetPath } from "@/lib/utils/assetPath";
-import { mapOfFarmType } from "@/lib/utils/farmIcon";
-import { FARM_TYPE_LABELS } from "@/data/constants/farms";
+import { FARM_TYPE_LABELS, mapOfFarmType } from "@/data/constants/farms";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { Dialog } from "@/comps/ui/Dialog";
@@ -20,6 +19,8 @@ export function MapCard({ farmType }: { farmType: number }) {
 	return (
 		<Card className="flex flex-wrap items-center gap-3 p-4">
 			<img
+				loading="lazy"
+				decoding="async"
 				src={assetPath(map.icon)}
 				alt=""
 				className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
@@ -39,6 +40,8 @@ export function MapCard({ farmType }: { farmType: number }) {
 				footer={<Button onClick={() => setOpen(false)}>{text.close}</Button>}
 			>
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(map.image)}
 					alt={text.title(type)}
 					className="w-full object-contain"

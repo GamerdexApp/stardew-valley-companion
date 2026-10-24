@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import type { Playthrough } from "@/types/app";
 import { useUrlTab } from "@/lib/hooks/useUrlTab";
 import { farmText } from "@/lib/messages/farm";
-import { formatGameDate } from "@/service/playthroughList";
+import { formatGameDate } from "@/lib/utils/gameDate";
 import { DEFAULT_FARM_TAB, FARM_TAB_IDS } from "@/data/farm";
 import type { FarmTabId } from "@/data/farm";
 import { PageHeader } from "@/comps/shell/PageHeader";

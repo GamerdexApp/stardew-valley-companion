@@ -55,6 +55,8 @@ export function CalendarGrid({
 										className="flex min-w-0 items-center gap-1 text-[11px] leading-tight"
 									>
 										<img
+											loading="lazy"
+											decoding="async"
 											src={assetPath(line.icon)}
 											alt=""
 											width={14}
@@ -73,6 +75,8 @@ export function CalendarGrid({
 							<span className="flex flex-wrap gap-0.5 md:hidden" aria-hidden="true">
 								{lines.slice(0, 3).map((line) => (
 									<img
+										loading="lazy"
+										decoding="async"
 										key={`${line.kind}-${line.text}`}
 										src={assetPath(line.icon)}
 										alt=""

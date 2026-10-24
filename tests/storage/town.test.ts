@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import type { GameData } from "@/types/app";
 import {
@@ -20,6 +22,7 @@ import {
   houseUpgrades,
   isFilteringTown,
   islandUnlocks,
+  locationThumb,
   purchasableAnimals,
   purchasablePets,
   shopBuildings,
@@ -244,5 +247,31 @@ describe("island unlocks", () => {
     expect(
       built.filter((unlock) => unlock.on).map((unlock) => unlock.name),
     ).toEqual(["Island Resort"]);
+  });
+});
+
+describe("location pictures", () => {
+  it("name a small copy of each picture", () => {
+    const pierre = allLocations.find(
+      (location) => location.name === "Pierre's General Store",
+    )!;
+
+    expect(locationThumb(pierre)).toBe(
+      "images/locations/thumbs/Pierre's General Store.webp",
+    );
+    expect(locationThumb(allLocations[0])).toMatch(
+      /^images\/locations\/thumbs\/.+\.webp$/,
+    );
+  });
+
+  it("have a small copy on disk for every location", () => {
+    const missing = allLocations
+      .map(locationThumb)
+      .filter(
+        (thumb) =>
+          !existsSync(path.resolve(import.meta.dirname, "../../public", thumb)),
+      );
+
+    expect(missing).toEqual([]);
   });
 });

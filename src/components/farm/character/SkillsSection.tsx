@@ -66,6 +66,8 @@ export function SkillsSection({ data, editWithNote }: SkillsSectionProps) {
 						<Card key={skill.id} className="flex flex-col gap-3 p-3">
 							<div className="flex items-center gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(skill.image)}
 									alt=""
 									className="size-10 shrink-0 object-contain [image-rendering:pixelated]"

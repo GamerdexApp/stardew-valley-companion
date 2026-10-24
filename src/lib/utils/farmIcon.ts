@@ -1,19 +1,20 @@
-import { maps } from "stardew-valley-data";
 import { assetPath } from "./assetPath";
 
-const allMaps = maps().get();
-
 /**
- * The map of a farm type. The data gives most maps a number for an id and Meadowlands a name, so a
- * map without a number takes its place in the list, which is where the game puts it (type 7).
- * An unknown type reads as the Standard farm.
+ * The map icon of each farm type, by type number. The table is written out here so the shell does
+ * not need the game data package for a picture. A test keeps it equal to the package.
  */
-export const mapOfFarmType = (farmType: number) =>
-  allMaps.find(
-    (map, index) =>
-      (Number.isFinite(Number(map.id)) ? Number(map.id) : index) === farmType,
-  ) ?? allMaps[0];
+export const FARM_ICONS = [
+  "images/maps/icons/Standard Farm Map Icon.png",
+  "images/maps/icons/Riverland Farm Map Icon.png",
+  "images/maps/icons/Forest Farm Map Icon.png",
+  "images/maps/icons/Hilltop Farm Map Icon.png",
+  "images/maps/icons/Wilderness Farm Map Icon.png",
+  "images/maps/icons/Four Corners Farm Map Icon.png",
+  "images/maps/icons/Beach Farm Map Icon.png",
+  "images/maps/icons/Meadowlands Farm Map Icon.png",
+];
 
-export function getFarmIcon(farmType: number): string {
-  return assetPath(mapOfFarmType(farmType).icon);
-}
+/** An unknown type reads as the Standard farm. */
+export const getFarmIcon = (farmType: number): string =>
+  assetPath(FARM_ICONS[farmType] ?? FARM_ICONS[0]);

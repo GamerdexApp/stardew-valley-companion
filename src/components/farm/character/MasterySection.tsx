@@ -64,6 +64,8 @@ export function MasterySection({ data, edit }: MasterySectionProps) {
 						>
 							<div className="flex items-start gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(skill.image)}
 									alt=""
 									className="size-10 shrink-0 object-contain [image-rendering:pixelated]"

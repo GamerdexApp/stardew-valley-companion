@@ -98,6 +98,8 @@ export function CalendarPage() {
 							}`}
 						>
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(LAYER_ICONS[layer])}
 								alt=""
 								width={18}
@@ -140,6 +142,8 @@ export function CalendarPage() {
 							className="flex items-center gap-2 text-sm"
 						>
 							<img
+								loading="lazy"
+								decoding="async"
 								src={assetPath(event.icon)}
 								alt=""
 								width={20}

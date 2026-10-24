@@ -59,6 +59,8 @@ export function AnimalCard({
 			<div className="flex items-start gap-3">
 				{species && (
 					<img
+						loading="lazy"
+						decoding="async"
 						src={assetPath(species.image)}
 						alt=""
 						className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

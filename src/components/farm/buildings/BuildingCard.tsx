@@ -56,6 +56,8 @@ export function BuildingCard({
 			<div className="flex items-start gap-3">
 				{view.image ? (
 					<img
+						loading="lazy"
+						decoding="async"
 						width={48}
 						height={48}
 						src={assetPath(view.image)}
@@ -110,6 +112,8 @@ export function BuildingCard({
 									>
 										{species && (
 											<img
+												loading="lazy"
+												decoding="async"
 												src={assetPath(species.image)}
 												alt=""
 												className="size-4 object-contain [image-rendering:pixelated]"

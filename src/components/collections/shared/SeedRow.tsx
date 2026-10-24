@@ -14,6 +14,8 @@ export function SeedRow({ image, name, prices }: SeedRowProps) {
 	return (
 		<div className="bg-bg flex items-center gap-2.5 rounded-md px-2.5 py-1.5">
 			<img
+				loading="lazy"
+				decoding="async"
 				src={assetPath(image)}
 				alt=""
 				className="size-6 shrink-0 object-contain [image-rendering:pixelated]"

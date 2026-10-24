@@ -48,6 +48,8 @@ export function AddBuildingDialog({ data, onAdd, onClose }: AddBuildingDialogPro
 										className="border-line bg-surface flex items-center gap-3 rounded-md border-[1.5px] p-2"
 									>
 										<img
+											loading="lazy"
+											decoding="async"
 											width={40}
 											height={40}
 											src={assetPath(building.image)}

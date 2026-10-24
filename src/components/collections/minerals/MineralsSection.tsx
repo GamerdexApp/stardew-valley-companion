@@ -131,6 +131,8 @@ export function MineralsSection({ data, bonusFor, onStatusChange }: MineralsSect
 						>
 							<div className="flex items-start gap-3">
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(mineral.image)}
 									alt=""
 									className="size-12 shrink-0 object-contain [image-rendering:pixelated]"

@@ -39,6 +39,8 @@ export function TreeCard({ tree, shippedCount, bonus }: TreeCardProps) {
 		<Card className="flex flex-col gap-2.5 p-3">
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(tree.image)}
 					alt=""
 					className="size-12 shrink-0 object-contain [image-rendering:pixelated]"
@@ -110,6 +112,8 @@ export function TreeCard({ tree, shippedCount, bonus }: TreeCardProps) {
 									</span>
 								)}
 								<img
+									loading="lazy"
+									decoding="async"
 									src={assetPath(stage.image)}
 									alt={text.stage(stage.name)}
 									className="size-8 object-contain [image-rendering:pixelated]"

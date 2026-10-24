@@ -82,6 +82,8 @@ export function ToolPanelDialog({ entry, data, onClose }: ToolPanelDialogProps) 
 							>
 								{row.image ? (
 									<img
+										loading="lazy"
+										decoding="async"
 										src={assetPath(row.image)}
 										alt=""
 										className="size-10 shrink-0 object-contain [image-rendering:pixelated]"

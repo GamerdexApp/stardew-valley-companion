@@ -43,6 +43,8 @@ export function VillagerCard({ villager, data, onHearts, onStatus, onOpen }: Vil
 		<Card className={`flex flex-col gap-3 p-3 ${maxed ? "border-kept" : ""}`}>
 			<div className="flex items-start gap-3">
 				<img
+					loading="lazy"
+					decoding="async"
 					src={assetPath(portrait)}
 					alt=""
 					width={48}

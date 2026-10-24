@@ -96,6 +96,8 @@ export function WalnutSpotsSection({ data, onToggle }: WalnutSpotsSectionProps) 
 							<Card key={spot.id} className="flex flex-col gap-2 p-3">
 								<div className="flex items-start gap-3">
 									<img
+										loading="lazy"
+										decoding="async"
 										src={assetPath("images/misc/Golden Walnut.png")}
 										alt=""
 										width={32}
