@@ -10,6 +10,7 @@ import type { FarmTabId } from "@/data/farm";
 import { PageHeader } from "@/comps/shell/PageHeader";
 import { PlaythroughGate } from "@/comps/shell/PlaythroughGate";
 import { Tabs } from "@/comps/ui/Tabs";
+import { AnimalsTab } from "./animals/AnimalsTab";
 import { CharacterTab } from "./character/CharacterTab";
 import { FarmNotRebuilt } from "./FarmNotRebuilt";
 
@@ -19,6 +20,7 @@ const tabs = FARM_TAB_IDS.map((id) => ({ id, label: text.tabs[id] }));
 
 function Panel({ tab, playthrough }: { tab: FarmTabId; playthrough: Playthrough }) {
 	if (tab === "character") return <CharacterTab playthrough={playthrough} />;
+	if (tab === "animals") return <AnimalsTab playthrough={playthrough} />;
 	return <FarmNotRebuilt tab={tab} />;
 }
 

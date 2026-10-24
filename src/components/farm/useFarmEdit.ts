@@ -7,6 +7,14 @@ import { useToast } from "@/comps/ui/Toast";
  * Writes a change to the playthrough at once. A change that does more than the player asked for
  * can name it in a toast with Undo, which puts the data from before back.
  */
+export type EditNote = (
+  change: (current: GameData) => GameData,
+  note: (
+    before: GameData,
+    after: GameData,
+  ) => { title: string; undo: string } | null,
+) => void;
+
 export function useFarmEdit(playthroughId: string, data: GameData) {
   const { updateData } = usePlaythrough();
   const showToast = useToast();

@@ -8,6 +8,3 @@ export const FARM_TAB_IDS: FarmTabId[] = [
 ];
 
 export const DEFAULT_FARM_TAB: FarmTabId = "character";
-
-/** Tabs that are rebuilt. The others show a note and a link to their old page. */
-export const REBUILT_FARM_TABS: FarmTabId[] = ["character"];

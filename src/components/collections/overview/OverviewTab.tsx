@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { GameData } from "@/types/app";
 import { collectionsText } from "@/lib/messages/collections";
 import { countCompleteSections, overviewSections } from "@/service/collectionsOverview";
-import { SummaryTile } from "../shared/SummaryTile";
+import { SummaryTile } from "@/comps/ui/SummaryTile";
 import { OverviewSectionCard } from "./OverviewSectionCard";
 
 const text = collectionsText.overview;

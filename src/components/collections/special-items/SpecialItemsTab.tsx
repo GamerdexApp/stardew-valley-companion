@@ -25,10 +25,10 @@ import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { ExpandableDetails } from "@/comps/ui/ExpandableDetails";
+import { SummaryTile } from "@/comps/ui/SummaryTile";
 import { Switch } from "@/comps/ui/Switch";
 import { BLOCK_GRID } from "../shared/CollectionBlock";
-import { ExpandableDetails } from "../shared/ExpandableDetails";
-import { SummaryTile } from "../shared/SummaryTile";
 
 const text = collectionsText.specialItems;
 const options = text.options;

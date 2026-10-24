@@ -20,7 +20,7 @@ import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
-import { SummaryTile } from "../shared/SummaryTile";
+import { SummaryTile } from "@/comps/ui/SummaryTile";
 import { useMuseumStatusChange } from "../shared/useCollectionChanges";
 import { ArtifactCard } from "./ArtifactCard";
 import { ArtifactDialog } from "./ArtifactDialog";

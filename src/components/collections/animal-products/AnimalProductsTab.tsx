@@ -19,9 +19,9 @@ import type { FilterFieldConfig } from "@/comps/page/FilterBlock";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { EmptyState } from "@/comps/ui/EmptyState";
+import { SummaryTile } from "@/comps/ui/SummaryTile";
 import { BLOCK_GRID } from "../shared/CollectionBlock";
 import { ProfessionsControl } from "../shared/ProfessionsControl";
-import { SummaryTile } from "../shared/SummaryTile";
 import { useShippedChange } from "../shared/useCollectionChanges";
 import { ProduceCard } from "./ProduceCard";
 

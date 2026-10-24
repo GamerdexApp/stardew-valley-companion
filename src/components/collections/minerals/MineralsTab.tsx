@@ -14,8 +14,8 @@ import {
 	mineralsSummary,
 } from "@/service/minerals";
 import { SectionLabel } from "@/comps/ui/SectionLabel";
+import { SummaryTile } from "@/comps/ui/SummaryTile";
 import { ProfessionsControl } from "../shared/ProfessionsControl";
-import { SummaryTile } from "../shared/SummaryTile";
 import { useMuseumStatusChange, useShippedChange } from "../shared/useCollectionChanges";
 import { GeodesSection } from "./GeodesSection";
 import { MineralsSection } from "./MineralsSection";

@@ -32,6 +32,8 @@ interface FilterBlockProps {
 	flyoutTitle: string;
 	/** The footer button, for example "Show 9 fish". The count follows the filters as they change. */
 	showLabel: string;
+	/** Buttons that sit to the right of the Filters button, such as an Add button. */
+	actions?: ReactNode;
 }
 
 const text = uiText.filters;
@@ -142,6 +144,7 @@ export function FilterBlock({
 	summary,
 	flyoutTitle,
 	showLabel,
+	actions,
 }: FilterBlockProps) {
 	const [open, setOpen] = useState(false);
 	const activeCount = fields.filter((field) => isFiltering(field, values)).length;
@@ -174,6 +177,7 @@ export function FilterBlock({
 						</span>
 					)}
 				</Button>
+				{actions}
 			</div>
 			<div className="flex flex-wrap items-center gap-x-4 gap-y-1">
 				<span className="text-muted">{summary}</span>

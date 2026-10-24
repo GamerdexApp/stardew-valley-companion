@@ -13,6 +13,8 @@ interface ValueStepperProps {
 	display?: string;
 	suffix?: string;
 	disabled?: boolean;
+	/** How much one press changes the value. */
+	step?: number;
 }
 
 const BUTTON_CLASSES = "border-line bg-surface hover:bg-tint border-[1.5px]";
@@ -20,7 +22,7 @@ const SPACER_CLASSES = "size-8 shrink-0 lg:size-7";
 
 /**
  * A button that cannot act is removed and an empty space of the same size keeps the rows aligned.
- * It steps by one. A caller with labelled stops passes `display`.
+ * It steps by one unless a caller passes `step`. A caller with labelled stops passes `display`.
  */
 export function ValueStepper({
 	label,
@@ -31,6 +33,7 @@ export function ValueStepper({
 	display,
 	suffix,
 	disabled = false,
+	step = 1,
 }: ValueStepperProps) {
 	return (
 		<span className="relative inline-flex items-center gap-1">
@@ -39,7 +42,7 @@ export function ValueStepper({
 					compact
 					label={uiText.stepper.lower(label)}
 					disabled={disabled}
-					onClick={() => onChange(value - 1)}
+					onClick={() => onChange(Math.max(min, value - step))}
 					className={BUTTON_CLASSES}
 				>
 					<LuMinus size={14} aria-hidden="true" />
@@ -56,7 +59,7 @@ export function ValueStepper({
 					compact
 					label={uiText.stepper.raise(label)}
 					disabled={disabled}
-					onClick={() => onChange(value + 1)}
+					onClick={() => onChange(Math.min(max, value + step))}
 					className={BUTTON_CLASSES}
 				>
 					<LuPlus size={14} aria-hidden="true" />
