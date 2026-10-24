@@ -1,22 +1,21 @@
 "use client";
 
-import { maps } from "stardew-valley-data";
 import { useState } from "react";
 import { farmText } from "@/lib/messages/farm";
 import { assetPath } from "@/lib/utils/assetPath";
+import { mapOfFarmType } from "@/lib/utils/farmIcon";
 import { FARM_TYPE_LABELS } from "@/data/constants/farms";
 import { Button } from "@/comps/ui/Button";
 import { Card } from "@/comps/ui/Card";
 import { Dialog } from "@/comps/ui/Dialog";
 
 const text = farmText.character.map;
-const allMaps = maps().get();
 
 /** The farm type of the playthrough with its map. The type is set when the playthrough is made. */
 export function MapCard({ farmType }: { farmType: number }) {
 	const [open, setOpen] = useState(false);
 	const type = FARM_TYPE_LABELS[farmType] ?? FARM_TYPE_LABELS[0];
-	const map = allMaps.find((item) => Number(item.id) === farmType) ?? allMaps[0];
+	const map = mapOfFarmType(farmType);
 
 	return (
 		<Card className="flex flex-wrap items-center gap-3 p-4">

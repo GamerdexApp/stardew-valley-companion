@@ -6,6 +6,7 @@ import { LuChevronDown, LuPlus } from "react-icons/lu";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { useIsDesktop } from "@/lib/hooks/useMediaQuery";
 import { shellText } from "@/lib/messages/shell";
+import { getFarmIcon } from "@/lib/utils/farmIcon";
 import { formatGameDate } from "@/service/playthroughList";
 import { NEW_PLAYTHROUGH_HREF, PLAYTHROUGHS_HREF } from "@/data/nav";
 import { Dialog } from "@/comps/ui/Dialog";
@@ -91,6 +92,9 @@ export function PlaythroughSwitcher({ onNavigate }: { onNavigate?: () => void })
 
 	const triggerName = !isLoaded ? text.loading : (activePlaythrough?.name ?? text.none);
 	const triggerDetail = activePlaythrough ? formatGameDate(activePlaythrough) : "";
+	const farmIcon = activePlaythrough
+		? getFarmIcon(activePlaythrough.data.character.farmType)
+		: null;
 
 	const renderTrigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
 		<button
@@ -102,9 +106,17 @@ export function PlaythroughSwitcher({ onNavigate }: { onNavigate?: () => void })
 			<span className="flex min-w-0 items-center gap-2.5">
 				<span
 					aria-hidden="true"
-					className="bg-sb-line flex size-7 shrink-0 items-center justify-center rounded font-mono text-xs uppercase"
+					className="bg-sb-line flex size-7 shrink-0 items-center justify-center overflow-hidden rounded"
 				>
-					{activePlaythrough?.name.charAt(0)}
+					{farmIcon && (
+						<img
+							src={farmIcon}
+							alt=""
+							width={28}
+							height={28}
+							className="size-7 object-contain [image-rendering:pixelated]"
+						/>
+					)}
 				</span>
 				<span className="flex min-w-0 flex-col">
 					<span className="truncate font-medium">{triggerName}</span>

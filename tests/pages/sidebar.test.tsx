@@ -21,9 +21,10 @@ vi.mock("next/navigation", () => ({
 let root: Root;
 let container: HTMLElement;
 
-const seed = (jojaMember: boolean) => {
+const seed = (jojaMember: boolean, farmType = 0) => {
 	const playthrough = emptyPlaythrough();
 	playthrough.data.joja.isMember = jojaMember;
+	playthrough.data.character.farmType = farmType;
 	const data: AppData = { playthroughs: [playthrough], activePlaythroughId: playthrough.id };
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
@@ -78,5 +79,38 @@ describe("Sidebar", () => {
 		await mount();
 
 		expect(link().textContent).toBe("Community Center");
+	});
+});
+
+describe("Playthrough selector", () => {
+	const tile = () =>
+		container.querySelector(
+			'button[aria-haspopup] span[aria-hidden="true"]'
+		) as HTMLElement | null;
+
+	it("shows the icon of the farm type of the playthrough, not a letter", async () => {
+		seed(false, 2);
+		await mount();
+
+		expect(tile()!.querySelector("img")!.getAttribute("src")).toBe(
+			"/images/maps/icons/Forest Farm Map Icon.png"
+		);
+		expect(tile()!.textContent).toBe("");
+	});
+
+	it("shows the Meadowlands icon for farm type 7", async () => {
+		seed(false, 7);
+		await mount();
+
+		expect(tile()!.querySelector("img")!.getAttribute("src")).toBe(
+			"/images/maps/icons/Meadowlands Farm Map Icon.png"
+		);
+	});
+
+	it("shows an empty tile when there is no playthrough", async () => {
+		await mount();
+
+		expect(tile()!.querySelector("img")).toBeNull();
+		expect(tile()!.textContent).toBe("");
 	});
 });
