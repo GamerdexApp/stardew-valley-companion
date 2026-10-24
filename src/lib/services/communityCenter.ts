@@ -473,3 +473,28 @@ export const setAllDeveloped = (data: GameData, developed: boolean): GameData =>
   });
 
 export type { JojaBundle };
+
+export interface NeededBundleItem {
+  bundle: CatalogBundle;
+  name: string;
+  quantity: number;
+}
+
+/**
+ * The items of every bundle that is not complete and that were not handed in yet. A Joja farm
+ * has no bundles. A gold bundle needs gold and has no items.
+ */
+export const neededBundleItems = (data: GameData): NeededBundleItem[] =>
+  data.joja.isMember
+    ? []
+    : rooms.flatMap((room) =>
+        bundlesIn(data, room).flatMap((bundle) =>
+          isGoldBundle(bundle) || isBundleComplete(data, bundle)
+            ? []
+            : bundle.items.flatMap((item, index) =>
+                isItemHandedIn(data, bundle, index)
+                  ? []
+                  : [{ bundle, name: item.name, quantity: item.quantity }],
+              ),
+        ),
+      );
