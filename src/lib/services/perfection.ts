@@ -6,7 +6,6 @@ import {
   monsterSlayerGoals,
   perfection,
   starDrops,
-  villagers,
 } from "stardew-valley-data";
 import type { GameData } from "@/types";
 import { assetPath } from "@/lib/utils/assetPath";
@@ -16,8 +15,8 @@ import {
   collectionFish,
   countWalnutsFound,
 } from "@/lib/utils/collectionCounts";
-import { effectiveMaxHearts } from "@/lib/utils/villagerHearts";
-import { getGoalKillCount } from "@/service/mines";
+import { getGoalKillCount } from "./mines";
+import { allVillagers, isMaxed } from "./villagers";
 
 export interface MissingItem {
   id: string;
@@ -40,7 +39,6 @@ const allCategories = perfection().get();
 const shippableItems = collections().itemsShipped().get();
 const allCooking = cooking().get();
 const allStardrops = starDrops().get();
-const allVillagers = villagers().get();
 const allGoals = monsterSlayerGoals().get();
 const allBuildings = buildings().get();
 const allMonsters = monsters().get();
@@ -141,18 +139,14 @@ function getCategoryProgress(
     case "great-friends": {
       const missing: MissingItem[] = [];
       let current = 0;
-      for (const v of allVillagers) {
-        const progress = gameData.villagers[v.name];
-        const isMarried = gameData.character.spouse === v.name;
-        const status = (progress?.status ?? "").toLowerCase();
-        const maxH = effectiveMaxHearts(v, isMarried, status);
-        if (progress && progress.hearts >= maxH) {
+      for (const villager of allVillagers) {
+        if (isMaxed(gameData, villager)) {
           current++;
         } else {
           missing.push({
-            id: v.id,
-            name: v.name,
-            image: v.image ? assetPath(v.image) : null,
+            id: villager.id,
+            name: villager.name,
+            image: villager.image ? assetPath(villager.image) : null,
           });
         }
       }
@@ -191,7 +185,7 @@ function getCategoryProgress(
         if (level < 10) {
           missing.push({
             id: skill,
-            name: `${skill.charAt(0).toUpperCase() + skill.slice(1)} (Lvl ${level})`,
+            name: `${skill.charAt(0).toUpperCase() + skill.slice(1)} ${level} of 10`,
             image: null,
           });
         }
@@ -249,7 +243,7 @@ function getCategoryProgress(
           missing.push({
             id: w.id,
             name: w.name,
-            image: "/images/misc/Golden Walnut.png",
+            image: assetPath("images/misc/Golden Walnut.png"),
           });
         }
       }
@@ -291,3 +285,57 @@ export function calculatePerfectionScore(
   const baseScore = totalWeight > 0 ? (earnedWeight / totalWeight) * 100 : 0;
   return Math.min(Math.round(baseScore + waivers), 100);
 }
+
+export const WAIVER_COST = 500_000;
+export const MAX_WAIVERS = 100;
+
+/** Each waiver adds one percent to the score. The player buys them with the Perfection Tracker statue. */
+export const setWaivers = (gameData: GameData, count: number): GameData => ({
+  ...gameData,
+  perfectionWaiverCount: Math.min(MAX_WAIVERS, Math.max(0, Math.floor(count))),
+});
+
+export interface CategoryRow {
+  category: CategoryProgress;
+  /** The share done, from 0 to 1. A category never goes past its total. */
+  share: number;
+  points: number;
+  complete: boolean;
+}
+
+export interface PerfectionView {
+  score: number;
+  /** The weighted sum before the waivers, from 0 to 100, with its decimals. */
+  base: number;
+  waivers: number;
+  rows: CategoryRow[];
+  complete: number;
+}
+
+const roundOneDecimal = (value: number): number => Math.round(value * 10) / 10;
+
+export const perfectionView = (gameData: GameData): PerfectionView => {
+  const categories = calculatePerfection(gameData);
+  const rows = categories.map((category): CategoryRow => {
+    const share =
+      category.total > 0 ? Math.min(category.current / category.total, 1) : 0;
+    return {
+      category,
+      share,
+      points: category.weight * share,
+      complete: category.total > 0 && category.current >= category.total,
+    };
+  });
+  const totalWeight = categories.reduce(
+    (sum, category) => sum + category.weight,
+    0,
+  );
+  const earned = rows.reduce((sum, row) => sum + row.points, 0);
+  return {
+    score: calculatePerfectionScore(categories, gameData.perfectionWaiverCount),
+    base: totalWeight > 0 ? roundOneDecimal((earned / totalWeight) * 100) : 0,
+    waivers: gameData.perfectionWaiverCount,
+    rows,
+    complete: rows.filter((row) => row.complete).length,
+  };
+};

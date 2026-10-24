@@ -15,11 +15,6 @@ import {
 } from "stardew-valley-data";
 import type { RodData } from "@/types";
 import type { CommunityCenterRooms, GameData } from "@/types/app";
-import {
-  calculatePerfection,
-  calculatePerfectionScore,
-} from "@/lib/pages/perfection";
-import type { CategoryProgress } from "@/lib/pages/perfection";
 import { assetPath } from "@/lib/utils/assetPath";
 import {
   countCraftingMade,
@@ -31,6 +26,11 @@ import { getFarmIcon } from "@/lib/utils/farmIcon";
 import { formatTimePlayed } from "@/lib/utils/formatting";
 import { effectiveMaxHearts } from "@/lib/utils/villagerHearts";
 import { getGoalKillCount } from "@/service/mines";
+import {
+  calculatePerfection,
+  calculatePerfectionScore,
+} from "@/service/perfection";
+import type { CategoryProgress } from "@/service/perfection";
 import {
   CC_ROOMS,
   ROOM_LABELS,

@@ -2,7 +2,7 @@ import type { Platform, Playthrough } from "@/types/app";
 import {
   calculatePerfection,
   calculatePerfectionScore,
-} from "@/lib/pages/perfection";
+} from "@/service/perfection";
 import { FARM_TYPE_LABELS } from "@/data/constants/farms";
 
 export type PlaythroughSort = "lastModified" | "name" | "createdAt";
