@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { SavedChip } from "@/comps/ui/SavedChip";
+import { SyncChip } from "./SyncChip";
 
 interface PageHeaderProps {
 	title: string;
@@ -18,6 +19,7 @@ export function PageHeader({ title, subline, actions }: PageHeaderProps) {
 				{actions}
 				<span className="flex items-center gap-3 max-lg:hidden">
 					<SavedChip />
+					<SyncChip />
 				</span>
 			</div>
 		</header>

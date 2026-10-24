@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { LuDownload, LuUpload } from "react-icons/lu";
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
+import { useOptionalSync } from "@/lib/contexts/SyncContext";
 import { settingsText } from "@/lib/messages/settings";
 import { EMPTY_APP_DATA } from "@/service/appData";
 import type { ImportMode } from "@/service/backup";
@@ -23,6 +24,8 @@ const text = settingsText.data;
 export function DataTab() {
 	const showToast = useToast();
 	const { appData, playthroughs, updateData } = usePlaythrough();
+	const sync = useOptionalSync();
+	const syncProvider = sync?.status === "signedOut" ? null : (sync?.provider ?? null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [chosenFile, setChosenFile] = useState<File | null>(null);
 	const [reviewedFile, setReviewedFile] = useState<ImportFile | null>(null);
@@ -67,14 +70,18 @@ export function DataTab() {
 		});
 	};
 
-	const confirmReset = () => {
+	const confirmReset = (alsoDeleteSyncedCopy: boolean) => {
+		const disconnect = syncProvider !== null && !alsoDeleteSyncedCopy;
 		const previous = updateData(() => EMPTY_APP_DATA);
 		if (!previous) return;
+		if (disconnect) sync?.signOut();
 		setResetOpen(false);
 		showToast({
 			variant: "warning",
 			title: text.resetDone,
-			message: text.resetDoneMessage(previous.playthroughs.length),
+			message:
+				text.resetDoneMessage(previous.playthroughs.length) +
+				(disconnect ? text.syncDisconnected : ""),
 			action: { label: text.undo, onAction: () => updateData(() => previous) },
 		});
 	};
@@ -169,6 +176,7 @@ export function DataTab() {
 				playthroughs={playthroughs}
 				onClose={() => setResetOpen(false)}
 				onExportBackup={exportBackup}
+				syncProvider={syncProvider}
 				onConfirm={confirmReset}
 			/>
 		</div>

@@ -176,7 +176,10 @@ const isPathWithin = (pathname: string, href: string) =>
 export const isNavItemActive = (item: NavItem, pathname: string) =>
   isPathWithin(pathname, item.href);
 
+export const SYNC_HREF = "/settings?tab=sync";
+
 const routeTitles: Record<string, string> = {
+  "/sync/callback": "Signing in",
   [PLAYTHROUGHS_HREF]: "My playthroughs",
   [NEW_PLAYTHROUGH_HREF]: "New playthrough",
 };

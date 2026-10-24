@@ -7,6 +7,7 @@ export const settingsText = {
     subline: "Manage your data, playthrough settings and appearance",
     tabsLabel: "Settings",
     tabs: {
+      sync: "Cloud sync",
       preferences: "Preferences",
       data: "Backup and data",
       about: "About",
@@ -74,6 +75,7 @@ export const settingsText = {
     replaced: "Backup replaced",
     undo: "Undo",
     resetDone: "All data reset",
+    syncDisconnected: " Sync is disconnected on this browser.",
     resetDoneMessage: (count: number) =>
       `${plural(count, "playthrough", "playthroughs")} removed and settings cleared.`,
     export: {
@@ -117,6 +119,12 @@ export const settingsText = {
     undoNote:
       "Undo stays available for 10 seconds after the reset. Export a backup first if you want a file copy that stays.",
     exportFirst: "Export backup first",
+    syncedCopy: (provider: string) =>
+      `Also delete the synced copy in ${provider}`,
+    syncedOn:
+      "Sync stays on. Your other devices lose these playthroughs at their next sync. Export a backup first if you are not sure.",
+    syncedOff:
+      "The synced copy stays where it is. Sync disconnects on this browser so the empty list does not reach the cloud.",
   },
   importDialog: {
     title: "Import backup",

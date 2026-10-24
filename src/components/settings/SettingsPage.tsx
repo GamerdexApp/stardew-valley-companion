@@ -8,12 +8,13 @@ import { Tabs } from "@/comps/ui/Tabs";
 import { AboutTab } from "./AboutTab";
 import { DataTab } from "./DataTab";
 import { PreferencesTab } from "./PreferencesTab";
+import { SyncTab } from "./SyncTab";
 
 const text = settingsText.page;
-const tabIds = ["preferences", "data", "about"] as const;
+const tabIds = ["sync", "preferences", "data", "about"] as const;
 
 function SettingsContent() {
-	const [activeTab, setActiveTab] = useUrlTab(tabIds, "preferences");
+	const [activeTab, setActiveTab] = useUrlTab(tabIds, "sync");
 
 	return (
 		<>
@@ -24,6 +25,7 @@ function SettingsContent() {
 				activeId={activeTab}
 				onChange={setActiveTab}
 			>
+				{activeTab === "sync" && <SyncTab />}
 				{activeTab === "preferences" && <PreferencesTab />}
 				{activeTab === "data" && <DataTab />}
 				{activeTab === "about" && <AboutTab />}

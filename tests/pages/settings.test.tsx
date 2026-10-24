@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import type { Root } from "react-dom/client";
 import type { AppData } from "@/types/app";
 import { PlaythroughProvider } from "@/lib/contexts/PlaythroughContext";
+import { SyncProvider } from "@/lib/contexts/SyncContext";
 import { UIProvider } from "@/lib/contexts/UIContext";
 import { STORAGE_KEY } from "@/service/storage";
 import { AboutTab } from "@/comps/settings/AboutTab";
@@ -38,7 +39,9 @@ const mount = async (page: ReactNode) => {
 		root.render(
 			<UIProvider>
 				<ToastProvider>
-					<PlaythroughProvider>{page}</PlaythroughProvider>
+					<PlaythroughProvider>
+						<SyncProvider>{page}</SyncProvider>
+					</PlaythroughProvider>
 				</ToastProvider>
 			</UIProvider>
 		);
@@ -85,7 +88,7 @@ afterEach(() => {
 });
 
 describe("Settings page", () => {
-	it("opens on Preferences and lists the tabs", async () => {
+	it("opens on Cloud sync and lists the tabs", async () => {
 		seed(saved);
 		await mount(<SettingsPage />);
 
@@ -93,7 +96,15 @@ describe("Settings page", () => {
 			tab.textContent?.trim()
 		);
 
-		expect(tabs).toEqual(["Preferences", "Backup and data", "About"]);
+		expect(tabs).toEqual(["Cloud sync", "Preferences", "Backup and data", "About"]);
+		expect(container.textContent).toContain("Sync across devices");
+		expect(container.textContent).not.toContain("Playthrough settings");
+	});
+
+	it("opens Preferences when the address names it", async () => {
+		navigation.search = "tab=preferences";
+		await mount(<SettingsPage />);
+
 		expect(container.textContent).toContain("Playthrough settings");
 	});
 
@@ -105,11 +116,11 @@ describe("Settings page", () => {
 		expect(container.textContent).not.toContain("Playthrough settings");
 	});
 
-	it("falls back to Preferences for an unknown tab", async () => {
+	it("falls back to Cloud sync for an unknown tab", async () => {
 		navigation.search = "tab=nothing";
 		await mount(<SettingsPage />);
 
-		expect(container.textContent).toContain("Playthrough settings");
+		expect(container.textContent).toContain("Sync across devices");
 	});
 
 	it("writes the chosen tab into the address", async () => {

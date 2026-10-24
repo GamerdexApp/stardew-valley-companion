@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import type { Playthrough } from "@/types/app";
 import { settingsText } from "@/lib/messages/settings";
+import { syncText } from "@/lib/messages/sync";
+import type { SyncProviderId } from "@/lib/sync/providers";
 import { Button } from "@/comps/ui/Button";
+import { Checkbox } from "@/comps/ui/Checkbox";
 import { Dialog } from "@/comps/ui/Dialog";
 import { Note } from "@/comps/ui/Note";
 
@@ -13,7 +17,9 @@ interface ResetDialogProps {
 	playthroughs: Playthrough[];
 	onClose: () => void;
 	onExportBackup: () => void;
-	onConfirm: () => void;
+	/** The provider that sync is connected to, or null while sync is off. */
+	syncProvider: SyncProviderId | null;
+	onConfirm: (alsoDeleteSyncedCopy: boolean) => void;
 }
 
 export function ResetDialog({
@@ -21,8 +27,11 @@ export function ResetDialog({
 	playthroughs,
 	onClose,
 	onExportBackup,
+	syncProvider,
 	onConfirm,
 }: ResetDialogProps) {
+	const [alsoDeleteSyncedCopy, setAlsoDeleteSyncedCopy] = useState(false);
+
 	return (
 		<Dialog
 			open={open}
@@ -33,7 +42,7 @@ export function ResetDialog({
 					<Button data-autofocus onClick={onClose}>
 						{text.cancel}
 					</Button>
-					<Button variant="danger" onClick={onConfirm}>
+					<Button variant="danger" onClick={() => onConfirm(alsoDeleteSyncedCopy)}>
 						{text.confirm}
 					</Button>
 				</>
@@ -49,6 +58,18 @@ export function ResetDialog({
 				</ul>
 			</div>
 			<p className="text-muted">{text.settingsNote}</p>
+			{syncProvider && (
+				<div className="flex flex-col gap-1">
+					<Checkbox
+						label={text.syncedCopy(syncText.provider[syncProvider].name)}
+						checked={alsoDeleteSyncedCopy}
+						onChange={setAlsoDeleteSyncedCopy}
+					/>
+					<p className="text-muted">
+						{alsoDeleteSyncedCopy ? text.syncedOn : text.syncedOff}
+					</p>
+				</div>
+			)}
 			<Note>{text.undoNote}</Note>
 			<div>
 				<Button variant="ghost" className="text-link -ms-4" onClick={onExportBackup}>

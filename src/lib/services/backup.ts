@@ -48,18 +48,11 @@ const rejected = (reason: string): ParseResult => ({
 });
 
 /**
- * Checks a whole backup file. Nothing is saved by this function. Unknown fields are kept so a
- * file from a later version of the app loads unchanged. A file that the old app wrote always
+ * Checks the content of a backup file. Nothing is saved by this function. Unknown fields are kept
+ * so a file from a later version of the app loads unchanged. A file that the old app wrote always
  * passes.
  */
-export const parseBackup = (text: string): ParseResult => {
-  let raw: unknown;
-  try {
-    raw = JSON.parse(text);
-  } catch {
-    return rejected("The file is not valid JSON.");
-  }
-
+export const parseBackupData = (raw: unknown): ParseResult => {
   if (!isRecord(raw) || !Array.isArray(raw.playthroughs)) {
     return rejected("The file has no list of playthroughs.");
   }
@@ -100,6 +93,17 @@ export const parseBackup = (text: string): ParseResult => {
       ...(settings && { settings }),
     },
   };
+};
+
+/** Checks the text of a backup file. */
+export const parseBackup = (text: string): ParseResult => {
+  let raw: unknown;
+  try {
+    raw = JSON.parse(text);
+  } catch {
+    return rejected("The file is not valid JSON.");
+  }
+  return parseBackupData(raw);
 };
 
 export type ImportMode = "merge" | "replace";
