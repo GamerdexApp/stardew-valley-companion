@@ -4,13 +4,13 @@ import { useState } from "react";
 import type { GameData } from "@/types/app";
 import { farmText } from "@/lib/messages/farm";
 import { allSpecies, capacityOf, housingFor, occupantsOf } from "@/service/animals";
+import { buildingLabels } from "@/service/buildings";
 import { Button } from "@/comps/ui/Button";
 import { Dialog } from "@/comps/ui/Dialog";
 import { Field } from "@/comps/ui/Field";
 import { Input } from "@/comps/ui/Input";
 import { NumberInput } from "@/comps/ui/NumberInput";
 import { Select } from "@/comps/ui/Select";
-import { buildingLabels } from "./AnimalCard";
 
 const text = farmText.animals.form;
 const card = farmText.animals.card;

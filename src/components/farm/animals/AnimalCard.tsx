@@ -12,6 +12,7 @@ import {
 	produceStatus,
 	speciesOf,
 } from "@/service/animals";
+import { buildingLabels } from "@/service/buildings";
 import { Card } from "@/comps/ui/Card";
 import { ExpandableDetails } from "@/comps/ui/ExpandableDetails";
 import { Field } from "@/comps/ui/Field";
@@ -22,23 +23,6 @@ import { Switch } from "@/comps/ui/Switch";
 import { FriendshipInput } from "./FriendshipInput";
 
 const text = farmText.animals.card;
-
-/** Two buildings of one type are told apart by a number: Coop 1 and Coop 2. */
-export const buildingLabels = (data: GameData): Map<string, string> => {
-	const totals = new Map<string, number>();
-	for (const building of data.buildings) {
-		totals.set(building.type, (totals.get(building.type) ?? 0) + 1);
-	}
-	const seen = new Map<string, number>();
-	return new Map(
-		data.buildings.map((building) => {
-			const position = (seen.get(building.type) ?? 0) + 1;
-			seen.set(building.type, position);
-			const many = (totals.get(building.type) ?? 0) > 1;
-			return [building.id, many ? `${building.type} ${position}` : building.type];
-		})
-	);
-};
 
 interface AnimalCardProps {
 	animal: FarmAnimalProgress;

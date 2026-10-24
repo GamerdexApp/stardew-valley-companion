@@ -158,6 +158,20 @@ export const moveAnimal = (
     }),
   );
 
+/** Takes every animal out of a building that is gone. They stay on the farm, unhoused. */
+export const unhouseAnimalsIn = (
+  data: GameData,
+  buildingId: string,
+): GameData =>
+  recount({
+    ...data,
+    animals: data.animals.map((animal) =>
+      animal.buildingId === buildingId
+        ? { ...animal, buildingId: "", buildingType: "" }
+        : animal,
+    ),
+  });
+
 export const setFriendship = (
   data: GameData,
   id: string,
