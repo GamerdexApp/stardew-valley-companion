@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Calendar",
-	description: "Track Stardew Valley's yearly calendar, birthdays, and festival dates.",
+	description: "Stardew Valley birthdays, festivals and seasonal events.",
 	alternates: {
 		canonical: "/calendar",
 	},
-	openGraph: {
-		title: "Calendar | Stardew Valley Companion",
-		description: "Track Stardew Valley's yearly calendar, birthdays, and festival dates.",
-		url: "/calendar",
+	robots: {
+		index: false,
+		follow: true,
 	},
 };
 
