@@ -2,6 +2,7 @@
 
 import { usePlaythrough } from "@/lib/contexts/PlaythroughContext";
 import { shellText } from "@/lib/messages/shell";
+import { HOME_HREF } from "@/data/nav";
 import { ButtonLink } from "@/comps/ui/Button";
 import { AppShell } from "./AppShell";
 
@@ -22,7 +23,7 @@ export function NotFoundPage() {
 							{text.toOverview}
 						</ButtonLink>
 					)}
-					<ButtonLink href="/" variant="secondary">
+					<ButtonLink href={HOME_HREF} variant="secondary">
 						{text.toHome}
 					</ButtonLink>
 				</div>

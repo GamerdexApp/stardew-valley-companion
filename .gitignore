@@ -38,8 +38,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# flowbite
-.flowbite-react/class-list.json
 
 # game assets copied from stardew-valley-data package
 /public/images/

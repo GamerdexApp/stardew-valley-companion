@@ -160,6 +160,8 @@ export const settingsNavItem: NavItem = {
   icon: LuSettings,
 };
 
+/** The landing page without the jump to the dashboard that a returning visitor gets at `/`. */
+export const HOME_HREF = "/?home";
 export const PLAYTHROUGHS_HREF = "/playthroughs";
 export const NEW_PLAYTHROUGH_HREF = "/playthroughs/new";
 

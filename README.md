@@ -48,9 +48,9 @@ A comprehensive Stardew Valley progress tracker and companion app built with Nex
 ## Tech Stack
 
 - **Next.js 16** (App Router) · **React 19** · **TypeScript 6** (strict)
-- **Tailwind CSS 4** · **Flowbite-React**
+- **Tailwind CSS 4**
 - **stardew-valley-data** — game data queries and save file parser
-- **react-toastify** · **react-icons**
+- **react-icons**
 - **pnpm** · **Node >= 24**
 
 ## Getting Started

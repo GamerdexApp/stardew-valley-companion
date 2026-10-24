@@ -64,6 +64,3 @@ export const filterWeapons = (filters: WeaponFilters): Weapon[] => {
 
 export const isFilteringWeapons = (filters: WeaponFilters): boolean =>
   filters.query !== "" || filters.type !== "all";
-
-/** A slingshot has no level and no melee speed, so it shows only its damage. */
-export const isMelee = (weapon: Weapon): boolean => weapon.type !== "slingshot";

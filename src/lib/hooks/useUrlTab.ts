@@ -39,30 +39,3 @@ const subscribeToAddress = (notify: () => void) => {
 
 const requestedTab = () =>
   new URLSearchParams(window.location.search).get(TAB_PARAM);
-
-/**
- * The same `?tab=<id>` address for a page that is built ahead of time. `useSearchParams` would move
- * such a page out of the server HTML, so this reads the address after hydration. The server HTML
- * shows the fallback tab. A link from another page to a different tab of the same page is not seen,
- * only a click on a tab and the back and forward buttons.
- */
-export function useStaticUrlTab<TabId extends string>(
-  ids: readonly TabId[],
-  fallback: TabId,
-) {
-  const requested = useSyncExternalStore(
-    subscribeToAddress,
-    requestedTab,
-    () => null,
-  );
-  const tab = ids.find((id) => id === requested) ?? fallback;
-
-  const setTab = (id: TabId) => {
-    const next = new URLSearchParams(window.location.search);
-    next.set(TAB_PARAM, id);
-    window.history.replaceState(null, "", `?${next}`);
-    window.dispatchEvent(new Event(TAB_CHANGED_EVENT));
-  };
-
-  return [tab, setTab] as const;
-}

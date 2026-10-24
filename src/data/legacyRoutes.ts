@@ -44,14 +44,9 @@ export const LEGACY_ROUTES: LegacyRoute[] = [
   { from: "/joja", to: "/community-center" },
 ];
 
-/**
- * The redirects to serve. An old page that is still in the legacy group keeps its address until it
- * is rebuilt, so a redirect never points at a page that does not exist yet.
- */
-export const redirectsForRemovedPages = (
-  pageExists: (route: string) => boolean,
-) =>
-  LEGACY_ROUTES.filter(({ from }) => !pageExists(from)).map(({ from, to }) => ({
+/** The redirects to serve for the old addresses. They are permanent. */
+export const legacyRedirects = () =>
+  LEGACY_ROUTES.map(({ from, to }) => ({
     source: from,
     destination: to,
     permanent: true,

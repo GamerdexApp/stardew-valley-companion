@@ -35,18 +35,9 @@ import type {
   ShippedItem,
 } from "../app/game";
 
-export interface CollectionProps {
-  gameData: GameData;
-}
-
 export interface DifficultyBarProps {
   difficulty: string;
   behavior: string;
-}
-
-export interface ItemTileProps {
-  item: CollectionItem;
-  complete: boolean;
 }
 
 export interface FishCardProps {
@@ -62,56 +53,6 @@ export interface CategorySectionProps {
   isComplete: (item: CollectionItem) => boolean;
 }
 
-export interface FishDetailModalProps {
-  fish: Fish | null;
-  caught: boolean;
-  onClose: () => void;
-  activeProfessionBonuses?: Set<ProfessionBonus> | null;
-}
-
-export interface CropDetailModalProps extends CollectionProps {
-  crop: Crop | null;
-  onClose: () => void;
-}
-
-export interface ArtifactDetailModalProps {
-  artifact: Artifact | null;
-  donated: boolean;
-  found: boolean;
-  onClose: () => void;
-}
-
-export interface TreeDetailModalProps extends CollectionProps {
-  tree: Tree | null;
-  shippableIds: Set<string>;
-  onClose: () => void;
-}
-
 // ---- Edit drafts ----
 
-export interface FishEditDraft {
-  fishCaught: FishCaughtProgress[];
-}
-
-export interface ShippedEditDraft {
-  shipped: Record<string, ShippedItem>;
-}
-
 // ---- Edit step props ----
-
-export interface FishEditStepProps {
-  fishCaught: FishCaughtProgress[];
-  onChange: (fishCaught: FishCaughtProgress[]) => void;
-}
-
-export interface ShipEditItem {
-  id: string;
-  name: string;
-  image: string;
-}
-
-export interface ShippedItemsEditStepProps {
-  items: ShipEditItem[];
-  shipped: Record<string, ShippedItem>;
-  onChange: (shipped: Record<string, ShippedItem>) => void;
-}

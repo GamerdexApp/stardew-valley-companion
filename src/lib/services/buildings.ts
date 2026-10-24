@@ -246,9 +246,6 @@ export const setPondOccupants = (
   };
 };
 
-export const roomLeft = (data: GameData, building: BuildingProgress): number =>
-  capacityOf(building.type) - occupantsOf(data, building.id);
-
 /** Two buildings of one type are told apart by a number: Coop 1 and Coop 2. */
 export const buildingLabels = (data: GameData): Map<string, string> => {
   const totals = new Map<string, number>();

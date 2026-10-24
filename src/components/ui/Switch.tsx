@@ -53,32 +53,3 @@ interface SwitchRowProps {
 	onChange: (checked: boolean) => void;
 	disabled?: boolean;
 }
-
-export function SwitchRow({ label, description, checked, onChange, disabled }: SwitchRowProps) {
-	const labelId = useId();
-	const descriptionId = useId();
-
-	return (
-		<div className="flex items-start justify-between gap-4 py-3">
-			<div className="flex min-w-0 flex-col gap-1">
-				<span id={labelId} className="font-medium">
-					{label}
-				</span>
-				{description && (
-					<span id={descriptionId} className="text-muted">
-						{description}
-					</span>
-				)}
-			</div>
-			<div className="mt-0.5">
-				<Switch
-					checked={checked}
-					onChange={onChange}
-					disabled={disabled}
-					labelledBy={labelId}
-					describedBy={description ? descriptionId : undefined}
-				/>
-			</div>
-		</div>
-	);
-}

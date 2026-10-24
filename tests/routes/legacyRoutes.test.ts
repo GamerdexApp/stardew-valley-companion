@@ -1,15 +1,8 @@
 import { readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { LEGACY_ROUTES, redirectsForRemovedPages } from "@/data/legacyRoutes";
+import { LEGACY_ROUTES, legacyRedirects } from "@/data/legacyRoutes";
 import { navItems, NEW_PLAYTHROUGH_HREF, PLAYTHROUGHS_HREF } from "@/data/nav";
-
-const finalPaths = new Set([
-  "/",
-  PLAYTHROUGHS_HREF,
-  NEW_PLAYTHROUGH_HREF,
-  ...navItems.map((item) => item.href),
-]);
 
 const ROUTE_GROUP = /^\(.*\)$/;
 
@@ -25,23 +18,29 @@ const pagePaths = (directory: string, segments: string[] = []): string[] =>
     );
   });
 
-const legacyPages = pagePaths(
-  path.resolve(import.meta.dirname, "../../src/app/(legacy)"),
+const appPages = new Set(
+  pagePaths(path.resolve(import.meta.dirname, "../../src/app")),
 );
 
+const finalPaths = new Set([
+  "/",
+  PLAYTHROUGHS_HREF,
+  NEW_PLAYTHROUGH_HREF,
+  ...navItems.map((item) => item.href),
+]);
+
 describe("legacy routes", () => {
-  it("sends every moved page to a final route", () => {
+  it("sends every moved page to a page that exists", () => {
     const targets = LEGACY_ROUTES.map(
       ({ to }) => new URL(to, "https://x.invalid").pathname,
     );
 
     expect(targets.filter((target) => !finalPaths.has(target))).toEqual([]);
+    expect(targets.filter((target) => !appPages.has(target))).toEqual([]);
   });
 
-  it("never redirects away from a final route", () => {
-    expect(LEGACY_ROUTES.filter(({ from }) => finalPaths.has(from))).toEqual(
-      [],
-    );
+  it("never redirects away from a page that exists", () => {
+    expect(LEGACY_ROUTES.filter(({ from }) => appPages.has(from))).toEqual([]);
   });
 
   it("lists each old address once", () => {
@@ -50,30 +49,29 @@ describe("legacy routes", () => {
     expect(new Set(addresses).size).toBe(addresses.length);
   });
 
-  it("covers every page still in the legacy group that has no final address", () => {
-    const redirected = new Set(LEGACY_ROUTES.map(({ from }) => from));
-
-    const unhandled = legacyPages.filter(
-      (page) => !finalPaths.has(page) && !redirected.has(page),
-    );
-
-    expect(unhandled).toEqual([]);
+  it("has a page for every address in the navigation", () => {
+    expect(navItems.filter((item) => !appPages.has(item.href))).toEqual([]);
   });
 
-  it("serves no redirect while the old page still exists", () => {
-    expect(redirectsForRemovedPages(() => true)).toEqual([]);
-  });
+  it("redirects every old address permanently", () => {
+    const redirects = legacyRedirects();
 
-  it("redirects an old address permanently once its page is gone", () => {
-    const removed = new Set(["/dashboard", "/farm/animals"]);
-
-    expect(redirectsForRemovedPages((route) => !removed.has(route))).toEqual([
-      { source: "/dashboard", destination: "/overview", permanent: true },
-      {
-        source: "/farm/animals",
-        destination: "/farm?tab=animals",
-        permanent: true,
-      },
-    ]);
+    expect(redirects).toHaveLength(LEGACY_ROUTES.length);
+    expect(redirects.every((redirect) => redirect.permanent)).toBe(true);
+    expect(redirects).toContainEqual({
+      source: "/dashboard",
+      destination: "/overview",
+      permanent: true,
+    });
+    expect(redirects).toContainEqual({
+      source: "/farm/animals",
+      destination: "/farm?tab=animals",
+      permanent: true,
+    });
+    expect(redirects).toContainEqual({
+      source: "/joja",
+      destination: "/community-center",
+      permanent: true,
+    });
   });
 });

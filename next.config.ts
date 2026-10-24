@@ -1,11 +1,6 @@
-import withFlowbiteReact from "flowbite-react/plugin/nextjs";
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import { readFileSync } from "node:fs";
 import type { NextConfig } from "next";
-import { redirectsForRemovedPages } from "./src/data/legacyRoutes";
-
-const legacyPageExists = (route: string) =>
-  existsSync(path.join(process.cwd(), "src/app/(legacy)", route, "page.tsx"));
+import { legacyRedirects } from "./src/data/legacyRoutes";
 
 const { version } = JSON.parse(readFileSync("./package.json", "utf8")) as {
   version: string;
@@ -14,8 +9,8 @@ const { version } = JSON.parse(readFileSync("./package.json", "utf8")) as {
 const nextConfig: NextConfig = {
   env: { NEXT_PUBLIC_APP_VERSION: version },
   async redirects() {
-    return redirectsForRemovedPages(legacyPageExists);
+    return legacyRedirects();
   },
 };
 
-export default withFlowbiteReact(nextConfig);
+export default nextConfig;

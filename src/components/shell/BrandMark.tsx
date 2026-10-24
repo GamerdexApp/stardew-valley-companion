@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { shellText } from "@/lib/messages/shell";
-import { APP_NAME } from "@/data/nav";
+import { APP_NAME, HOME_HREF } from "@/data/nav";
 
 export function BrandMark({ onNavigate }: { onNavigate?: () => void }) {
 	return (
-		<Link href="/" onClick={onNavigate} className="flex min-h-11 items-center gap-2.5">
+		<Link href={HOME_HREF} onClick={onNavigate} className="flex min-h-11 items-center gap-2.5">
 			<Image
 				src="/stardew-valley-icon.png"
 				alt=""

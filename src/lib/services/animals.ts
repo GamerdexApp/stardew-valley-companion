@@ -279,7 +279,6 @@ export const produceStatus = (
 });
 
 export const PET_TYPES = ["Cat", "Dog", "Turtle", "Horse"] as const;
-export type PetType = (typeof PET_TYPES)[number];
 
 /** Only cats and dogs can be the starter pet. */
 export const canBeStarter = (type: string): boolean =>

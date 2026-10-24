@@ -216,8 +216,6 @@ export const canPickProfession = (
   skillLevel(data, skillOf(profession.skill.toLowerCase()).id) >=
   profession.level;
 
-export const professionLevelOf = professionLevel;
-
 export const setMasteryXp = (data: GameData, xp: number): GameData => ({
   ...data,
   mastery: {
