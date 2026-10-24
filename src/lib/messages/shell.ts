@@ -17,7 +17,7 @@ export const shellText = {
   },
   footer: {
     tagline:
-      "A free progress tracker for Stardew Valley. Everything stays in your browser.",
+      "A free progress tracker for Stardew Valley. Your data stays in your browser, or in your own cloud storage if you turn on sync.",
     support: "Support",
     about: "About",
     settings: "Settings",
@@ -29,7 +29,8 @@ export const shellText = {
     disclaimerTitle: "Disclaimer",
     disclaimer:
       "This project is not affiliated with, endorsed by, or connected to ConcernedApe or Stardew Valley.",
-    framework: "Built with the Gamerdex framework",
+    framework:
+      "Built with the Gamerdex framework, a shared base for free game progress trackers.",
     visitGamerdex: "Visit Gamerdex",
   },
   notFound: {

@@ -64,7 +64,7 @@ export const settingsText = {
   data: {
     localStorageNote: {
       title: "Local storage.",
-      body: "Your data is stored locally in the browser. Data is lost when the browser cache is cleared. Use the functions below to export and backup your data regularly.",
+      body: "Your data is stored locally in the browser. Data is lost when the browser cache is cleared, unless Cloud sync keeps a copy. Use the functions below to export and backup your data regularly.",
     },
     management: {
       title: "Data management",
@@ -172,7 +172,7 @@ export const settingsText = {
   about: {
     version: (version: string) => `Version ${version}`,
     summary:
-      "Track your Stardew Valley progress: bundles, friendships, fish, artifacts, recipes, skills, the farm and more. Everything is stored in this browser.",
+      "Track your Stardew Valley progress: bundles, friendships, fish, artifacts, recipes, skills, the farm and more. Everything is stored in this browser, or in your own cloud storage if you turn on sync.",
     wiki: "Stardew Valley Wiki",
     disclaimer:
       "Not affiliated with or endorsed by ConcernedApe. Stardew Valley is a trademark of ConcernedApe.",

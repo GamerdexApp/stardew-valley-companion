@@ -9,9 +9,21 @@ import { BrandMark } from "./BrandMark";
 const text = shellText.footer;
 const linkClasses = "flex min-h-11 items-center gap-1 hover:underline md:min-h-9";
 
-function ExternalLink({ href, children }: { href: string; children: string }) {
+function ExternalLink({
+	href,
+	children,
+	sameTab = false,
+}: {
+	href: string;
+	children: string;
+	sameTab?: boolean;
+}) {
 	return (
-		<a href={href} target="_blank" rel="noopener noreferrer" className={linkClasses}>
+		<a
+			href={href}
+			{...(sameTab ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+			className={linkClasses}
+		>
 			{children}
 			<LuArrowUpRight size={14} aria-hidden="true" className="shrink-0" />
 		</a>
@@ -35,13 +47,17 @@ export function Footer() {
 					</Link>
 					<ExternalLink href={DISCORD_URL}>{text.discord}</ExternalLink>
 					<ExternalLink href={GITHUB_URL}>{text.github}</ExternalLink>
+					<ExternalLink href={`${GAMERDEX_URL}/privacy`} sameTab>
+						{text.privacy}
+					</ExternalLink>
+					<ExternalLink href={`${GAMERDEX_URL}/terms`} sameTab>
+						{text.terms}
+					</ExternalLink>
 				</nav>
 				<div className="contents md:flex md:min-w-0 md:flex-col md:gap-3">
 					<nav aria-label={text.about} className="flex min-w-0 flex-col gap-1.5">
 						<SectionLabel className="text-on-primary">{text.about}</SectionLabel>
 						<ExternalLink href={WIKI_URL}>{text.wiki}</ExternalLink>
-						<ExternalLink href={`${GAMERDEX_URL}/privacy`}>{text.privacy}</ExternalLink>
-						<ExternalLink href={`${GAMERDEX_URL}/terms`}>{text.terms}</ExternalLink>
 					</nav>
 					<div className="border-on-primary/40 col-span-2 flex flex-col gap-1 rounded-md border-[1.5px] px-3.5 py-3 md:col-span-1">
 						<span className="font-semibold">{text.disclaimerTitle}</span>
@@ -49,11 +65,11 @@ export function Footer() {
 					</div>
 				</div>
 			</div>
-			<div className="border-on-primary/40 flex flex-wrap items-center justify-between gap-4 border-t-[1.5px] pt-4 text-[13px]">
+			<div className="border-on-primary/40 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t-[1.5px] pt-4 text-[13px]">
 				<span>
 					© {new Date().getFullYear()} {APP_NAME}
 				</span>
-				<span className="flex items-center gap-3">
+				<span className="flex flex-wrap items-center gap-x-3">
 					{text.framework}
 					<ExternalLink href={GAMERDEX_URL}>{text.visitGamerdex}</ExternalLink>
 				</span>

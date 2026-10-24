@@ -22,7 +22,7 @@ export const playthroughsText = {
   empty: {
     title: "No playthroughs yet",
     description:
-      "Start one from a save file or build a starter by hand. Everything stays in this browser.",
+      "Start one from a save file or build a starter by hand. Everything stays in this browser unless you turn on sync.",
     upload: {
       title: "Upload save file",
       body: "Import progress from an existing Stardew Valley save",

@@ -82,7 +82,9 @@ describe("Landing page for a new visitor", () => {
 		await mount();
 
 		expect(container.querySelector("h1")?.textContent).toBe("Track every detail of your farm");
-		expect(text()).toContain("Free and private. All data stays in your browser.");
+		expect(text()).toContain(
+			"Free and private. Your data stays in your browser unless you turn on sync."
+		);
 		expect(link("Get started").length).toBeGreaterThanOrEqual(2);
 		expect(link("Get started")[0].getAttribute("href")).toBe("/playthroughs/new");
 		expect(link("Learn more")[0].getAttribute("href")).toBe("#features");

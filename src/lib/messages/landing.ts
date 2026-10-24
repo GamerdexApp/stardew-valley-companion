@@ -15,7 +15,7 @@ export const landingText = {
   hero: {
     title: "Track every detail of your farm",
     body: "A companion app for Stardew Valley players. Manage multiple playthroughs and track bundles, friendships, collections, skills, and more. All in one place.",
-    note: "Free and private. All data stays in your browser.",
+    note: "Free and private. Your data stays in your browser unless you turn on sync.",
   },
   features: {
     eyebrow: "What you can track",
@@ -75,7 +75,7 @@ export const landingText = {
   },
   steps: {
     title: "Get started in minutes",
-    body: "No account required. Everything is stored locally in your browser.",
+    body: "No account required. Everything is stored in your browser, and sync to your own cloud storage is optional.",
     items: [
       {
         title: "Create a playthrough",
@@ -104,7 +104,7 @@ export const landingText = {
       {
         question: "How does it store my data?",
         answer:
-          "All your data is stored locally in your browser. Nothing is sent to any server. You can export your data as a JSON file for backup and import it again at any time.",
+          "All your data is stored locally in your browser, and no server of ours holds it. If you turn on sync, a copy goes to your own Google Drive, Dropbox, OneDrive or GitHub account and nowhere else. You can export your data as a JSON file for backup and import it again at any time.",
       },
       {
         question: "Can I track multiple playthroughs?",
